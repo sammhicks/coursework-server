@@ -1,6 +1,6 @@
 {
   "name": "coursework-server",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "My COMS32500 coursework",
   "main": "server.js",
   "scripts": {
