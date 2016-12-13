@@ -12,7 +12,7 @@ exports.mode = new Enum({
 exports.Database = function () {
   var self = this;
 
-  this.database = undefined;
+  this.database = null;
 
   // Open a database
   this.open = function () {
@@ -35,7 +35,7 @@ exports.Database = function () {
 
   // Close a database
   this.close = () => new Promise(function (resolve, reject) {
-    if (self.database !== undefined) {
+    if (self.database !== null) {
       self.database.close(function (err) {
         if (err === null) {
           resolve();
@@ -53,7 +53,7 @@ exports.Database = function () {
     const args = [...arguments];
 
     return new Promise(function (resolve, reject) {
-      if (self.database !== undefined) {
+      if (self.database !== null) {
         function callback(err) {
           if (err === null) {
             resolve(this.lastID, this.changes);
@@ -76,7 +76,7 @@ exports.Database = function () {
     const args = [...arguments];
 
     return new Promise(function (resolve, reject) {
-      if (self.database !== undefined) {
+      if (self.database !== null) {
         var callback = function (err, row) {
           if (err === null) {
             resolve(row);
@@ -99,7 +99,7 @@ exports.Database = function () {
     const args = [...arguments];
 
     return new Promise(function (resolve, reject) {
-      if (self.database !== undefined) {
+      if (self.database !== null) {
         function callback(err, rows) {
           if (err === null) {
             resolve(rows);
