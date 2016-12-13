@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/sammhicks/coursework-server/issues"
   },
-  "homepage": "https://github.com/sammhicks/coursework-server#readme"
+  "homepage": "https://github.com/sammhicks/coursework-server#readme",
+  "dependencies": {
+    "enum": "^2.3.0",
+    "sqlite3": "^3.1.8"
+  }
 }
