@@ -5,7 +5,9 @@ const sqlite3 = require("sqlite3");
 
 function handleErr(resolve, reject) {
   return function (err, result) {
-    if (err !== null) {
+    if (err === undefined) {
+      resolve();
+    } else if (err !== null) {
       reject(err);
     } else if (result !== undefined) {
       resolve(result);
@@ -36,7 +38,7 @@ function Statement(statement) {
 
   this.reset = handleStatementRequest("reset");
 
-  this.finalise = handleStatementRequest("finalize");
+  this.finalize = handleStatementRequest("finalize");
 
   this.run = handleStatementRequest("run");
 

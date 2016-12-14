@@ -9,7 +9,7 @@ sqlite.open(":memory:")
     console.log("Opened Database");
     return database.run("CREATE TABLE lorem (info TEXT)")
       .then(() => database.prepare("INSERT INTO lorem VALUES (?)"))
-      .then((statement) => promiseLoop.for(() => 0, i => i < 30, i => i + 1, i => statement.run("Imsum " + i)))
+      .then((statement) => promiseLoop.for(() => 0, i => i < 30, i => i + 1, i => statement.run("Imsum " + i)).then(() => statement.finalize()))
       .then(function () {
         const port = process.env.PORT || 8080;
 
@@ -23,4 +23,6 @@ sqlite.open(":memory:")
         }).listen(port);
       })
   })
-  .catch(console.error);
+  .catch(function () {
+    console.error("Error", ...arguments);
+  });
