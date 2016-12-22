@@ -30,7 +30,9 @@
     <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="database-handler.js" />
     <Compile Include="promise-loops.js" />
+    <Compile Include="request.js" />
     <Compile Include="server.js" />
     <Compile Include="sqlite3-promise.js" />
   </ItemGroup>
