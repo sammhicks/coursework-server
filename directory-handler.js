@@ -3,8 +3,6 @@
 const Handler = require("./handler").Handler;
 const HttpStatus = require("http-status-codes");
 
-const firstDirectoryRegex = /^\/([^\/]*)(.*)$/;
-
 class DirectoryHandler extends Handler {
   constructor(contents, fallback) {
     super();
@@ -14,15 +12,12 @@ class DirectoryHandler extends Handler {
   }
 
   handleRequest(request) {
-    const pathComponents = firstDirectoryRegex.exec(request.path);
-
-    if (pathComponents === null) {
-      super.handleRequest(request, HttpStatus.BAD_REQUEST);
+    if (request.path.length === 0) {
+      super.handleRequest(request, HttpStatus.NOT_FOUND);
     } else {
-      const directory = pathComponents[1];
+      const directory = request.path.shift();
 
       if (directory in this.contents) {
-        request.path = pathComponents[2];
         this.contents[directory].handleRequest(request);
       } else if (this.fallback != undefined) {
         fallback.handleRequest(request);

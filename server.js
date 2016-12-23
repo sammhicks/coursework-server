@@ -3,6 +3,7 @@
 const http = require("http");
 const DatabaseHandler = require("./database-handler").DatabaseHandler;
 const DirectoryHandler = require("./directory-handler").DirectoryHandler;
+const DomainHandler = require("./domain-handler").DomainHandler;
 const HelloWorldHandler = require("./hello-world-handler").HelloWorldHandler;
 const LeafHandler = require("./leaf-handler").LeafHandler;
 const Request = require("./request").Request;
@@ -17,6 +18,10 @@ const rootHandler = new DirectoryHandler({
   "hello.txt": helloWorldhandler
 });
 
+const domainHandler = new DomainHandler({
+  "localhost": rootHandler
+});
+
 var server = http.createServer(function requestListener(request, response) {
-  rootHandler.handleRequest(new Request(request, response));
+  domainHandler.handleRequest(new Request(request, response));
 }).listen(port);

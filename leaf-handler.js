@@ -11,7 +11,7 @@ class LeafHandler extends Handler {
   }
 
   handleRequest(request) {
-    if (request.path === "") {
+    if (request.path.length === 0) {
       this.handler.handleRequest(request);
     } else {
       super.handleRequest(request, HttpStatus.NOT_FOUND);

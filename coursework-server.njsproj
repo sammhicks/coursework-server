@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="database-handler.js" />
     <Compile Include="directory-handler.js" />
+    <Compile Include="domain-handler.js" />
     <Compile Include="handler.js" />
     <Compile Include="hello-world-handler.js" />
     <Compile Include="promise-loops.js" />
