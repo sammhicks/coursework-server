@@ -3,7 +3,7 @@
 const Handler = require("./handler").Handler;
 const HttpStatus = require("http-status-codes");
 
-class LeafHandler extends Handler {
+class RootDomainHandler extends Handler {
   constructor(handler) {
     super();
 
@@ -11,7 +11,7 @@ class LeafHandler extends Handler {
   }
 
   handleRequest(request) {
-    if (request.path.length === 0 || (request.path.length === 1 && request.path[0] ==="")) {
+    if (request.domain.length === 0) {
       this.handler.handleRequest(request);
     } else {
       super.handleRequest(request, HttpStatus.NOT_FOUND);
@@ -19,4 +19,4 @@ class LeafHandler extends Handler {
   }
 }
 
-exports.LeafHandler = LeafHandler;
+exports.RootDomainHandler = RootDomainHandler;

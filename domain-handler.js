@@ -5,12 +5,18 @@ const HttpStatus = require("http-status-codes");
 
 class DomainHandler extends Handler {
   constructor(domains) {
+    super();
+
     this.domains = domains;
   }
 
   handleRequest(request) {
     if (request.domain.length === 0) {
-      super.handleRequest(request, HttpStatus.NOT_FOUND);
+      if ("" in this.domains) {
+        this.domains[""].handleRequest(request);
+      } else {
+        super.handleRequest(request, HttpStatus.NOT_FOUND);
+      }
     } else {
       const domain = request.domain.pop();
 

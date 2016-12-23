@@ -37,6 +37,7 @@
     <Compile Include="hello-world-handler.js" />
     <Compile Include="promise-loops.js" />
     <Compile Include="request.js" />
+    <Compile Include="root-domain-handler.js" />
     <Compile Include="server.js" />
     <Compile Include="sqlite3-promise.js" />
     <Compile Include="leaf-handler.js" />
