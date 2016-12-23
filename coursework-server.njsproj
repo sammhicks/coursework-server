@@ -31,6 +31,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="database-handler.js" />
+    <Compile Include="directory-handler.js" />
+    <Compile Include="handler.js" />
     <Compile Include="promise-loops.js" />
     <Compile Include="request.js" />
     <Compile Include="server.js" />

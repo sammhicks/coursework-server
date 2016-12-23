@@ -18,6 +18,7 @@
   "homepage": "https://github.com/sammhicks/coursework-server#readme",
   "dependencies": {
     "enum": "^2.3.0",
+    "http-status-codes": "^1.0.6",
     "sqlite3": "^3.1.8"
   }
 }
