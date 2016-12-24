@@ -10,6 +10,8 @@ class HelloWorldHandler extends Handler {
     request.response.writeHead(HttpStatus.OK);
 
     request.response.end("Hello World\n");
+
+    return Promise.resolve();
   }
 }
 

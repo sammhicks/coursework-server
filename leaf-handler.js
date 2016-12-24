@@ -12,9 +12,9 @@ class LeafHandler extends Handler {
 
   handleRequest(request) {
     if (request.path.length === 0 || (request.path.length === 1 && request.path[0] ==="")) {
-      this.handler.handleRequest(request);
+      return this.handler.handleRequest(request);
     } else {
-      super.handleRequest(request, HttpStatus.NOT_FOUND);
+      return Promise.reject(request);
     }
   }
 }
