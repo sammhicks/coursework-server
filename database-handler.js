@@ -33,7 +33,10 @@ class DatabaseHandler extends Handler {
 
           return Promise.resolve();
         });
-    }).catch(() => Handler.handleRequest(request, HttpStatus.INTERNAL_SERVER_ERROR));
+    }).catch(function () {
+      request.errorCode = HttpStatus.INTERNAL_SERVER_ERROR;
+      return Promise.reject(request);
+    });
   }
 }
 

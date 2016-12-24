@@ -14,6 +14,7 @@ class RootDomainHandler extends Handler {
     if (request.domain.length === 0) {
       return this.handler.handleRequest(request);
     } else {
+      request.errorCode = HttpStatus.NOT_FOUND;
       return Promise.reject(request);
     }
   }

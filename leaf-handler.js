@@ -14,6 +14,7 @@ class LeafHandler extends Handler {
     if (request.path.length === 0 || (request.path.length === 1 && request.path[0] ==="")) {
       return this.handler.handleRequest(request);
     } else {
+      request.errorCode = HttpStatus.NOT_FOUND;
       return Promise.reject(request);
     }
   }

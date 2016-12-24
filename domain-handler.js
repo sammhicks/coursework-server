@@ -15,6 +15,7 @@ class DomainHandler extends Handler {
       if ("" in this.domains) {
         return this.domains[""].handleRequest(request);
       } else {
+        request.errorCode = HttpStatus.NOT_FOUND;
         return Promise.reject(request);
       }
     } else {
@@ -23,6 +24,7 @@ class DomainHandler extends Handler {
       if (domain in this.domains) {
         return this.domains[domain].handleRequest(request);
       } else {
+        request.errorCode = HttpStatus.NOT_FOUND;
         return Promise.reject(request);
       }
     }

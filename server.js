@@ -4,6 +4,7 @@ const http = require("http");
 const DatabaseHandler = require("./database-handler").DatabaseHandler;
 const DirectoryHandler = require("./directory-handler").DirectoryHandler;
 const DomainHandler = require("./domain-handler").DomainHandler;
+const ErrorHandler = require("./error-handler").ErrorHandler;
 const Handler = require("./handler").Handler;
 const HelloWorldHandler = require("./hello-world-handler").HelloWorldHandler;
 const HttpStatus = require("http-status-codes");
@@ -28,8 +29,10 @@ const domainHandler = new DomainHandler({
   })
 });
 
+const errorHandler = new ErrorHandler(domainHandler, function (request) {
+  return Handler.handleRequest(request);
+});
+
 var server = http.createServer(function requestListener(request, response) {
-  domainHandler.handleRequest(new Request(request, response)).catch(function (request) {
-    return Handler.handleRequest(request, HttpStatus.NOT_FOUND);
-  });
+  errorHandler.handleRequest(new Request(request, response));
 }).listen(port);
