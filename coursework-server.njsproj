@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="handlers\" />
+    <Folder Include="promises\" />
     <Folder Include="typings\" />
     <Folder Include="typings\globals\" />
     <Folder Include="typings\globals\node\" />
@@ -37,11 +38,11 @@
     <Compile Include="handlers\handler.js" />
     <Compile Include="handlers\hello-world.js" />
     <Compile Include="handlers\index.js" />
-    <Compile Include="promise-loops.js" />
+    <Compile Include="promises\loops.js" />
     <Compile Include="request.js" />
     <Compile Include="handlers\root-domain.js" />
     <Compile Include="server.js" />
-    <Compile Include="sqlite3-promise.js" />
+    <Compile Include="promises\sqlite3.js" />
     <Compile Include="handlers\leaf.js" />
     <Compile Include="handlers\error.js" />
   </ItemGroup>
