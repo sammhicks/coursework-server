@@ -2,8 +2,8 @@
 
 const Handler = require("./handler").Handler;
 const HttpStatus = require("http-status-codes");
-const promiseLoop = require("./promise-loops");
-const sqlite = require("./sqlite3-promise");
+const promiseLoop = require("../promise-loops");
+const sqlite = require("../sqlite3-promise");
 
 class DatabaseHandler extends Handler {
   constructor() {
