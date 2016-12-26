@@ -38,6 +38,7 @@
     <Compile Include="handlers\handler.js" />
     <Compile Include="handlers\hello-world.js" />
     <Compile Include="handlers\index.js" />
+    <Compile Include="promises\index.js" />
     <Compile Include="promises\loops.js" />
     <Compile Include="request.js" />
     <Compile Include="handlers\root-domain.js" />

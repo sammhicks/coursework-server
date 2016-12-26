@@ -2,19 +2,18 @@
 
 const Handler = require("./handler").Handler;
 const HttpStatus = require("http-status-codes");
-const promiseLoop = require("../promises/loops");
-const sqlite = require("../promises/sqlite3");
+const promises = require("../promises");
 
 class DatabaseHandler extends Handler {
   constructor() {
     super();
 
-    this.openDatabase = sqlite.open(":memory:")
+    this.openDatabase = promises.sqlite3.open(":memory:")
       .then(function (database) {
         console.log("Opened Database");
         return database.run("CREATE TABLE lorem (info TEXT)")
           .then(() => database.prepare("INSERT INTO lorem VALUES (?)"))
-          .then((statement) => promiseLoop.for(() => 0, i => i < 30, i => i + 1, i => statement.run("Imsum " + i)).then(() => statement.finalize())).
+          .then((statement) => promises.loops.for(() => 0, i => i < 30, i => i + 1, i => statement.run("Imsum " + i)).then(() => statement.finalize())).
           then(() => database);
       }).catch(function (err) {
         console.error("Failed to initialise database:", err);
