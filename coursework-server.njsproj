@@ -35,6 +35,7 @@
     <Compile Include="handlers\database.js" />
     <Compile Include="handlers\directory.js" />
     <Compile Include="handlers\domain.js" />
+    <Compile Include="handlers\file.js" />
     <Compile Include="handlers\handler.js" />
     <Compile Include="handlers\hello-world.js" />
     <Compile Include="handlers\index.js" />
