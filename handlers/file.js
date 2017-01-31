@@ -18,6 +18,7 @@ class File extends Handler {
 
   handleRequest(request) {
     request.response.setHeader("Content-Type", mimeTypes[path.extname(this.serverPath)]);
+    request.response.setHeader("Content-Length", fs.statSync(this.serverPath).size);
 
     request.response.writeHead(HttpStatus.OK);
 
