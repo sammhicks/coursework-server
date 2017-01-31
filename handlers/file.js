@@ -14,11 +14,15 @@ class File extends Handler {
     super();
 
     this.serverPath = serverPath;
+
+    const stats = fs.statSync(serverPath);
+
+    this.length = stats.size;
   }
 
   handleRequest(request) {
     request.response.setHeader("Content-Type", mimeTypes[path.extname(this.serverPath)]);
-    request.response.setHeader("Content-Length", fs.statSync(this.serverPath).size);
+    request.response.setHeader("Content-Length", this.length);
 
     request.response.writeHead(HttpStatus.OK);
 
