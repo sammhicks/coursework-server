@@ -17,18 +17,28 @@ class File extends Handler {
 
     const stats = fs.statSync(serverPath);
 
+    this.mTime = new Date(stats.mtime);
     this.length = stats.size;
   }
 
   handleRequest(request) {
-    request.response.setHeader("Content-Type", mimeTypes[path.extname(this.serverPath)]);
-    request.response.setHeader("Content-Length", this.length);
+    if (request.request.headers["if-modified-since"] !== undefined && new Date(request.request.headers["if-modified-since"]) <= this.mTime) {
+      request.response.writeHead(HttpStatus.NOT_MODIFIED);
+      request.response.end();
 
-    request.response.writeHead(HttpStatus.OK);
+      return Promise.resolve();
+    } else {
+      request.response.setHeader("Content-Type", mimeTypes[path.extname(this.serverPath)]);
+      request.response.setHeader("Content-Length", this.length);
+      request.response.setHeader("Last-Modified", this.mTime.toUTCString());
+      request.response.setHeader("Cache-Control", "public, must-revalidate");
 
-    request.response.end(fs.readFileSync(this.serverPath));
+      request.response.writeHead(HttpStatus.OK);
 
-    return Promise.resolve();
+      request.response.end(fs.readFileSync(this.serverPath));
+
+      return Promise.resolve();
+    }
   }
 }
 
