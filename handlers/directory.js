@@ -15,10 +15,10 @@ class DirectoryHandler extends Handler {
       request.errorCode = HttpStatus.NOT_FOUND;
       return Promise.reject(request);
     } else {
-      const directory = request.path.shift();
+      const directoryItem = request.path.shift();
 
-      if (directory in this.contents) {
-        return this.contents[directory].handleRequest(request);
+      if (directoryItem in this.contents) {
+        return this.contents[directoryItem].handleRequest(request);
       } else {
         request.errorCode = HttpStatus.NOT_FOUND;
         return Promise.reject(request);

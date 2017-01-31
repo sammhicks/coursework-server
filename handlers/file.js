@@ -22,6 +22,8 @@ class File extends Handler {
     request.response.writeHead(HttpStatus.OK);
 
     request.response.end(fs.readFileSync(this.serverPath));
+
+    return Promise.resolve();
   }
 }
 

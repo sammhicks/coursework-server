@@ -32,6 +32,7 @@
     <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="crawler.js" />
     <Compile Include="handlers\database.js" />
     <Compile Include="handlers\directory.js" />
     <Compile Include="handlers\domain.js" />

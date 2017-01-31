@@ -1,12 +1,13 @@
 ﻿"use strict";
 
 const http = require("http");
+const crawler = require("./crawler");
 const handlers = require("./handlers");
 const Request = require("./request").Request;
 
 const port = process.env.PORT || 8080;
 
-const databaseHandler = new handlers.Leaf(new handlers.Database());
+/*const databaseHandler = new handlers.Leaf(new handlers.Database());
 const helloWorldHandler = new handlers.Leaf(new handlers.HelloWorld());
 
 const rootHandler = new handlers.Directory({
@@ -19,9 +20,11 @@ const domainHandler = new handlers.Domain({
     "": new handlers.RootDomain(rootHandler),
     "hello": helloWorldHandler
   })
-});
+});*/
 
-const errorHandler = new handlers.Error(domainHandler, function (request) {
+const crawledHandler = crawler.crawl("server");
+
+const errorHandler = new handlers.Error(crawledHandler, function (request) {
   return handlers.Handler.handleRequest(request);
 });
 
