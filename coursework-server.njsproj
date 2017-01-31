@@ -19,16 +19,35 @@
     <Content Include="package.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="handlers\" />
+    <Folder Include="promises\" />
     <Folder Include="typings\" />
     <Folder Include="typings\globals\" />
     <Folder Include="typings\globals\node\" />
+    <Folder Include="typings\globals\sqlite3\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\sqlite3\index.d.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="crawler.js" />
+    <Compile Include="handlers\database.js" />
+    <Compile Include="handlers\directory.js" />
+    <Compile Include="handlers\domain.js" />
+    <Compile Include="handlers\file.js" />
+    <Compile Include="handlers\handler.js" />
+    <Compile Include="handlers\hello-world.js" />
+    <Compile Include="handlers\index.js" />
+    <Compile Include="promises\index.js" />
+    <Compile Include="promises\loops.js" />
+    <Compile Include="request.js" />
+    <Compile Include="handlers\root-domain.js" />
     <Compile Include="server.js" />
+    <Compile Include="promises\sqlite3.js" />
+    <Compile Include="handlers\leaf.js" />
+    <Compile Include="handlers\error.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
