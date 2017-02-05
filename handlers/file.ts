@@ -1,19 +1,20 @@
-﻿"use strict";
+﻿import { Error } from "./error";
+import * as fs from "fs";
+import { Handler } from "./handler";
+import * as httpStatus from "http-status-codes";
+import * as path from "path";
+import { Request } from "../request";
 
-const fs = require("fs");
-const Handler = require("./handler").Handler;
-const HttpStatus = require("http-status-codes");
-const path = require("path");
-
-const mimeTypes = {
+export const mimeTypes: { [extension: string]: string } = {
   ".txt": "text/plain"
 };
 
-class File extends Handler {
-  constructor(serverPath) {
-    super();
+export class FileHandler extends Handler {
+  mTime: Date;
+  length: number;
 
-    this.serverPath = serverPath;
+  constructor(public serverPath: string) {
+    super();
 
     const stats = fs.statSync(serverPath);
 
@@ -21,19 +22,19 @@ class File extends Handler {
     this.length = stats.size;
   }
 
-  handleRequest(request) {
+  handleRequest(request: Request): Promise<void> {
     if (request.request.headers["if-modified-since"] !== undefined && new Date(request.request.headers["if-modified-since"]) <= this.mTime) {
-      request.response.writeHead(HttpStatus.NOT_MODIFIED);
+      request.response.writeHead(httpStatus.NOT_MODIFIED);
       request.response.end();
 
       return Promise.resolve();
     } else {
       request.response.setHeader("Content-Type", mimeTypes[path.extname(this.serverPath)]);
-      request.response.setHeader("Content-Length", this.length);
+      request.response.setHeader("Content-Length", this.length.toString(10));
       request.response.setHeader("Last-Modified", this.mTime.toUTCString());
       request.response.setHeader("Cache-Control", "public, must-revalidate");
 
-      request.response.writeHead(HttpStatus.OK);
+      request.response.writeHead(httpStatus.OK);
 
       request.response.end(fs.readFileSync(this.serverPath));
 
@@ -41,6 +42,3 @@ class File extends Handler {
     }
   }
 }
-
-exports.File = File;
-exports.mimeTypes = mimeTypes;

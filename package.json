@@ -4,7 +4,9 @@
   "description": "My COMS32500 coursework",
   "main": "server.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js",
+    "postinstall": "tsc",
+    "prestart": "tsc"
   },
   "repository": {
     "type": "git",
@@ -19,7 +21,10 @@
   "dependencies": {
     "enum": "^2.3.0",
     "http-status-codes": "^1.0.6",
-    "mz": "^2.6.0",
-    "sqlite3": "^3.1.8"
+    "@types/http-status-codes": "^1.0.29",
+    "sqlite3": "^3.1.8",
+    "@types/sqlite3": "^2.2.32",
+    "typescript": "^2.1.5",
+    "@types/node": "^7.0.4"
   }
 }
