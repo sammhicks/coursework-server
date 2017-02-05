@@ -20,7 +20,7 @@ export namespace Crawler {
 
       const contents = fs.readdirSync(serverPath);
 
-      let categorisedContents = {};
+      let categorisedContents: { [category: string]: string[] } = {};
 
       for (let item of contents) {
         const fullPath = path.resolve(serverPath, item);
@@ -63,12 +63,10 @@ export namespace Crawler {
     }
   }
 
-  function crawlDomain(serverPath: string, domainContents?: Contents) {
+  function crawlDomain(serverPath: string, contents: Contents = new Contents(serverPath)): DomainHandler {
     console.log("Domain: ", serverPath);
 
-    const contents = domainContents || new Contents(serverPath);
-
-    let domainHandlers = {};
+    let domainHandlers: { [Domain: string]: Handler } = {};
 
     for (let domain in contents.domains) {
       const domainPath = path.resolve(serverPath, contents.domains[domain]);
@@ -83,11 +81,10 @@ export namespace Crawler {
     return new DomainHandler(domainHandlers);
   }
 
-  function crawlDirectory(serverPath: string, directoryContents?: Contents) {
+  function crawlDirectory(serverPath: string, contents: Contents = new Contents(serverPath)): Handler {
     console.log("Directory: ", serverPath);
-    const contents = directoryContents || new Contents(serverPath);
 
-    let directoryHandlers = {};
+    let directoryHandlers: { [Directory: string]: Handler } = {};
 
     for (let directory of contents.directories) {
       const directoryPath = path.resolve(serverPath, directory);

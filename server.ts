@@ -7,7 +7,7 @@ import { Request } from "./request";
 
 const port: number = process.env.PORT || 8080;
 
-const crawledHandler: DomainHandler = Crawler.crawl("server");
+const crawledHandler = Crawler.crawl("server");
 
 const errorHandler = new ErrorHandler(crawledHandler, (error: Error) => Handler.handleError(error.request, error.errorCode));
 
@@ -15,7 +15,7 @@ const server = createServer(function requestListener(request: IncomingMessage, r
   errorHandler.handleRequest(new Request(request, response));
 });
 
-server.on("listening", function serverListen(): void {
+server.on("listening", function serverListen() {
   console.log("Server listening on %d", port);
 });
 
