@@ -2,12 +2,12 @@
 
 import { IncomingMessage, ServerResponse, createServer } from "http";
 import { Crawler } from "./crawler";
-import { DirectoryHandler, DomainHandler, Error, ErrorHandler, FileHandler, Handler, LeafHandler, RootDomainHandler } from "./handlers";
+import { DirectoryHandler, Error, ErrorHandler, FileHandler, Handler, LeafHandler } from "./handlers";
 import { Request } from "./request";
 
 const port: number = process.env.PORT || 8080;
 
-const crawledHandler = Crawler.crawl("server");
+const crawledHandler = new Crawler().crawl("server");
 
 const errorHandler = new ErrorHandler(crawledHandler, (error: Error) => Handler.handleError(error.request, error.errorCode));
 

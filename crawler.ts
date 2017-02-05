@@ -1,95 +1,67 @@
 ﻿"use strict";
 
 import * as fs from "fs";
-import { DirectoryHandler, DomainHandler, ErrorHandler, FileHandler, Handler, LeafHandler, RootDomainHandler } from "./handlers";
+import { DirectoryHandler, ErrorHandler, FileHandler, Handler, LeafHandler } from "./handlers";
 import * as path from "path";
 import * as url from "url";
 
-export namespace Crawler {
-  class Contents {
-    domains: { [domain: string]: string };
-    directories: string[];
-    files: string[];
-    aliases: { [domain: string]: string };
+class DirectoryContents {
+  directories: string[];
+  files: string[];
+  aliases: { [name: string]: string };
 
-    constructor(serverPath) {
-      this.domains = {};
-      this.directories = [];
-      this.files = [];
-      this.aliases = {};
+  constructor(serverPath) {
+    this.directories = [];
+    this.files = [];
+    this.aliases = {};
 
-      const contents = fs.readdirSync(serverPath);
+    const contents = fs.readdirSync(serverPath);
 
-      let categorisedContents: { [category: string]: string[] } = {};
+    let categorisedContents: { [category: string]: string[] } = {};
 
-      for (let item of contents) {
-        const fullPath = path.resolve(serverPath, item);
+    for (let item of contents) {
+      const fullPath = path.resolve(serverPath, item);
 
-        const category = fs.statSync(fullPath).mode & fs.constants.S_IFMT;
+      const category = fs.statSync(fullPath).mode & fs.constants.S_IFMT;
 
-        if (category in categorisedContents) {
-          categorisedContents[category].push(item);
-        } else {
-          categorisedContents[category] = [item];
-        }
-      };
-
-      const directories = categorisedContents[fs.constants.S_IFDIR] || [];
-
-      for (let directory of directories) {
-        const domainInfo = /(.*).domain/.exec(directory);
-
-        if (domainInfo === null) {
-          this.directories.push(directory);
-        } else {
-          this.domains[domainInfo[1]] = directory;
-        }
+      if (category in categorisedContents) {
+        categorisedContents[category].push(item);
+      } else {
+        categorisedContents[category] = [item];
       }
+    };
 
-      const files = categorisedContents[fs.constants.S_IFREG] || [];
+    this.directories = categorisedContents[fs.constants.S_IFDIR] || [];
 
-      for (let file of files) {
-        if (file === "meta.json") {
-          const metaPath = path.resolve(serverPath, file);
+    const files = categorisedContents[fs.constants.S_IFREG] || [];
 
-          console.log("Meta: ", metaPath);
-          const meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+    for (let file of files) {
+      if (file === "meta.json") {
+        const metaPath = path.resolve(serverPath, file);
 
-          this.aliases = meta.aliases || {};
-        } else {
-          this.files.push(file);
-        }
+        console.log("Meta: ", metaPath);
+        const meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+
+        this.aliases = meta.aliases || {};
+      } else {
+        this.files.push(file);
       }
     }
   }
+}
 
-  function crawlDomain(serverPath: string, contents: Contents = new Contents(serverPath)): DomainHandler {
-    console.log("Domain: ", serverPath);
-
-    let domainHandlers: { [Domain: string]: Handler } = {};
-
-    for (let domain in contents.domains) {
-      const domainPath = path.resolve(serverPath, contents.domains[domain]);
-
-      domainHandlers[domain] = crawlDomain(domainPath);
-    }
-
-    if (contents.directories.length > 0 || contents.files.length > 0) {
-      domainHandlers[""] = new RootDomainHandler(crawlDirectory(serverPath, contents));
-    }
-
-    return new DomainHandler(domainHandlers);
-  }
-
-  function crawlDirectory(serverPath: string, contents: Contents = new Contents(serverPath)): Handler {
+export class Crawler {
+  crawl(serverPath: string): Handler {
     console.log("Directory: ", serverPath);
+
+    let contents = new DirectoryContents(serverPath);
 
     let directoryHandlers: { [Directory: string]: Handler } = {};
 
     for (let directory of contents.directories) {
       const directoryPath = path.resolve(serverPath, directory);
 
-      directoryHandlers[directory] = crawlDirectory(directoryPath);
+      directoryHandlers[directory] = this.crawl(directoryPath);
     }
 
     for (let file of contents.files) {
@@ -105,9 +77,5 @@ export namespace Crawler {
     }
 
     return new DirectoryHandler(directoryHandlers);
-  }
-
-  export function crawl(serverPath: string) {
-    return crawlDomain(serverPath);
   }
 }
