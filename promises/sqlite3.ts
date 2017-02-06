@@ -41,10 +41,10 @@ function handleNullErrorWithResult(resolve: (any) => void, reject: (Error) => vo
 }
 
 class Statement {
-  constructor(public _statement: sqlite3.Statement) { }
+  constructor(private statement: sqlite3.Statement) { }
 
   run(params: {}): Promise<RunResult> {
-    let statement = this._statement;
+    let statement = this.statement;
 
     return new Promise<RunResult>(function executor(resolve, reject) {
       statement.run(params, RunResult.handleNullError(resolve, reject));
@@ -52,7 +52,7 @@ class Statement {
   }
 
   get(params: {}): Promise<any> {
-    let statement = this._statement;
+    let statement = this.statement;
 
     return new Promise<any>(function executor(resolve, reject) {
       statement.get(params, handleNullErrorWithResult(resolve, reject));
@@ -60,7 +60,7 @@ class Statement {
   }
 
   all(params: {}): Promise<any> {
-    let statement = this._statement;
+    let statement = this.statement;
 
     return new Promise<any>(function executor(resolve, reject) {
       statement.all(params, handleNullErrorWithResult(resolve, reject));
@@ -68,7 +68,7 @@ class Statement {
   }
 
   each(params: {}, callback: (err: Error, row: any) => void): Promise<number> {
-    let statement = this._statement;
+    let statement = this.statement;
 
     return new Promise<number>(function executor(resolve, reject) {
       statement.each(params, callback, handleNullErrorWithResult(resolve, reject));

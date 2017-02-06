@@ -4,7 +4,7 @@ import * as httpStatus from "http-status-codes";
 import { Request } from "../request";
 
 export class DirectoryHandler extends Handler {
-  constructor(public contents: { [DirectoryItem: string]: Handler }) {
+  constructor(private contents: { [DirectoryItem: string]: Handler }) {
     super();
   }
 

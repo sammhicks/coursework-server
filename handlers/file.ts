@@ -13,7 +13,7 @@ export class FileHandler extends Handler {
   mTime: Date;
   length: number;
 
-  constructor(public serverPath: string) {
+  constructor(private serverPath: string) {
     super();
 
     const stats = fs.statSync(serverPath);

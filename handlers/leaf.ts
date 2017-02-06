@@ -4,7 +4,7 @@ import * as httpStatus from "http-status-codes";
 import { Request } from "../request";
 
 export class LeafHandler extends Handler {
-  constructor(public handler: Handler) {
+  constructor(private handler: Handler) {
     super();
   }
 
