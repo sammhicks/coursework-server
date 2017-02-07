@@ -1,23 +1,15 @@
 ﻿"use strict";
 
+import { handlers } from "./html-handlers";
+import { Error, ErrorHandler, Handler, HTMLHandler, LeafHandler } from "../handlers";
 import { IncomingMessage, ServerResponse, createServer } from "http";
 
-import { Crawler } from "./crawler";
-import { Error, ErrorHandler, Handler, HTMLHandler, LeafHandler } from "./handlers";
-import { Document, Element, String } from "./html";
-import { Request } from "./request";
+import { Crawler } from "../crawler";
+import { Request } from "../request";
 
 const port: number = process.env.PORT || 8080;
 
-const documentHandler = new LeafHandler(new HTMLHandler(new Document("en-GB", "My Document", {}, ["index.css"], ["index.js"], new Element(
-  "body", {}, [
-    new Element("h1", {}, [
-      new String("Hello World")
-    ])
-  ]
-))))
-
-const crawledHandler = new Crawler().crawl("server", { namedHandlers: { document: documentHandler } });
+const crawledHandler = new Crawler().crawl("server", { namedHandlers: { document: handlers.document } });
 
 const errorHandler = new ErrorHandler(crawledHandler, (error: Error) => Handler.handleError(error.request, error.errorCode));
 
