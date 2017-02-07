@@ -6,7 +6,7 @@ export class Error {
 }
 
 export class ErrorHandler extends Handler {
-  constructor(private handler: Handler, private catcher: (Error) => Promise<void>) {
+  constructor(private handler: Handler, private catcher: (error: Error) => Promise<void>) {
     super();
   }
 

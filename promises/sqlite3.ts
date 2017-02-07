@@ -6,7 +6,7 @@ enum Mode {
   create = sqlite3.OPEN_CREATE
 }
 
-function handleNullError(resolve: () => void, reject: (Error) => void) {
+function handleNullError(resolve: () => void, reject: (error: Error) => void) {
   return function handleError(err: Error): void {
     if (err === null) {
       resolve();
@@ -19,7 +19,7 @@ function handleNullError(resolve: () => void, reject: (Error) => void) {
 class RunResult {
   constructor(public lastID: any, public changes: number) { }
 
-  static handleNullError(resolve: (RunResult) => void, reject: (Error) => void) {
+  static handleNullError(resolve: (result: RunResult) => void, reject: (error: Error) => void) {
     return function handleError(err: Error): void {
       if (err === null) {
         resolve(new RunResult(this.lastID, this.changes));
@@ -30,7 +30,7 @@ class RunResult {
   }
 }
 
-function handleNullErrorWithResult(resolve: (any) => void, reject: (Error) => void) {
+function handleNullErrorWithResult(resolve: (result: any) => void, reject: (error: Error) => void) {
   return function handleError(err: Error, result: any): void {
     if (err === null) {
       resolve(result);
@@ -77,10 +77,10 @@ class Statement {
 }
 
 class Database {
-  _database: sqlite3.Database;
+  database: sqlite3.Database;
 
   constructor() {
-    this._database = null;
+    this.database = null;
   }
 
   open(filename: string, mode?: Mode): Promise<Database> {
@@ -92,7 +92,7 @@ class Database {
   }
 
   close(): Promise<void> {
-    let database = this._database;
+    let database = this.database;
 
     return new Promise<void>(function executor(resolve, reject) {
       database.close(handleNullError(resolve, reject));
@@ -100,7 +100,7 @@ class Database {
   }
 
   run(sql: string, params: {}): Promise<RunResult> {
-    let database = this._database;
+    let database = this.database;
 
     return new Promise<RunResult>(function executor(resolve, reject) {
       database.run(sql, params, RunResult.handleNullError(resolve, reject));
@@ -108,7 +108,7 @@ class Database {
   }
 
   get(sql: string, params: {}): Promise<any> {
-    let database = this._database;
+    let database = this.database;
 
     return new Promise<any>(function executor(resolve, reject) {
       database.get(sql, params, handleNullErrorWithResult(resolve, reject));
@@ -116,7 +116,7 @@ class Database {
   }
 
   all(sql: string, params: {}): Promise<any> {
-    let database = this._database;
+    let database = this.database;
 
     return new Promise<any>(function executor(resolve, reject) {
       database.all(sql, params, handleNullErrorWithResult(resolve, reject));
@@ -124,7 +124,7 @@ class Database {
   }
 
   each(sql: string, params: {}, callback: (err: Error, row: any) => void): Promise<number> {
-    let database = this._database;
+    let database = this.database;
 
     return new Promise<number>(function executor(resolve, reject) {
       database.each(sql, params, callback, handleNullErrorWithResult(resolve, reject));
@@ -132,8 +132,8 @@ class Database {
   }
 
   prepare(sql: string): Promise<Statement> {
-    let database = this._database;
-    let statement = null;
+    let database: sqlite3.Database = this.database;
+    let statement: sqlite3.Statement = null;
 
     return new Promise<void>(function executor(resolve, reject) {
       statement = database.prepare(sql, handleNullError(resolve, reject));

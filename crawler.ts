@@ -10,7 +10,7 @@ class DirectoryContents {
   files: string[];
   aliases: { [name: string]: string };
 
-  constructor(serverPath) {
+  constructor(serverPath: string) {
     this.directories = [];
     this.files = [];
     this.aliases = {};

@@ -9,7 +9,7 @@ export function pWhile(condition: () => Promise<boolean>, action: () => Promise<
     });
 }
 
-export function pFor<T>(setup: () => Promise<T>, condition: (T) => boolean, increment: (T) => T, action: (T) => Promise<void>) {
+export function pFor<T>(setup: () => Promise<T>, condition: (currentValue: T) => boolean, increment: (currentValue: T) => T, action: (currentValue: T) => Promise<void>) {
   return Promise.resolve(setup())
     .then(function initialiseFor(initialValue) {
       let incrementValue = initialValue;
