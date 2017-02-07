@@ -6,6 +6,8 @@ import * as path from "path";
 import { Request } from "../request";
 
 export const mimeTypes: { [extension: string]: string } = {
+  ".css": "text/css",
+  ".js": "application/javascript",
   ".txt": "text/plain"
 };
 

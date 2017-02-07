@@ -8,19 +8,23 @@ export class Element extends Renderable {
     }
 
     Render(): string {
-        return this.RenderHead() + (this.children === undefined) ? this.RenderBody() : "";
+        let result = this.RenderHead();
+        if (this.children !== undefined) {
+            result += this.RenderBody();
+        }
+        return result;
     }
 
     private RenderHead(): string {
-        return "<" + name + " " + Element.RenderAttributes(this.attributes) + (this.children === undefined ? "/>" : ">");
+        return "<" + this.name + " " + Element.RenderAttributes(this.attributes) + (this.children === undefined ? "/>" : ">");
     }
 
     private RenderBody(): string {
-        return this.children.map(child => child.Render()).join("") + "</" + name + ">";
+        return this.children.map(child => child.Render()).join("") + "</" + this.name + ">";
     }
 
     private static RenderAttribute(name: string, value: string): string {
-        return '"' + name + '"="' + escapeHtml(value) + '"';
+        return name + '="' + escapeHtml(value) + '"';
     }
 
     private static RenderAttributes(attributes: { [name: string]: string }): string {

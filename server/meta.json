@@ -1,5 +1,8 @@
 {
-	"aliases" : {
-		"": "index.txt"
+	"aliases": {
+		"": "index.html"
+	},
+	"namedHandlers": {
+		"index.html": "document"
 	}
 }
