@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "node test.js",
-    "postinstall": "tsc",
-    "prestart": "tsc"
+    "postinstall": "tsc"
   },
   "repository": {
     "type": "git",
