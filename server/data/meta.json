@@ -1,0 +1,8 @@
+{
+	"aliases": {
+		"": "index.html"
+	},
+	"namedHandlers": {
+		"index.html": "document"
+	}
+}
