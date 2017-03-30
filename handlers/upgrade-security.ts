@@ -7,7 +7,7 @@ export function upgradeSecurity(request: Request, securePort: number): Promise<v
         protocol: "https:",
         auth: request.requestURL.auth,
         hostname: request.requestURL.hostname,
-        port: String(this.securePort),
+        port: String(securePort),
         path: request.requestURL.path,
         hash: request.requestURL.hash
     }

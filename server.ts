@@ -34,7 +34,7 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl pkcs12 -inkey key.pem -in cert.pem -export -out pfx.pfx
 */
 
-const certs = fs.readFileSync('pfx.pfx')
+const certs = fs.readFileSync('keys/pfx.pfx');
 
 const secureServer = createHttpsServer({ pfx: certs }, function requestListener(request: IncomingMessage, response: ServerResponse) {
   errorHandler.handleRequest(new Request(request, response, true));
