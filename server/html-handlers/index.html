@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="test.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="shortcut icon" href="Images/Favicon/favicon.ico"/>
+	<link rel="icon" sizes="16x16 32x32 64x64" href="Images/Favicon/favicon.ico"/>
+	<link rel="icon" type="image/png" sizes="196x196" href="Images/Favicon/favicon-192.png"/>
+	<link rel="icon" type="image/png" sizes="160x160" href="Images/Favicon/favicon-160.png"/>
+	<link rel="icon" type="image/png" sizes="96x96" href="Images/Favicon/favicon-96.png"/>
+	<link rel="icon" type="image/png" sizes="64x64" href="Images/Favicon/favicon-64.png"/>
+	<link rel="icon" type="image/png" sizes="32x32" href="Images/Favicon/favicon-32.png"/>
+	<link rel="icon" type="image/png" sizes="16x16" href="Images/Favicon/favicon-16.png"/>
+	<link rel="apple-touch-icon" href="Images/Favicon/favicon-57.png"/>
+	<link rel="apple-touch-icon" sizes="114x114" href="Images/Favicon/favicon-114.png"/>
+	<link rel="apple-touch-icon" sizes="72x72" href="Images/Favicon/favicon-72.png"/>
+	<link rel="apple-touch-icon" sizes="144x144" href="Images/Favicon/favicon-144.png"/>
+	<link rel="apple-touch-icon" sizes="60x60" href="Images/Favicon/favicon-60.png"/>
+	<link rel="apple-touch-icon" sizes="120x120" href="Images/Favicon/favicon-120.png"/>
+	<link rel="apple-touch-icon" sizes="76x76" href="Images/Favicon/favicon-76.png"/>
+	<link rel="apple-touch-icon" sizes="152x152" href="Images/Favicon/favicon-152.png"/>
+	<link rel="apple-touch-icon" sizes="180x180" href="Images/Favicon/favicon-180.png"/>
+	<meta name="msapplication-TileColor" content="#FFFFFF"/>
+	<meta name="msapplication-TileImage" content="Images/Favicon/favicon-144.png"/>
+	<meta name="msapplication-config" content="/browserconfig.xml"/>
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <script src="script.js"></script>
+
+    <title>Home of Football</title>
+</head>
+<body onclick="document.getElementById('cunt').style.display='none'">
+
+    <nav class = "navbar" id = "navbar">
+        <span>
+            <a href="index.html" title="Home">Home</a>
+            <a class = "active" href="index.html" title="Home">
+                <i class="material-icons md-24">home</i>
+            </a>
+        </span>
+        <span>
+            <a href="news.html" title="News">News</a>
+            <a href="news.html" title="News">
+                <i class="material-icons md-24">subject</i>
+            </a>
+        </span>
+        <span>
+            <a href="streams.html" title="Streams">Streams</a>
+            <a href="streams.html" title="Streams">
+                <i class="material-icons md-24">videocam</i>
+            </a>
+        </span>
+        <span>
+            <a href="videos.html" title="Videos">Videos</a>
+            <a href="videos.html" title="Videos">
+                <i class="material-icons md-24">play_circle_filled</i>
+            </a>
+        </span>
+        <span>
+            <a href="images.html" title="Images">Images</a>
+            <a href="images.html" title="Images">
+                <i class="material-icons md-24">image</i>
+            </a>
+        </span>
+        <form>
+            <input type="text" title="Search" id="search">
+        </form>
+    </nav>
+
+    <div class = "contentWrapper" id = "contentWrapper">
+        <div class = "homepageContent" id = "homepageContent">
+            <div class="header" id="header">
+                <img src="Images/logoOrangeGrey.svg" alt="Logo Orange and Grey" onerror="this.src='logoOrangeGrey.png'" style="max-height: 72px; max-width: 100px" id="logopos1"></img>
+                <h1>Ball To Hand</h1>
+                <img src="Images/logoOrangeGrey.svg" alt="Logo Orange and Grey" onerror="this.src='logoOrangeGrey.png'" style="max-height: 100px; max-width: 100px" id="logopos2"></img>
+                <hr style="border: 2px solid #1c2f2f">
+                <p>Welcome to the hub of football media</p>
+            </div>
+            <div style="height: 30px;"></div>
+
+            <div class="searchModulesContainer" id="searchModulesContainer">
+                <ul class="searchModule" id="searchModule">
+                    <!--<div class="searchModuleContent" id="cunt">
+                        <p>CUNT</p>
+                        <p>CUNT</p>
+                        <p>CUNT</p>
+                        <p>CUNT</p>
+                        <p>CUNT</p>
+                        <p>CUNT</p>
+                        <p>CUNT</p>
+                        <p>CUNT</p>
+                    </div>-->
+                    <li tabindex="0">
+                        <div class="searchModuleImage">
+                            <img src="Images/search.svg" alt="Quick Search" onerror="this.src='search.png'"></img>
+                        </div>
+                        <div class="searchModuleLabel">Quick Search</div>
+                    </li>
+                    <li tabindex="0">
+                        <div class="searchModuleImage">
+                            <img src="Images/media.svg" alt="Search By Media Type" onerror="this.src='media.png'"></img>
+                        </div>
+                        <div class="searchModuleLabel">Search By Media Type</div>
+                    <li tabindex="0">
+                        <div class="searchModuleImage">
+                            <img src="Images/calendar.svg" alt="Search By Date" onerror="this.src='calendar.png'"></img>
+                        </div>
+                        <div class="searchModuleLabel">Search By Date</div>
+                    </li>
+                    <li tabindex="0">
+                        <div class="searchModuleImage">
+                            <img src="Images/podium.svg" alt="Order Method" onerror="this.src='svg.png'"></img>
+                        </div>
+                        <div class="searchModuleLabel">Order Method</div>
+                    </li>
+                    <li tabindex="0">
+                        <div class="searchModuleImage">
+                            <img src="Images/country.svg" alt="Search By Country" onerror="this.src='country.png'"></img>
+                        </div>
+                        <div class="searchModuleLabel">Search By Country</div>
+                    </li>
+                    <li tabindex="0">
+                        <div class="searchModuleImage">
+                            <img src="Images/trophy.svg" alt="Search By Competition" onerror="this.src='trophy.png'"></img>
+                        </div>
+                        <div class="searchModuleLabel">Search By Competition</div>
+                    </li>
+                    <li tabindex="0">
+                        <div class="searchModuleImage">
+                            <img src="Images/club.svg" alt="Search By Club" onerror="this.src='club.png'"></img>
+                        </div>
+                        <div class="searchModuleLabel">Search By Club</div>
+                    </li>
+                    <li tabindex="0" onclick="document.getElementById('cunt').style.display='block'; event.stopPropagation()">
+                        <div class="searchModuleContent" id="cunt">
+                            Cunt
+                        </div>
+                        <div class="searchModuleImage">
+                            <img src="Images/player.svg" alt="Search By Player" onerror="this.src='player.png'"></img>
+                        </div>
+                        <div class="searchModuleLabel">Search By Player</div>
+                    </li>
+                </ul>
+            </div>
+
+            <p>Latest goal from around the world</p>
+            <div class="video-wrapper">
+                <div class="video-player-wrapper" tabindex="0">
+                    <span>
+                        <div class="video-container" id="testyfull">
+                            <video width="1280" height="720" id="myvideo">
+                                <!--<source src="https://u.nya.is/syxolr.mp4"></source>-->
+                                <source src="https://u.nya.is/oobaxw.mp4"></source>
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="video-controls" id="controls">
+                                <div class="video-controls-seek" id="seekback">
+                                    <div id="seek"></div>
+                                </div>
+                                <div class="video-controls-play-pause" id="play"><i class="fa fa-play" id="playicon"></i></div>
+                                <div class="video-controls-time"><div id="currenttime">13:37</div><div>/</div><div id="endtime">69:69</div></div>
+                                <div class="video-controls-volume" id="volume"><i class="material-icons md-48" id="volicon">volume_up</i></div>
+                                <div class="video-controls-volume-content"><div id="volbarback"><div id="volbar"></div></div></div>
+                                <div class="video-controls-fullscreen" id="fullscreen"><i class="material-icons md-48" id="fullicon">fullscreen</i></div>
+                                <div class="video-controls-settings"><i class="fa fa-cog"></i></div>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+
+            <p>This is a paragraph.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div style="text-align: right; margin-right: 40px;">
+            <a href="#top" title="Back to Top"><i class="material-icons md-24" id="topbutton">arrow_upward</i></a>
+        </div>
+        <div class="footer-content">
+            <ul>
+                <li>
+                    <p>SiteMap</p>
+                    <nav>
+                        <a href="#" title="Home">Home</a>
+                        <a href="#" title="News">News</a>
+                        <a href="#" title="Streams">Streams</a>
+                        <a href="#" title="Videos">Videos</a>
+                        <a href="#" title="Images">Images</a>
+                    </nav>
+                </li>
+                <li>
+                    <p>About</p>
+                    <nav>
+                        <a href="#" title="About Us">About Us</a>
+                        <a href="#" title="Blog">Blog</a>
+                        <a href="#" title="Privacy Policy">Privacy Policy</a>
+                    </nav>
+                </li>
+                <li>
+                    <p>Help</p>
+                    <nav>
+                        <a href="#" title="Contact Us">Contact Us</a>
+                        <a href="#" title="FAQs">FAQs</a>
+                        <a href="#"></a>
+                    </nav>
+                </li>
+                <li>
+                    <p>Connect</p>
+                    <nav>
+                        <a href="#" id="socialFB" title="Facebook">Facebook</a>
+                        <a href="#" id="socialTW" title="Twitter">Twitter</a>
+                        <a href="#" id="socialIN" title="Instagram">Instagram</a>
+                    </nav>
+                </li>
+            </ul>
+        </div>
+        <div class="footer-banner">
+            <img src="Images/footerBannerP1.svg" alt="Footer Banner Left" onerror="this.src='Images/footerBannerP1.png'"></img>
+            <span id="footerquote">
+                <span id="footerquoteText">REF</span>
+            </span>
+            <img src="Images/footerBannerP2.svg" alt="Footer Banner Right" onerror="this.src='Images/footerBannerP2.png'" id="footerball"></img>
+            <span id="copyright">&copy MMLXIX - Michael "Long Dick Stamina" Nicholas and Sam "Hood Nigga" Hicks</span>
+        </div>
+    </footer>
+
+</body>
+</html>
