@@ -1,4 +1,4 @@
-import { Document, Element, String } from "../../html";
+import { Document, Element, Literal, String } from "../../html";
 import { HTMLHandler, LeafHandler } from "../../handlers";
 
 var language = "en-GB";
@@ -24,10 +24,6 @@ var scripts = [
 
 var body = new Element(
     "body", {}, [
-        //new Element("h1", {}, [
-        //    new String("Hello World")
-        //])
-
         //navbar
         new Element("nav", { class: "navbar", id: "navbar" }, [
             new Element("span", {}, [
@@ -322,7 +318,8 @@ var body = new Element(
                 ]),
                 new Element("img", { src: "Images/footerBannerP2.svg", alt: "Footer Banner Right", onerror: "this.src='Images/footerBannerP2.png'", id: "footerball" }, []),
                 new Element("span", { id: "copyright" }, [
-                    new String("&copy MMLXIX - Michael \"Long Dick Stamina\" Nicholas and Sam \"Hood Nigga\" Hicks")
+                    new Literal("&#169;"),
+                    new String("MMLXIX - Michael \"Long Dick Stamina\" Nicholas and Sam \"Hood Nigga\" Hicks")
                 ])
             ])
         ])
