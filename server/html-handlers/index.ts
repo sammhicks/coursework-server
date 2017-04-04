@@ -1,4 +1,5 @@
-import { document } from "./document";
+import { home } from "./home";
+
 export const handlers = {
-    document
+    home
 }
