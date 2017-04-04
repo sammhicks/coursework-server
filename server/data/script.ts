@@ -1,7 +1,33 @@
-window.onload = function() {
-    
+interface Document {
+    msExitFullscreen: () => void;
+    msFullscreenElement: Element;
+    mozCancelFullScreen: () => void;
+    mozFullScreenElement: Element;
+}
+
+interface Element {
+    msRequestFullscreen: () => void;
+    mozRequestFullScreen: () => void;
+}
+
+function formatTime(totalSeconds: number) {
+    function formatTwoDigits(value: number) {
+        return (value < 10 ? "0" : "") + value;
+    }
+
+    var totalSecondsFloor = Math.floor(totalSeconds);
+
+    var seconds = Math.floor(totalSecondsFloor) / 60;
+
+    var minutes = totalSecondsFloor % 60;
+
+    return formatTwoDigits(minutes) + ":" + formatTwoDigits(seconds);
+}
+
+window.onload = function () {
+
     // Video
-    var video = document.getElementById("myvideo");
+    var video = <HTMLVideoElement>(document.getElementById("myvideo"));
 
     var play = document.getElementById("play");
     var currenttime = document.getElementById("currenttime");
@@ -9,6 +35,7 @@ window.onload = function() {
     var vol = document.getElementById("volume");
     var volbar = document.getElementById("volbar");
     var volbarback = document.getElementById("volbarback");
+    var volicon = document.getElementById("volicon");
     var seek = document.getElementById("seek");
     var playicon = document.getElementById("playicon");
     var seekback = document.getElementById("seekback");
@@ -30,20 +57,18 @@ window.onload = function() {
         video.currentTime = (posx/1280)*video.duration;
     });*/
 
-    video.addEventListener("mousedown", function(){
-        if(video.paused)
-        {
+    video.addEventListener("mousedown", function () {
+        if (video.paused) {
             video.play();
             playicon.className = "fa fa-pause";
         }
-        else
-        {
+        else {
             video.pause();
             playicon.className = "fa fa-play";
         }
     });
 
-    seekback.addEventListener("mousedown", function(e){
+    seekback.addEventListener("mousedown", function (e) {
         var down = true;
         var fullscr = false;
         if (
@@ -51,94 +76,88 @@ window.onload = function() {
             document.webkitFullscreenElement ||
             document.mozFullScreenElement ||
             document.msFullscreenElement
-        )
-        {
+        ) {
             //video.currentTime = (e.clientX/screen.width)*video.duration;
             fullscr = true;
         }
-        else
-        {
+        else {
             //var posx = e.clientX - 120;
             //video.currentTime = (posx/1280)*video.duration;
         }
-        document.addEventListener("mouseup", function(){
-            down=false;
+        document.addEventListener("mouseup", function () {
+            down = false;
         })
-        this.onmousemove = function(e){
-            if(down){
-                if(fullscr){
-                    video.currentTime = (e.clientX/screen.width)*video.duration;
+        this.onmousemove = function (e) {
+            if (down) {
+                if (fullscr) {
+                    video.currentTime = (e.clientX / screen.width) * video.duration;
                 }
-                else{
-                    video.currentTime = ((e.clientX - 120)/1280)*video.duration;
+                else {
+                    video.currentTime = ((e.clientX - 120) / 1280) * video.duration;
                 }
             }
         }
     });
 
-    play.addEventListener("click", function(){
-        if(video.paused)
-        {
+    play.addEventListener("click", function () {
+        if (video.paused) {
             video.play();
             playicon.className = "fa fa-pause";
         }
-        else
-        {
+        else {
             video.pause();
             playicon.className = "fa fa-play";
         }
     });
 
-    currenttime.innerHTML = formatTime(video.currentTime)+"";
-    video.addEventListener('timeupdate', function() {
-        currenttime.innerHTML = formatTime(video.currentTime)+"";
-        seek.style.width = ((video.currentTime / video.duration)*100)+"%";
+    currenttime.innerHTML = formatTime(video.currentTime) + "";
+    video.addEventListener('timeupdate', function () {
+        currenttime.innerHTML = formatTime(video.currentTime) + "";
+        seek.style.width = ((video.currentTime / video.duration) * 100) + "%";
     });
 
-    video.addEventListener('durationchange', function() {
-        endtime.innerHTML = formatTime(video.duration)+"";
+    video.addEventListener('durationchange', function () {
+        endtime.innerHTML = formatTime(video.duration) + "";
     });
-    endtime.innerHTML = formatTime(video.duration)+"";
+    endtime.innerHTML = formatTime(video.duration) + "";
 
-    vol.addEventListener("mousedown", function(){
+    vol.addEventListener("mousedown", function () {
         video.muted = !video.muted;
     });
 
-    volbarback.addEventListener("mousedown", function(e){
+    volbarback.addEventListener("mousedown", function (e) {
         var fullscr = false;
-        var posx=0;
-        var down=true;
+        var posx = 0;
+        var down = true;
         if (
             document.fullscreenElement ||
             document.webkitFullscreenElement ||
             document.mozFullScreenElement ||
             document.msFullscreenElement
-        )
-        {
+        ) {
             //var posx = e.clientX - 264;
             fullscr = true;
         }
-        else
-        {
+        else {
             //var posx = e.clientX - 384;
         }
 
-        document.addEventListener("mouseup", function(){
-            down=false;
+        document.addEventListener("mouseup", function () {
+            down = false;
         })
-        this.onmousemove = function(e){
-            if(fullscr){
+        this.onmousemove = function (e) {
+            if (fullscr) {
                 posx = e.clientX - 264;
             }
-            else{
+            else {
                 posx = e.clientX - 384;
             }
-            if(down) video.volume = posx/100;
+            if (down) video.volume = posx / 100;
         }
     });
 
-    video.addEventListener('volumechange', function(){
-        volbar.style.width = 100*video.volume+"%";
+    video.addEventListener('volumechange', function () {
+        volbar.style.width = 100 * video.volume + "%";
         /*if(this.volume > 0.7){
             volicon.innerHTML = "volume_up";
         }else if(this.volume > 0.3){
@@ -148,29 +167,28 @@ window.onload = function() {
         }else{
             volicon.innerHTML = "volume_off";
         }*/
-        if(video.muted){
+        if (video.muted) {
             volicon.innerHTML = "volume_off";
-        }else{
-            if(this.volume > 0.5){
+        } else {
+            if (this.volume > 0.5) {
                 volicon.innerHTML = "volume_up";
-            }else if(this.volume > 0){
+            } else if (this.volume > 0) {
                 volicon.innerHTML = "volume_down";
-            }else{
+            } else {
                 volicon.innerHTML = "volume_mute";
             }
         }
     });
-    volbar.style.width = 100*video.volume+"%";
+    volbar.style.width = 100 * video.volume + "%";
 
-    fullscreen.addEventListener("click", function(){
+    fullscreen.addEventListener("click", function () {
         // are we full-screen?
         if (
             document.fullscreenElement ||
             document.webkitFullscreenElement ||
             document.mozFullScreenElement ||
             document.msFullscreenElement
-        )
-        {
+        ) {
             // exit full-screen
             if (document.exitFullscreen) {
                 document.exitFullscreen();
@@ -183,8 +201,7 @@ window.onload = function() {
             }
             fullicon.innerHTML = "fullscreen";
         }
-        else
-        {
+        else {
             if (testyfull.requestFullscreen) {
                 testyfull.requestFullscreen();
             } else if (testyfull.mozRequestFullScreen) {
@@ -203,32 +220,4 @@ window.onload = function() {
         clearTimeout(timeout);
         timeout = setTimeout(function(){controls.style.opacity = 0;, 200);
     }*/
-}
-
-function formatTime(secs){
-    var s = Math.round(secs);
-    var mins = Math.floor(secs/60);
-    s -= mins*60;
-    if(mins < 10)
-    {
-        mins = "0"+mins;
-    }
-    if(s < 10)
-    {
-        s = "0"+s;
-    }
-    return mins + ":" + s;
-}
-
-function togglePause(video){
-    if(video.paused)
-    {
-        video.play();
-        playicon.className = "fa fa-pause";
-    }
-    else
-    {
-        video.pause();
-        playicon.className = "fa fa-play";
-    }
 }
