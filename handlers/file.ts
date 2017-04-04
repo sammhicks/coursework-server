@@ -7,8 +7,12 @@ import { Request } from "../request";
 
 export const mimeTypes: { [extension: string]: string } = {
   ".css": "text/css",
+  ".ico": "image/x-icon",
+  ".png": "image/png",
   ".js": "application/javascript",
-  ".txt": "text/plain"
+  ".svg": "image/svg+xml",
+  ".txt": "text/plain",
+  ".xml": "application/xml"
 };
 
 export class FileHandler extends Handler {
