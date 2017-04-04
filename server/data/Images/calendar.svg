@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   enable-background="new 0 0 512 512"
+   xml:space="preserve"
+   sodipodi:docname="Calendar2.svg"
+   inkscape:version="0.92.1 r15371"><metadata
+     id="metadata4639"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+     id="defs4637" /><sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     id="namedview4635"
+     showgrid="false"
+     inkscape:zoom="0.4609375"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Layer_1" /><path
+     style="opacity:1;fill:#172727;fill-opacity:1;stroke:#172727;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+     d="M 0 0 L 0 64 L 80 64 C 80 90.469 101.531 112 128 112 C 154.469 112 176 90.469 176 64 L 336 64 C 336 90.469 357.531 112 384 112 C 410.469 112 432 90.469 432 64 L 512 64 L 512 0 L 384 0 C 401.687 0 416 14.312 416 32 L 416 64 C 416 81.687 401.688 96 384 96 C 366.313 96 352 81.688 352 64 L 352 32 C 352 14.313 366.313 0 384 0 L 128 0 C 145.672 0 160 14.312 160 32 L 160 64 C 160 81.687 145.672 96 128 96 C 110.328 96 96 81.688 96 64 L 96 32 C 96 14.313 110.328 0 128 0 L 0 0 z M 32 160 L 32 480 L 480 480 L 480 160 L 32 160 z M 96 192 L 160 192 L 160 256 L 96 256 L 96 192 z M 224 192 L 288 192 L 288 256 L 224 256 L 224 192 z M 352 192 L 416 192 L 416 256 L 352 256 L 352 192 z M 96 288 L 160 288 L 160 352 L 96 352 L 96 288 z M 224 288 L 288 288 L 288 352 L 224 352 L 224 288 z M 352 288 L 416 288 L 416 352 L 352 352 L 352 288 z M 96 384 L 160 384 L 160 448 L 96 448 L 96 384 z M 224 384 L 288 384 L 288 448 L 224 448 L 224 384 z "
+     id="rect5185" /></svg>
