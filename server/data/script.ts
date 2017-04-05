@@ -47,6 +47,59 @@ window.onload = function () {
     var fullicon = document.getElementById("fullicon");
     var controls = document.getElementById("controls");
 
+    var speedsmap = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
+    var speeds = document.querySelectorAll("#playbackspeed li");
+    for (var i = 0; i < speeds.length; i++) {
+        speeds[i].addEventListener("click", function () {
+            for (var j = 0; j < speeds.length; j++) {
+                if (speeds[j] != this) {
+                    (<HTMLElement><any>speeds[j]).style.color = "darkorange";
+                }
+                else {
+                    this.style.color = "#ffe8cc";
+                    video.playbackRate = speedsmap[j];
+                }
+            }
+
+        });
+    }
+    (<HTMLElement><any>speeds[3]).style.color = "#ffe8cc";
+
+    var looptoggle = false;
+    var loop = document.getElementById("playbackloop");
+    loop.addEventListener("click", function () {
+        looptoggle = !looptoggle;
+        video.loop = looptoggle;
+        if (looptoggle) {
+            this.style.color = "#ffe8cc";
+            this.style.backgroundColor = "#1c2f2f";
+        }
+        else {
+            this.style.color = "darkorange";
+            this.style.backgroundColor = "#172727";
+        }
+    });
+
+    var settings = document.getElementById("settings");
+    var settingsmenu = document.getElementById("settingsmenu");
+    settingsmenu.style.visibility = "hidden"
+    settings.addEventListener("click", function () {
+        if (settingsmenu.style.visibility == "hidden") {
+            this.style.transform = "rotate(0deg);";
+            this.style.webkitTransform = "rotate(0deg)";
+            settingsmenu.style.visibility = "visible";
+        }
+        else {
+            settingsmenu.style.visibility = "hidden";
+            this.style.transform = "rotate(12deg);";
+            this.style.webkitTransform = "rotate(12deg)";
+        }
+    });
+
+    settingsmenu.addEventListener("click", function (e) {
+        e.stopPropagation();
+    });
+
     var down = false;
     document.addEventListener("mousedown", function () {
         down = true;

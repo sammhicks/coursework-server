@@ -482,6 +482,68 @@ video::-webkit-media-controls-enclosure {
     float: right;
 }
 
+.video-controls-settings {
+    position: relative;
+}
+
+.video-controls-settings-menu {
+    position: absolute;
+    width: 70px;
+    height: 140px;
+    visibility: hidden;
+    font-size: 0.5em;
+    left: -50px;
+    top: -120px;
+    display: block;
+    padding-right: 50px;
+
+}
+
+.video-controls-settings-menu ul {
+    padding: 0px;
+    margin: 0;
+    width: 100%;
+}
+
+.video-controls-settings-menu li {
+    background-color: #172727;
+    list-style: none;
+    text-align: center;
+    padding: 5px;
+    position: relative;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */
+}
+
+.video-controls-settings-menu li:hover {
+    background-color: #1c2f2f;
+}
+
+.video-controls-settings-menu li ul {
+    position: absolute;
+    width: 70px;
+    height: 100px;
+    visibility: hidden;
+    display: block;
+    top:-50px;
+    left: 70px;
+    z-index: 0;
+}
+
+.video-controls-settings-menu #playbackspeed ul {
+    top: -250px;
+}
+
+/*.video-controls-settings:hover .video-controls-settings-menu {
+    visibility: visible;
+}*/
+
+.video-controls-settings-menu li:hover ul {
+    visibility: visible;
+}
+
 .material-icons.md-48 {
     font-size: 34px;
     vertical-align: middle;

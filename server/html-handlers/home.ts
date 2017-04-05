@@ -127,8 +127,41 @@ var video = (url: string) => new Element("div", { class: "video-wrapper" }, [
                             new String("fullscreen")
                         ])
                     ]),
-                    new Element("div", { class: "video-controls-settings" }, [
-                        new Element("i", { class: "fa fa-cog" }, [])
+                    new Element("div", { class: "video-controls-settings", id: "settings" }, [
+                        new Element("i", { class: "fa fa-cog" }, []),
+                        new Element("div", { class: "video-controls-settings-menu", id: "settingsmenu" }, [
+                            new Element("ul", {}, [
+                                new Element("li", { id: "playbackspeed" }, [
+                                    new String("Speed"),
+                                    new Element("ul", {}, [
+                                        new Element("li", { id: "playback-0.25x" }, [
+                                            new String("0.25x")
+                                        ]),
+                                        new Element("li", { id: "playback-0.5x" }, [
+                                            new String("0.5x")
+                                        ]),
+                                        new Element("li", { id: "playback-0.75x" }, [
+                                            new String("0.75x")
+                                        ]),
+                                        new Element("li", { id: "playback-1x" }, [
+                                            new String("Default")
+                                        ]),
+                                        new Element("li", { id: "playback-1.25x" }, [
+                                            new String("1.25x")
+                                        ]),
+                                        new Element("li", { id: "playback-1.5x" }, [
+                                            new String("1.5x")
+                                        ]),
+                                        new Element("li", { id: "playback-2x" }, [
+                                            new String("2x")
+                                        ])
+                                    ])
+                                ]),
+                                new Element("li", { id: "playbackloop" }, [
+                                    new String("Loop"),
+                                ])
+                            ])
+                        ])
                     ])
                 ])
             ])
