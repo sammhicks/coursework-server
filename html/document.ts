@@ -9,7 +9,7 @@ export class Document extends Renderable {
     }
 
     Render(): string {
-        return "<!DOCTYPE html>" + this.GenerateDocument().Render();
+        return "<!DOCTYPE html>" + this.GenerateDocument().Render() + os.EOL;
     }
 
     private GenerateDocument(): Element {

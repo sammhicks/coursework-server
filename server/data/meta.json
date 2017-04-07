@@ -3,6 +3,6 @@
 		"": "index.html"
 	},
 	"namedHandlers": {
-		"index.html": "document"
+		"index.html": "home"
 	}
 }

@@ -7,8 +7,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceRoot}/server/server.js",
+            "name": "Start Server",
+            "program": "${workspaceRoot}/server.js",
             "cwd": "${workspaceRoot}",
             "preLaunchTask": "tsc"
         }

@@ -36,11 +36,11 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 
-#Visual Studios files
+# Visual Studios files
 /bin
 /obj
 /typings
 /.vs
 
-#Javascript files
+# Javascript files
 *.js

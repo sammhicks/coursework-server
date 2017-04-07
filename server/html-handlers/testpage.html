@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="test.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="shortcut icon" href="Images/Favicon/favicon.ico"/>
+	<link rel="icon" sizes="16x16 32x32 64x64" href="Images/Favicon/favicon.ico"/>
+	<link rel="icon" type="image/png" sizes="196x196" href="Images/Favicon/favicon-192.png"/>
+	<link rel="icon" type="image/png" sizes="160x160" href="Images/Favicon/favicon-160.png"/>
+	<link rel="icon" type="image/png" sizes="96x96" href="Images/Favicon/favicon-96.png"/>
+	<link rel="icon" type="image/png" sizes="64x64" href="Images/Favicon/favicon-64.png"/>
+	<link rel="icon" type="image/png" sizes="32x32" href="Images/Favicon/favicon-32.png"/>
+	<link rel="icon" type="image/png" sizes="16x16" href="Images/Favicon/favicon-16.png"/>
+	<link rel="apple-touch-icon" href="Images/Favicon/favicon-57.png"/>
+	<link rel="apple-touch-icon" sizes="114x114" href="Images/Favicon/favicon-114.png"/>
+	<link rel="apple-touch-icon" sizes="72x72" href="Images/Favicon/favicon-72.png"/>
+	<link rel="apple-touch-icon" sizes="144x144" href="Images/Favicon/favicon-144.png"/>
+	<link rel="apple-touch-icon" sizes="60x60" href="Images/Favicon/favicon-60.png"/>
+	<link rel="apple-touch-icon" sizes="120x120" href="Images/Favicon/favicon-120.png"/>
+	<link rel="apple-touch-icon" sizes="76x76" href="Images/Favicon/favicon-76.png"/>
+	<link rel="apple-touch-icon" sizes="152x152" href="Images/Favicon/favicon-152.png"/>
+	<link rel="apple-touch-icon" sizes="180x180" href="Images/Favicon/favicon-180.png"/>
+	<meta name="msapplication-TileColor" content="#FFFFFF"/>
+	<meta name="msapplication-TileImage" content="Images/Favicon/favicon-144.png"/>
+	<meta name="msapplication-config" content="/browserconfig.xml"/>
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <script src="controller.js"></script>
+
+    <title>Home of Football</title>
+    <style>
+        button{
+            background-color: white;
+        }
+        button:focus{
+            background-color: lime;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        controllers connected: <span id="gamepads-connected">0</span>
+    </div>
+    <div>
+        <button id="a-button">A</button>
+        <button id="b-button">B</button>
+        <button id="x-button">X</button>
+        <button id="y-button">Y</button>
+    </div>
+    <div>
+        <button id="lb-button">LB</button>
+        <button id="rb-button">RB</button>
+    </div>
+    <div>
+        <button id="lt-button">LT</button>
+        <button id="rt-button">RT</button>
+    </div>
+    <div>
+        <button id="select-button">SELECT</button>
+        <button id="start-button">START</button>
+    </div>
+    <div>
+        <button id="left-stick-button">LEFT STICK</button>
+        <button id="right-stick-button">RIGHT STICK</button>
+    </div>
+    <div>
+        <button id="up-button">&#8593</button>
+        <button id="down-button">&#8595</button>
+        <button id="left-button">&#8592</button>
+        <button id="right-button">&#8594</button>
+    </div>
+    <div>
+        <div style="width:400px; height: 400px; display: inline-block; margin: 50px; border: 10px solid darkorange; position: relative">
+            <button id="left-stick" style="border-radius: 50px; top: 50%; left: 50%; width: 20px; height: 20px; position: absolute"></button>
+        </div>
+        <div style="width:400px; height: 400px; display: inline-block; margin: 50px; border: 10px solid darkorange; position: relative">
+            <button id="right-stick" style="border-radius: 50px; left: 50%; top: 50%; width: 20px; height: 20px; position: absolute"></button>
+        </div>
+    </div>
+    <div id="testbuttons">
+        <button>test</button>
+        <button>test</button>
+        <button>test</button>
+        <button>test</button>
+        <button>test</button>
+        <button>test</button>
+        <button>test</button>
+        <button>test</button>
+        <button>test</button>
+        <button>test</button>
+        <button>test</button>
+        <button>test</button>
+    </div>
+</body>
