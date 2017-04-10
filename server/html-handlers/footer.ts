@@ -83,7 +83,7 @@ export var footer = new Element("footer", { class: "footer" }, [
         new Element("img", { src: "images/footer-banner-phone.svg", alt: "Footer Banner Phone" }),
         new Element("span", { id: "footerquote" }, [
             new Element("span", { id: "footerquoteText" }, [
-                new String("REF")
+                new String("GOAL")
             ])
         ]),
         new Element("img", { src: "images/footer-banner-ball.svg", alt: "Footer Banner Ball", id: "footerball" }),
