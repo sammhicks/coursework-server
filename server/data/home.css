@@ -1,0 +1,43 @@
+#logopos2 {
+    display: none;
+}
+
+.homepageContent .header {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+
+.homepageContent h1 {
+    display: inline-block;
+    font-size: 100px;
+    margin-bottom: 20px;
+}
+
+.header hr {
+    width: 800px;
+}
+
+@media (max-width: 820px) {
+    .header hr {
+        width: 700px;
+    }
+    #logopos1 {
+        display: none;
+    }
+    #logopos2 {
+        display: inline-block;
+    }
+}
+
+@media (max-width: 730px) {
+    .header hr {
+        width: 380px;
+    }
+}
+
+.homepageContent p {
+    font-size: 1em;
+    margin-left: 100px;
+    margin-right: 100px;
+}

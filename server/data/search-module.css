@@ -1,0 +1,105 @@
+.searchModule {
+    color: darkorange;
+    background-color: #172727;
+    list-style-type: none;
+    margin: auto;
+    max-width: 86%/*1310px*/
+    ;
+    padding: 10px;
+    overflow: auto;
+    font-size: 1.5em;
+    text-align: center;
+    border-top: 10px solid #1c2f2f;
+    display: block;
+    position: relative;
+    /*border: 10px solid #1c2f2f;
+    border-radius: 20px;*/
+}
+
+.searchModule li {
+    outline: none;
+    padding: 20px;
+    display: inline-block;
+    border: 10px solid #1c2f2f;
+    border-radius: 20px;
+    width: 200px;
+    height: 200px;
+    margin: 30px;
+    vertical-align: middle;
+    position: relative;
+    overflow: hidden;
+}
+
+.searchModule li:active {
+    border-color: darkorange;
+    /*border-radius: 0px;*/
+}
+
+.searchModule li:focus {
+    border-color: #2f4f4f;
+    /*border-radius: 0px;*/
+}
+
+li:focus .searchModuleImage img {
+    background-color: darkorange;
+}
+
+.searchModuleImage {
+    height: 60%;
+    background-color: #172727;
+}
+
+.searchModuleImage img {
+    max-width: 100%;
+    max-height: 100%;
+    background-color: #1c2f2f;
+    /*transition: background-color 0.5s ease-in-out;  dunno whether i should keep this or not*/
+}
+
+li:hover .searchModuleImage img {
+    background-color: darkorange;
+}
+
+.searchModuleLabel {
+    height: 20%;
+    max-width: 100%;
+    margin-top: 40px;
+    vertical-align: bottom;
+}
+
+.searchModuleContent {
+    position: absolute;
+    background-color: #172727;
+    z-index: 1;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    display: none;
+    max-width: 240px;
+    max-height: 240px;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.5s;
+    overflow: hidden;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+@keyframes animatetop {
+    from {
+        top: 50%;
+        left: 50%;
+        right: 50%;
+        bottom: 50%
+    }
+    /*to {top: 30px; left:30px; right: 30px; bottom: 30px}*/
+    to {
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px
+    }
+}

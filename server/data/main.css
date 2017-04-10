@@ -1,0 +1,24 @@
+body {
+    background-color: #172727;
+    color: darkorange;
+    font-family: Verdana, Geneva, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+a:link {
+    color: darkorange;
+}
+
+a:visited {
+    color: #995400;
+}
+
+a:hover {
+    color: #ffba66;
+}
+
+a:active {
+    color: #ffe8cc;
+}
