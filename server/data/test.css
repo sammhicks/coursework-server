@@ -267,7 +267,7 @@ li:hover .searchModuleImage img {
     border-color: #1c2f2f;
 }
 
-.video-player-wrapper span {
+.video-player-wrapper>* {
     border-color: #1c2f2f;
 }
 
@@ -297,7 +297,7 @@ li:hover .searchModuleImage img {
     border-color: inherit;
 }
 
-.video-player-wrapper span::before {
+.video-player-wrapper>*::before {
     display: block;
     content: "";
     width: 20px;
@@ -310,7 +310,7 @@ li:hover .searchModuleImage img {
     border-color: inherit;
 }
 
-.video-player-wrapper span::after {
+.video-player-wrapper>*::after {
     display: block;
     content: "";
     width: 20px;
@@ -323,7 +323,7 @@ li:hover .searchModuleImage img {
     border-color: inherit;
 }
 
-.video-player-wrapper:hover, .video-player-wrapper:focus, .video-player-wrapper:hover span, .video-player-wrapper:focus span {
+.video-player-wrapper:hover, .video-player-wrapper:focus, .video-player-wrapper:hover>*, .video-player-wrapper:focus>* {
     border-color: darkorange;
 }
 

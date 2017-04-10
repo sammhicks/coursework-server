@@ -52,6 +52,6 @@ export var navbar = new Element("nav", { class: "navbar", id: "navbar" }, [
         ])
     ]),
     new Element("form", {}, [
-        new Element("input", { type: "text", title: "Search", id: "search" }, [])
+        new Element("input", { type: "text", title: "Search", id: "search" })
     ])
 ]);

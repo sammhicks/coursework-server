@@ -80,16 +80,16 @@ export var footer = new Element("footer", { class: "footer" }, [
         ])
     ]),
     new Element("div", { class: "footer-banner" }, [
-        new Element("img", { src: "images/footer-banner-phone.svg", alt: "Footer Banner Phone" }, []),
+        new Element("img", { src: "images/footer-banner-phone.svg", alt: "Footer Banner Phone" }),
         new Element("span", { id: "footerquote" }, [
             new Element("span", { id: "footerquoteText" }, [
                 new String("REF")
             ])
         ]),
-        new Element("img", { src: "images/footer-banner-ball.svg", alt: "Footer Banner Ball", id: "footerball" }, []),
+        new Element("img", { src: "images/footer-banner-ball.svg", alt: "Footer Banner Ball", id: "footerball" }),
         new Element("span", { id: "copyright" }, [
             new Literal("&#169;"),
-            new String("MMLXIX - Michael Nicholas and Samuel Hicks")
+            new String("MXVII - Michael Nicholas and Samuel Hicks")
         ])
     ])
 ])

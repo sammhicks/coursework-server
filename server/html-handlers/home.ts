@@ -4,10 +4,10 @@ import { Page } from "./page";
 
 var header = new Element("div", { class: "header", id: "header" }, [
     new Element("h1", { class: "title" }, [
-        new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", style: "max-height: 72px; max-width: 100px", id: "logopos1" }, []), ,
+        new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", style: "max-height: 72px; max-width: 100px", id: "logopos1" }), ,
         new String("Ball To Hand")
     ]),
-    new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", style: "max-height: 100px; max-width: 100px", id: "logopos2" }, []),
+    new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", style: "max-height: 100px; max-width: 100px", id: "logopos2" }),
     new Element("p", {}, [new String("Welcome to the hub of football media")])
 ]);
 
@@ -17,7 +17,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
     new Element("ul", { class: "searchModule", id: "searchModule" }, [
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "images/search.svg", alt: "Quick Search" }, [])
+                new Element("img", { src: "images/search.svg", alt: "Quick Search" })
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Quick Search")
@@ -25,7 +25,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "images/media.svg", alt: "Search By Media Type" }, [])
+                new Element("img", { src: "images/media.svg", alt: "Search By Media Type" })
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Media Type")
@@ -33,7 +33,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "images/calendar.svg", alt: "Search By Date" }, [])
+                new Element("img", { src: "images/calendar.svg", alt: "Search By Date" })
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Date")
@@ -41,7 +41,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "images/podium.svg", alt: "Order Method" }, [])
+                new Element("img", { src: "images/podium.svg", alt: "Order Method" })
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Order Method")
@@ -49,7 +49,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "images/country.svg", alt: "Search By Country" }, [])
+                new Element("img", { src: "images/country.svg", alt: "Search By Country" })
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Country")
@@ -57,7 +57,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "images/trophy.svg", alt: "Search By Competition" }, [])
+                new Element("img", { src: "images/trophy.svg", alt: "Search By Competition" })
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Competition")
@@ -65,7 +65,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "images/club.svg", alt: "Search By Club" }, [])
+                new Element("img", { src: "images/club.svg", alt: "Search By Club" })
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Club")
@@ -73,7 +73,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "images/player.svg", alt: "Search By Player" }, [])
+                new Element("img", { src: "images/player.svg", alt: "Search By Player" })
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Player")
@@ -88,10 +88,10 @@ var latestGoal = new Element("p", {}, [
 
 var video = (url: string) => new Element("div", { class: "video-wrapper" }, [
     new Element("div", { class: "video-player-wrapper", tabindex: "0" }, [
-        new Element("span", {}, [
+        new Element("div", {}, [
             new Element("div", { class: "video-container", id: "testyfull" }, [
                 new Element("video", { width: "1280", height: "720", id: "myvideo" }, [
-                    new Element("source", { src: url }, []),
+                    new Element("source", { src: url }),
                     new String("Your browser does not support the video tag.")
                 ]),
                 new Element("div", { class: "video-controls", id: "controls" }, [
