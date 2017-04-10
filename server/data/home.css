@@ -1,5 +1,12 @@
+#logopos1{
+    max-height: 72px;
+    max-width: 100px
+}
+
 #logopos2 {
     display: none;
+    max-height: 100px;
+    max-width: 100px
 }
 
 .homepageContent .header {
@@ -40,4 +47,8 @@
     font-size: 1em;
     margin-left: 100px;
     margin-right: 100px;
+}
+
+.spacer{
+    height: 30px;
 }

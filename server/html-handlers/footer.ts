@@ -1,7 +1,7 @@
 import { Element, Literal, String } from "../../html";
 
 export var footer = new Element("footer", { class: "footer" }, [
-    new Element("div", { style: "text-align: right; margin-right: 40px;" }, [
+    new Element("div", { class: "topbutton-wrapper" }, [
         new Element("a", { href: "#top", title: "Back to Top" }, [
             new Element("i", { class: "material-icons md-24", id: "topbutton" }, [
                 new String("arrow_upward")

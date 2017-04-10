@@ -7,6 +7,11 @@
     margin-top: 30px;
 }
 
+.topbutton-wrapper{
+    text-align: right;
+    margin-right: 40px;
+}
+
 #topbutton {
     position: relative;
     box-shadow: inset 0 0 0 2px #121f1f;

@@ -4,14 +4,14 @@ import { Page } from "./page";
 
 var header = new Element("div", { class: "header", id: "header" }, [
     new Element("h1", { class: "title" }, [
-        new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", style: "max-height: 72px; max-width: 100px", id: "logopos1" }), ,
+        new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", id: "logopos1" }), ,
         new String("Ball To Hand")
     ]),
-    new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", style: "max-height: 100px; max-width: 100px", id: "logopos2" }),
+    new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", id: "logopos2" }),
     new Element("p", {}, [new String("Welcome to the hub of football media")])
 ]);
 
-var spacer = new Element("div", { style: "height: 30px;" }, []);
+var spacer = new Element("div", { class: "spacer" }, []);
 
 var search = new Element("div", { class: "searchModulesContainer", id: "searchModulesContainer" }, [
     new Element("ul", { class: "searchModule", id: "searchModule" }, [
