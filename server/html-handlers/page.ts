@@ -1,5 +1,4 @@
-import { Document, Element, Literal, String } from "../../html";
-import { HTMLHandler, LeafHandler } from "../../handlers";
+import { Document, Element, String } from "../../html";
 
 import { footer } from "./footer";
 import { navbar } from "./navbar";
@@ -10,8 +9,8 @@ var getTitle = (page: string) => "Home of Football" + (page == "" ? "" : " - " +
 
 var meta = {
     "msapplication-TileColor": "#FFFFFF",
-    "msapplication-TileImage": "Images/Favicon/favicon-144.png",
-    "msapplication-config": "/browserconfig.xml",
+    "msapplication-TileImage": "images/favicon/favicon-144.png",
+    "msapplication-config": "images/favicon/browserconfig.xml",
     "viewport": "initial-scale=1, width=device-width"
 };
 

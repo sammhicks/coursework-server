@@ -1,13 +1,13 @@
-import { Document, Element, Literal, String } from "../../html";
+import { Element, Literal, String } from "../../html";
 import { HTMLHandler, LeafHandler } from "../../handlers";
 import { Page } from "./page";
 
 var header = new Element("div", { class: "header", id: "header" }, [
     new Element("h1", { class: "title" }, [
-        new Element("img", { src: "Images/logoOrangeGrey.svg", alt: "Logo Orange and Grey", onerror: "this.src='logoOrangeGrey.png'", style: "max-height: 72px; max-width: 100px", id: "logopos1" }, []), ,
+        new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", style: "max-height: 72px; max-width: 100px", id: "logopos1" }, []), ,
         new String("Ball To Hand")
     ]),
-    new Element("img", { src: "Images/logoOrangeGrey.svg", alt: "Logo Orange and Grey", onerror: "this.src='logoOrangeGrey.png'", style: "max-height: 100px; max-width: 100px", id: "logopos2" }, []),
+    new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", style: "max-height: 100px; max-width: 100px", id: "logopos2" }, []),
     new Element("p", {}, [new String("Welcome to the hub of football media")])
 ]);
 
@@ -17,7 +17,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
     new Element("ul", { class: "searchModule", id: "searchModule" }, [
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "Images/search.svg", alt: "Quick Search", onerror: "this.src='search.png'" }, [])
+                new Element("img", { src: "images/search.svg", alt: "Quick Search" }, [])
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Quick Search")
@@ -25,7 +25,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "Images/media.svg", alt: "Search By Media Type", onerror: "this.src='media.png'" }, [])
+                new Element("img", { src: "images/media.svg", alt: "Search By Media Type" }, [])
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Media Type")
@@ -33,7 +33,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "Images/calendar.svg", alt: "Search By Date", onerror: "this.src='calendar.png'" }, [])
+                new Element("img", { src: "images/calendar.svg", alt: "Search By Date" }, [])
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Date")
@@ -41,7 +41,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "Images/podium.svg", alt: "Order Method", onerror: "this.src='podium.png'" }, [])
+                new Element("img", { src: "images/podium.svg", alt: "Order Method" }, [])
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Order Method")
@@ -49,7 +49,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "Images/country.svg", alt: "Search By Country", onerror: "this.src='country.png'" }, [])
+                new Element("img", { src: "images/country.svg", alt: "Search By Country" }, [])
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Country")
@@ -57,7 +57,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "Images/trophy.svg", alt: "Search By Competition", onerror: "this.src='trophy.png'" }, [])
+                new Element("img", { src: "images/trophy.svg", alt: "Search By Competition" }, [])
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Competition")
@@ -65,7 +65,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "Images/club.svg", alt: "Search By Club", onerror: "this.src='club.png'" }, [])
+                new Element("img", { src: "images/club.svg", alt: "Search By Club" }, [])
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Club")
@@ -73,7 +73,7 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ]),
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
-                new Element("img", { src: "Images/player.svg", alt: "Search By Player", onerror: "this.src='player.png'" }, [])
+                new Element("img", { src: "images/player.svg", alt: "Search By Player" }, [])
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Player")

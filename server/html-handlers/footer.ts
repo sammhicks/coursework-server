@@ -1,4 +1,4 @@
-import { Document, Element, Literal, String } from "../../html";
+import { Element, Literal, String } from "../../html";
 
 export var footer = new Element("footer", { class: "footer" }, [
     new Element("div", { style: "text-align: right; margin-right: 40px;" }, [
@@ -27,8 +27,8 @@ export var footer = new Element("footer", { class: "footer" }, [
                     new Element("a", { href: "videos.html", title: "Videos" }, [
                         new String("Videos")
                     ]),
-                    new Element("a", { href: "images.html", title: "Images" }, [
-                        new String("Images")
+                    new Element("a", { href: "images.html", title: "images" }, [
+                        new String("images")
                     ])
                 ])
             ]),
@@ -80,16 +80,16 @@ export var footer = new Element("footer", { class: "footer" }, [
         ])
     ]),
     new Element("div", { class: "footer-banner" }, [
-        new Element("img", { src: "Images/footerBannerP1.svg", alt: "Footer Banner Left", onerror: "this.src='Images/footerBannerP1.png'" }, []),
+        new Element("img", { src: "images/footer-banner-phone.svg", alt: "Footer Banner Phone" }, []),
         new Element("span", { id: "footerquote" }, [
             new Element("span", { id: "footerquoteText" }, [
                 new String("REF")
             ])
         ]),
-        new Element("img", { src: "Images/footerBannerP2.svg", alt: "Footer Banner Right", onerror: "this.src='Images/footerBannerP2.png'", id: "footerball" }, []),
+        new Element("img", { src: "images/footer-banner-ball.svg", alt: "Footer Banner Ball", id: "footerball" }, []),
         new Element("span", { id: "copyright" }, [
             new Literal("&#169;"),
-            new String("MMLXIX - Michael \"Long Dick Stamina\" Nicholas and Sam \"Hood Nigga\" Hicks")
+            new String("MMLXIX - Michael Nicholas and Samuel Hicks")
         ])
     ])
 ])

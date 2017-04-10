@@ -44,3 +44,6 @@ jspm_packages
 
 # Javascript files
 *.js
+
+# Windows generated
+Thumbs.db

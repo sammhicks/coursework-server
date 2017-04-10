@@ -1,4 +1,4 @@
-import { Document, Element, Literal, String } from "../../html";
+import { Element, Literal, String } from "../../html";
 
 export var navbar = new Element("nav", { class: "navbar", id: "navbar" }, [
     new Element("span", {}, [
