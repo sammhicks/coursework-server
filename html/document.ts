@@ -1,10 +1,11 @@
 import * as os from "os";
 import { Element } from "./element";
+import { Favicon } from "./favicon";
 import { Renderable } from "./renderable";
 import { String } from "./string";
 
 export class Document extends Renderable {
-    constructor(private language: string, private title: string, private meta: { [name: string]: string }, private stylesheets: string[], private scripts: string[], private body: Element) {
+    constructor(private language: string, private title: string, private meta: { [name: string]: string }, private favicons: Favicon[], private stylesheets: string[], private scripts: string[], private body: Element) {
         super();
     }
 
@@ -29,6 +30,7 @@ export class Document extends Renderable {
             {},
             [].concat(
                 this.GenerateMeta(),
+                this.favicons,
                 new Element("title", {}, [new String(this.title)]),
                 this.GenerateStyleSheets(),
                 this.GenerateScripts()

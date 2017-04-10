@@ -1,4 +1,4 @@
-import { Document, Element, String } from "../../html";
+import { Document, Element, Favicon, String } from "../../html";
 
 import { footer } from "./footer";
 import { navbar } from "./navbar";
@@ -14,6 +14,12 @@ var meta = {
     "viewport": "initial-scale=1, width=device-width"
 };
 
+function genFavicon(size: number) {
+    return new Favicon("image/png", size + "x" + size, "images/favicon/favicon-" + size + ".png");
+}
+
+var favicons: Favicon[] = [196, 160, 96, 64, 32, 16].map(genFavicon);
+
 var stylesheets = [
     "https://fonts.googleapis.com/icon?family=Material+Icons",
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
@@ -28,6 +34,6 @@ var getBody = (content: Element) => new Element("body", {}, [navbar, content, fo
 
 export class Page extends Document {
     constructor(title: string, additionalStylesheets: string[], additionalScripts: string[], content: Element) {
-        super(language, getTitle(title), meta, stylesheets.concat(additionalStylesheets), scripts.concat(additionalScripts), getBody(content));
+        super(language, getTitle(title), meta, favicons, stylesheets.concat(additionalStylesheets), scripts.concat(additionalScripts), getBody(content));
     }
 }
