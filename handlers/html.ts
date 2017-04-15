@@ -6,7 +6,7 @@ import { Request } from "../request";
 import * as zlib from "zlib";
 
 export class HTMLHandler extends Handler {
-    private document: string;
+    private document: Buffer;
     private documentLength: string;
     private gzipDocument: Buffer;
     private gzipDocumentLength: string;
@@ -14,10 +14,10 @@ export class HTMLHandler extends Handler {
 
     constructor(document: Document) {
         super();
-        this.document = document.Render();
+        this.document = Buffer.from(document.Render(), "utf-8");
         this.documentLength = this.document.length.toString(10);
 
-        this.gzipDocument = zlib.gzipSync(Buffer.from(this.document, "utf-8"));
+        this.gzipDocument = zlib.gzipSync(this.document, { level: zlib.Z_BEST_COMPRESSION });
         this.gzipDocumentLength = this.gzipDocument.length.toString(10);
 
         const hash = crypto.createHash("md5");
