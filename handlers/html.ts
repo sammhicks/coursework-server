@@ -3,16 +3,22 @@ import { Document } from "../html"
 import { Handler } from "./handler";
 import * as httpStatus from "http-status-codes";
 import { Request } from "../request";
+import * as zlib from "zlib";
 
 export class HTMLHandler extends Handler {
     private document: string;
     private documentLength: string;
+    private gzipDocument: Buffer;
+    private gzipDocumentLength: string;
     private eTag: string;
 
     constructor(document: Document) {
         super();
         this.document = document.Render();
         this.documentLength = this.document.length.toString(10);
+
+        this.gzipDocument = zlib.gzipSync(Buffer.from(this.document, "utf-8"));
+        this.gzipDocumentLength = this.gzipDocument.length.toString(10);
 
         const hash = crypto.createHash("md5");
 
@@ -32,9 +38,16 @@ export class HTMLHandler extends Handler {
             } else {
                 request.response.setHeader("Content-Type", "text/html");
             }
-            request.response.setHeader("Content-Length", this.documentLength);
             request.response.setHeader("ETag", this.eTag);
-            request.response.end(this.document);
+
+            if ("accept-encoding" in request.request.headers && request.request.headers["accept-encoding"].indexOf("gzip") > -1) {
+                request.response.setHeader("Content-Encoding", "gzip");
+                request.response.setHeader("Content-Length", this.gzipDocumentLength);
+                request.response.end(this.gzipDocument);
+            } else {
+                request.response.setHeader("Content-Length", this.documentLength);
+                request.response.end(this.document);
+            }
 
             return Promise.resolve();
         }
