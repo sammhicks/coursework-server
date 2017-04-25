@@ -1,5 +1,5 @@
-import * as crypto from "crypto";
 import { Document } from "../html"
+import { ETagHandler } from "./etag"
 import { Handler } from "./handler";
 import * as httpStatus from "http-status-codes";
 import { Request } from "../request";
@@ -10,7 +10,7 @@ export class HTMLHandler extends Handler {
     private documentLength: string;
     private gzipDocument: Buffer;
     private gzipDocumentLength: string;
-    private eTag: string;
+    private eTagHandler: ETagHandler;
 
     constructor(document: Document) {
         super();
@@ -20,17 +20,11 @@ export class HTMLHandler extends Handler {
         this.gzipDocument = zlib.gzipSync(this.document, { level: zlib.Z_BEST_COMPRESSION });
         this.gzipDocumentLength = this.gzipDocument.length.toString(10);
 
-        const hash = crypto.createHash("md5");
-
-        hash.update(this.document);
-        this.eTag = hash.digest("hex");
+        this.eTagHandler = new ETagHandler(this.document);
     }
 
     handleRequest(request: Request): Promise<void> {
-        if ("if-none-match" in request.request.headers && request.request.headers["if-none-match"] == this.eTag) {
-            request.response.writeHead(httpStatus.NOT_MODIFIED);
-            request.response.end();
-
+        if (this.eTagHandler.tryHandle(request)) {
             return Promise.resolve();
         } else {
             if ("accept" in request.request.headers && request.request.headers["accept"].includes("application/xhtml+xml")) {
@@ -38,7 +32,6 @@ export class HTMLHandler extends Handler {
             } else {
                 request.response.setHeader("Content-Type", "text/html");
             }
-            request.response.setHeader("ETag", this.eTag);
 
             if ("accept-encoding" in request.request.headers && request.request.headers["accept-encoding"].indexOf("gzip") > -1) {
                 request.response.setHeader("Content-Encoding", "gzip");

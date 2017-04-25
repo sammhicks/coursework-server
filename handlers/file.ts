@@ -1,4 +1,5 @@
 ﻿import { Error } from "./error";
+import { ETagHandler } from "./etag";
 import * as fs from "fs";
 import { Handler } from "./handler";
 import * as httpStatus from "http-status-codes";
@@ -16,28 +17,31 @@ export const mimeTypes: { [extension: string]: string } = {
 };
 
 export class FileHandler extends Handler {
-  mTime: Date;
+  eTagHandler: ETagHandler;
+
   length: number;
+
+  updateInfo() {
+    this.eTagHandler = new ETagHandler(fs.readFileSync(this.serverPath));
+
+    const stats = fs.statSync(this.serverPath);
+    this.length = stats.size;
+  }
 
   constructor(private serverPath: string) {
     super();
 
-    const stats = fs.statSync(serverPath);
+    fs.watch(serverPath, {}, () => this.updateInfo());
 
-    this.mTime = new Date(stats.mtime);
-    this.length = stats.size;
+    this.updateInfo();
   }
 
   handleRequest(request: Request): Promise<void> {
-    if (request.request.headers["if-modified-since"] !== undefined && new Date(request.request.headers["if-modified-since"]) <= this.mTime) {
-      request.response.writeHead(httpStatus.NOT_MODIFIED);
-      request.response.end();
-
+    if (this.eTagHandler.tryHandle(request)) {
       return Promise.resolve();
     } else {
       request.response.setHeader("Content-Type", mimeTypes[path.extname(this.serverPath)]);
       request.response.setHeader("Content-Length", this.length.toString(10));
-      request.response.setHeader("Last-Modified", this.mTime.toUTCString());
       request.response.setHeader("Cache-Control", "public, must-revalidate");
 
       request.response.writeHead(httpStatus.OK);
