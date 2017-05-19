@@ -45,8 +45,10 @@ export class Streamable implements Domain {
         const shortcode = url.parse(link.data.url).pathname;
         return requestPromise("https://api.streamable.com/videos" + shortcode).catch(function handleError(error: StatusCodeError) {
             if (error.statusCode == httpStatus.TOO_MANY_REQUESTS) {
-                return createDelay(parseInt(error.response.headers["retry-after"]) * 1000)().then(function tryAgain() {
-                    self.resolve(link);
+                const timeout = parseInt(error.response.headers["retry-after"]);
+                console.log("Retrying %s after %ds", shortcode, timeout);
+                return createDelay(timeout * 1000)().then(function tryAgain() {
+                    return self.resolve(link);
                 });
             } else {
                 console.error("Error processing streamable with shortcode \"%s\": %j", shortcode, error.message);
@@ -54,7 +56,7 @@ export class Streamable implements Domain {
             }
         }).then(JSON.parse).then(function handleVideo(video: Video): Promise<CrawledVideo> {
             if (video.status == VideoStatus.READY && video.files.mp4 != null) {
-                return Promise.resolve(new CrawledVideo(link.data.id, (link.data.title + " " + video.title).trim(), self.domain, "https:" + video.files.mp4.url));
+                return Promise.resolve(new CrawledVideo(link.data, (link.data.title + " " + video.title).trim(), self.domain, "https:" + video.files.mp4.url));
             } else {
                 throw new Error();
             }

@@ -18,6 +18,8 @@ export class Interface {
                 $rid: video.redditId,
                 $title: video.title,
                 $url: video.url
+            }, function handleError(error: Error) {
+                console.error("Video %s already exists", video.redditId);
             });
         }
     }

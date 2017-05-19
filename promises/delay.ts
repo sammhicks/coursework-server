@@ -1,8 +1,8 @@
 
-export function createDelay(delay: number) {
+export function createDelay(timeout: number) {
     return function delay() {
         return new Promise(function executor(resolve, reject) {
-            setTimeout(resolve, delay);
+            setTimeout(resolve, timeout);
         });
     }
 }
