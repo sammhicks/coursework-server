@@ -10,6 +10,7 @@ CREATE TABLE "videos" (
     "id"            INTEGER PRIMARY KEY,
     "source_id"     INTEGER,
     "reddit_id"     TEXT UNIQUE,
+    "creation_time" INTEGER,
     "title"         TEXT,
     "url"           TEXT,
     FOREIGN KEY("source_id") REFERENCES "sources"("id")
