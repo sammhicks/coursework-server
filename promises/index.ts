@@ -1,2 +1,3 @@
+export { createDelay } from "./delay";
 export { pFor, pWhile } from "./loops";
-export { open } from "./sqlite3";
+export { Database, Mode as DatabaseMode, Statement, open } from "./sqlite3";

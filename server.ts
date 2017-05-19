@@ -10,6 +10,9 @@ import * as path from "path";
 import { Crawler } from "./crawler";
 import { Request } from "./request";
 
+import { Database, DatabaseMode } from "./promises";
+import { crawl as crawlReddit } from "./server/database/reddit-crawler";
+
 const insecurePort: number = process.env.PORT || 8080;
 const securePort: number = process.env.SECUREPORT || 443;
 
@@ -18,6 +21,14 @@ const crawledHandler = new Crawler().crawl("server/data", { namedHandlers: { hom
 const upgradeInsecureHandler = new UpgradeInsecure(crawledHandler, securePort);
 
 const errorHandler = new ErrorHandler(upgradeInsecureHandler, (error: Error) => Handler.handleError(error.request, error.errorCode));
+
+const databasePromise = new Database().open("server/database/database.sqlite3", DatabaseMode.readwrite).then(function handleDatabaseOpen(database: Database) {
+  console.log("Database open");
+  return database;
+}, function handleDatabaseError(error: Error) {
+  console.error("Failed to open database: ", error);
+  return error;
+});
 
 const insecureServer = createHttpServer(function requestListener(request: IncomingMessage, response: ServerResponse) {
   errorHandler.handleRequest(new Request(request, response, false));
@@ -45,3 +56,5 @@ secureServer.on("listening", function serverListen() {
 });
 
 secureServer.listen(securePort);
+
+databasePromise.then(crawlReddit);

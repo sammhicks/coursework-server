@@ -1,6 +1,6 @@
 import * as sqlite3 from "sqlite3";
 
-enum Mode {
+export enum Mode {
   readonly = sqlite3.OPEN_READONLY,
   readwrite = sqlite3.OPEN_READWRITE,
   create = sqlite3.OPEN_CREATE
@@ -40,7 +40,7 @@ function handleNullErrorWithResult(resolve: (result: any) => void, reject: (erro
   }
 }
 
-class Statement {
+export class Statement {
   constructor(private statement: sqlite3.Statement) { }
 
   run(params: {}): Promise<RunResult> {
@@ -76,7 +76,7 @@ class Statement {
   }
 }
 
-class Database {
+export class Database {
   database: sqlite3.Database;
 
   constructor() {
@@ -87,7 +87,7 @@ class Database {
     let self = this;
 
     return new Promise<Database>(function executor(resolve, reject) {
-      this.database = new sqlite3.Database(filename, mode, handleNullError(() => resolve(self), reject));
+      self.database = sqlite3.cached.Database(filename, mode, handleNullError(() => resolve(self), reject));
     });
   }
 
@@ -138,6 +138,19 @@ class Database {
     return new Promise<void>(function executor(resolve, reject) {
       statement = database.prepare(sql, handleNullError(resolve, reject));
     }).then(() => new Statement(statement));
+  }
+
+  serialize<T>(action: ((database: sqlite3.Database) => T)): Promise<T> {
+    const database = this.database;
+    return new Promise<T>(function executor(resolve, reject) {
+      database.serialize(function serializeCallback() {
+        try {
+          resolve(action(database));
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
   }
 }
 
