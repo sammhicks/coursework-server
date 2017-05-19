@@ -151,24 +151,36 @@ video::-webkit-media-controls-enclosure {
 }
 
 .video-seek-thumbnail {
+    opacity: 0;
     position: absolute;
-    bottom: 50px;
-    height: 150px;
-    width: 128px;
+    bottom: 55px;
+    height: 170px;
+    width: 256px;
     left: 100%;
     background-color: #1c2f2f;
     text-align: center;
 }
 
 .video-seek-thumbnail-image {
-    height: 128px;
-    width: 128px;
+    position: relative;
+    height: 144px;
+    width: 100%;
     background-color: darkblue;
 }
 
 .video-seek-thumbnail-time {
-    height: 128px;
-    width: 128px;
+    position: relative;
+}
+
+.video-seek-thumbnail-time::after {
+    content: " ";
+    position: absolute;
+    left: 50%;
+    border-width: 10px;
+    border-style: solid;
+    border-color: #1c2f2f transparent transparent transparent;
+    margin-left: -10px;
+    top:118%
 }
 
 .video-controls-seek:hover + .video-controls-seek div::before, .video-controls-seek:hover div::before {
