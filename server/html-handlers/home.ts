@@ -94,6 +94,12 @@ var video = (url: string) => new Element("div", { class: "video-wrapper" }, [
                     new Element("source", { src: url }),
                     new String("Your browser does not support the video tag.")
                 ]),
+                new Element("div", { class: "video-seek-thumbnail", id: "seekthumbnail" }, [
+                    new Element("div", { class: "video-seek-thumbnail-image", id: "seekthumbnailimage" }, []),
+                    new Element("span", { class: "video-seek-thumbnail-time", id: "seekthumbnailtime" }, [
+                        new String("00:00")
+                    ])
+                ]),
                 new Element("div", { class: "video-controls", id: "controls" }, [
                     new Element("div", { class: "video-controls-seek", id: "seekback" }, [
                         new Element("div", { id: "seek" }, [])

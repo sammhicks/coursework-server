@@ -46,6 +46,9 @@ window.onload = function () {
     var testyfull = document.getElementById("testyfull");
     var fullicon = document.getElementById("fullicon");
     var controls = document.getElementById("controls");
+    var seekthumb = document.getElementById("seekthumbnail");
+    var seekthumbimage = document.getElementById("seekthumbnailimage");
+    var seekthumbtime = document.getElementById("seekthumbnailtime");
 
     var speedsmap = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
     var speeds = document.querySelectorAll("#playbackspeed li");
@@ -159,6 +162,37 @@ window.onload = function () {
                     video.currentTime = ((e.clientX - this.getBoundingClientRect().left) / 1280) * video.duration;
                 }
             }
+        }
+    });
+
+    seekback.addEventListener("mouseover", function (e) {
+        this.onmousemove = function (e) {
+            var amt = 0;
+            var fullscr = false;
+            if (document.fullscreenElement ||
+                document.webkitFullscreenElement ||
+                document.mozFullScreenElement ||
+                document.msFullscreenElement) {
+                fullscr = true;
+            }
+            if (fullscr) {
+                amt = (e.clientX / screen.width) * 100;
+                seekthumbtime.innerHTML = formatTime(amt / 100 * video.duration) + "";
+                var test = (64 / screen.width) * 100;
+                if (amt > 100 - test) amt = 100 - test;
+                if (amt < test) amt = test;
+                amt -= test;
+            }
+            else {
+                amt = ((e.clientX - this.getBoundingClientRect().left) / 1280) * 100;
+                seekthumbtime.innerHTML = formatTime(amt / 100 * video.duration) + "";
+                amt -= 5;
+                if (amt > 90)
+                    amt = 90;
+                if (amt < 0)
+                    amt = 0;
+            }
+            seekthumb.style.left = amt + "%";
         }
     });
 

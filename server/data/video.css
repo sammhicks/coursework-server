@@ -150,6 +150,27 @@ video::-webkit-media-controls-enclosure {
     transition: opacity 0.2s ease-in-out 0.1s;
 }
 
+.video-seek-thumbnail {
+    position: absolute;
+    bottom: 50px;
+    height: 150px;
+    width: 128px;
+    left: 100%;
+    background-color: #1c2f2f;
+    text-align: center;
+}
+
+.video-seek-thumbnail-image {
+    height: 128px;
+    width: 128px;
+    background-color: darkblue;
+}
+
+.video-seek-thumbnail-time {
+    height: 128px;
+    width: 128px;
+}
+
 .video-controls-seek:hover + .video-controls-seek div::before, .video-controls-seek:hover div::before {
     opacity: 1;
 }
