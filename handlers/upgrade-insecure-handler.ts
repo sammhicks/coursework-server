@@ -1,4 +1,3 @@
-import { Error } from "./error";
 import { Handler } from "./handler";
 import * as httpStatus from "http-status-codes";
 import { Request } from "../request";

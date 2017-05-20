@@ -2,12 +2,12 @@ import * as requestPromise from "request-promise-native"
 import * as sqlite3 from "sqlite3";
 import * as url from "url";
 
-import { Interface } from "./database";
+import { Inserter } from "./database";
 import { Domain, Mixtape, Streamable } from "./domains";
 import { hasListing, hasLink, HasLink, Link, Listing, Thing } from "./reddit";
 import { Video } from "./video";
 
-import { Database } from "../../promises";
+import { Database } from "../../promises/sqlite3";
 
 const domains: Domain[] = [new Mixtape(), new Streamable()];
 
@@ -30,9 +30,9 @@ export function crawl(database: Database, after?: string) {
                 }
             })).then(function handleResults(videos) {
                 return database.serialize(function action(sqliteDatabase: sqlite3.Database) {
-                    const databaseInterface = new Interface(sqliteDatabase);
+                    const videoInserter = new Inserter(sqliteDatabase);
 
-                    videos.forEach(video => databaseInterface.insert(video));
+                    videos.forEach(video => videoInserter.insert(video));
 
                     if (thing.data.after != null) {
                         setTimeout(() => crawl(database, thing.data.after), 1000);

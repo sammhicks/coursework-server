@@ -4,7 +4,7 @@ import * as requestPromise from "request-promise-native";
 import { StatusCodeError } from "request-promise-native/errors"
 
 import { Domain } from "./domain";
-import { createDelay } from "../../../promises";
+import { createDelay } from "../../../promises/delay";
 import { HasLink } from "../reddit";
 import { Video as CrawledVideo } from "../video";
 

@@ -2,7 +2,7 @@ import { Element, Literal, String } from "../../html";
 import { HTMLHandler, LeafHandler } from "../../handlers";
 import { Page } from "./page";
 
-var header = new Element("div", { class: "header", id: "header" }, [
+const header = new Element("div", { class: "header", id: "header" }, [
     new Element("h1", { class: "title" }, [
         new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", id: "logopos1" }), ,
         new String("Ball To Hand")
@@ -11,9 +11,9 @@ var header = new Element("div", { class: "header", id: "header" }, [
     new Element("p", {}, [new String("Welcome to the hub of football media")])
 ]);
 
-var spacer = new Element("div", { class: "spacer" }, []);
+const spacer = new Element("div", { class: "spacer" }, []);
 
-var search = new Element("div", { class: "searchModulesContainer", id: "searchModulesContainer" }, [
+const search = new Element("div", { class: "searchModulesContainer", id: "searchModulesContainer" }, [
     new Element("ul", { class: "searchModule", id: "searchModule" }, [
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
@@ -82,11 +82,11 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
     ])
 ]);
 
-var latestGoal = new Element("p", {}, [
+const latestGoal = new Element("p", {}, [
     new String("Latest goal from around the world")
 ])
 
-var video = (url: string) => new Element("div", { class: "video-wrapper" }, [
+const video = (url: string) => new Element("div", { class: "video-wrapper" }, [
     new Element("div", { class: "video-player-wrapper", tabindex: "0" }, [
         new Element("div", {}, [
             new Element("div", { class: "video-container", id: "testyfull" }, [
@@ -169,7 +169,7 @@ var video = (url: string) => new Element("div", { class: "video-wrapper" }, [
     ])
 ])
 
-var homePage = new Page("", [], [], new Element("div", { class: "homepageContent", id: "homepageContent" }, [
+const homePage = new Page("", [], [], new Element("div", { class: "homepageContent", id: "homepageContent" }, [
     header,
     spacer,
     search,
@@ -177,4 +177,4 @@ var homePage = new Page("", [], [], new Element("div", { class: "homepageContent
     video("https://u.nya.is/oobaxw.mp4")
 ]));
 
-export var home = new LeafHandler(new HTMLHandler(homePage));
+export const home = new LeafHandler(new HTMLHandler(homePage));

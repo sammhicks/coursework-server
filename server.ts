@@ -1,7 +1,7 @@
 ﻿"use strict";
 
 import { handlers } from "./server/html-handlers";
-import { Error, ErrorHandler, Handler, HTMLHandler, LeafHandler, UpgradeInsecure } from "./handlers";
+import { HandlerError, ErrorHandler, Handler, HTMLHandler, LeafHandler, UpgradeInsecure } from "./handlers";
 import * as fs from "fs"
 import { IncomingMessage, ServerResponse, createServer as createHttpServer } from "http";
 import { createServer as createHttpsServer, ServerOptions as HttpsServerOptions } from "https";
@@ -10,25 +10,32 @@ import * as path from "path";
 import { Crawler } from "./crawler";
 import { Request } from "./request";
 
-import { Database, DatabaseMode } from "./promises";
+import { Database, Mode as DatabaseMode } from "./promises/sqlite3";
 import { crawl as crawlReddit } from "./server/database/reddit-crawler";
+import { Fetcher } from "./server/database/database";
+import { VideosAPIHandler } from "./server/database/handlers";
 
 const insecurePort: number = process.env.PORT || 8080;
 const securePort: number = process.env.SECUREPORT || 443;
-
-const crawledHandler = new Crawler().crawl("server/data", { namedHandlers: { home: handlers.home } });
-
-const upgradeInsecureHandler = new UpgradeInsecure(crawledHandler, securePort);
-
-const errorHandler = new ErrorHandler(upgradeInsecureHandler, (error: Error) => Handler.handleError(error.request, error.errorCode));
 
 const databasePromise = new Database().open("server/database/database.sqlite3", DatabaseMode.readwrite).then(function handleDatabaseOpen(database: Database) {
   console.log("Database open");
   return database;
 }, function handleDatabaseError(error: Error) {
   console.error("Failed to open database: ", error);
-  return error;
+  throw error;
 });
+
+const crawledHandler = new Crawler().crawl("server/data", {
+  namedHandlers: {
+    home: handlers.home,
+    videos: new VideosAPIHandler(new Fetcher(databasePromise))
+  }
+});
+
+const upgradeInsecureHandler = new UpgradeInsecure(crawledHandler, securePort);
+
+const errorHandler = new ErrorHandler(upgradeInsecureHandler, Handler.handleError);
 
 const insecureServer = createHttpServer(function requestListener(request: IncomingMessage, response: ServerResponse) {
   errorHandler.handleRequest(new Request(request, response, false));

@@ -1,5 +1,4 @@
-﻿import { Error } from "./error";
-import { ETagHandler } from "./etag";
+﻿import { ETagHandler } from "./etag";
 import * as fs from "fs";
 import { Handler } from "./handler";
 import * as httpStatus from "http-status-codes";
@@ -37,18 +36,21 @@ export class FileHandler extends Handler {
   }
 
   handleRequest(request: Request): Promise<void> {
-    if (this.eTagHandler.tryHandle(request)) {
-      return Promise.resolve();
-    } else {
-      request.response.setHeader("Content-Type", mimeTypes[path.extname(this.serverPath)]);
-      request.response.setHeader("Content-Length", this.length.toString(10));
-      request.response.setHeader("Cache-Control", "public, must-revalidate");
+    const self = this;
+    return new Promise<void>(function executor(resolve, reject) {
+      if (self.eTagHandler.tryHandle(request)) {
+        resolve();
+      } else {
+        request.response.writeHead(httpStatus.OK, httpStatus.getStatusText(httpStatus.OK), {
+          "Content-Type": mimeTypes[path.extname(self.serverPath)],
+          "Content-Length": self.length.toString(10),
+          "Cache-Control": "public, must-revalidate"
+        });
 
-      request.response.writeHead(httpStatus.OK);
+        request.response.on("finish", resolve);
 
-      request.response.end(fs.readFileSync(this.serverPath));
-
-      return Promise.resolve();
-    }
+        fs.createReadStream(self.serverPath).pipe(request.response);
+      }
+    });
   }
 }
