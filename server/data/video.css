@@ -456,12 +456,13 @@ video::-webkit-media-controls-enclosure {
     margin: 4px 4px;
     font-size: 13px;
     display: inline-block;
-    padding: 2px 5px;
+    padding: 2px 5px 2px 23px;
     border-width: 2px;
     border-style: solid;
     border-radius: 5px;
     vertical-align: middle;
     font-weight: bold;
+    position: relative;
 }
 
 .tag-team{
@@ -487,4 +488,33 @@ video::-webkit-media-controls-enclosure {
 .tag-country{
     border-color: #004b83;
     background-color: #004b83;
+}
+
+.tag-team::before, .tag-player::before, .tag-comp::before, .tag-media::before, .tag-country::before{
+    font-family: FontAwesome;
+    font-size: 13px;
+    left: 4px;
+    position: absolute;
+    top: 3px;
+}
+
+.tag-team::before{
+    content: "\f132";
+}
+
+.tag-player::before{
+    content: "\f007";
+}
+
+.tag-comp::before{
+    content: "\f091";
+}
+
+.tag-media::before{
+    content: "\f144";
+    /*content: "\f152";*/
+}
+
+.tag-country::before{
+    content: "\f024";
 }
