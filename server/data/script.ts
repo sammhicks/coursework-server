@@ -48,11 +48,11 @@ window.onload = function () {
     var seekthumb = document.getElementById("seekthumbnail");
     var seekthumbimage = <HTMLVideoElement>(document.getElementById("seekthumbnailimage"));
     var seekthumbtime = document.getElementById("seekthumbnailtime");
+    var seekthumbarrow = document.getElementById("seekthumbarrow");
     var vidmainiconplay = document.getElementById("vidmainiconplay");
     var vidmainiconplayicon = document.getElementById("vidmainiconplayicon");
     var vidmainiconbuffer = document.getElementById("vidmainiconbuffer");
 
-    var seekbackpos = seekback.getBoundingClientRect().left;
     var time = 0;
     var once = true;
     var fullscr = false;
@@ -182,14 +182,14 @@ window.onload = function () {
                 video.currentTime = (e.clientX / screen.width) * video.duration;
             }
             else {
-                video.currentTime = ((e.clientX - seekbackpos) / 1280) * video.duration;
+                video.currentTime = ((e.clientX - seekback.getBoundingClientRect().left) / 1280) * video.duration;
             }
             document.addEventListener("mousemove", function mouseMove(e) {
                 if (fullscr) {
                     time = (e.clientX / screen.width) * video.duration;
                 }
                 else {
-                    time = ((e.clientX - seekbackpos) / 1280) * video.duration;
+                    time = ((e.clientX - seekback.getBoundingClientRect().left) / 1280) * video.duration;
                 }
                 time = clamp(time, 0, video.duration);
                 if (Math.abs(video.currentTime - time) > (video.duration * 0.02)) {
@@ -246,25 +246,43 @@ window.onload = function () {
 
     function thumbMove(e: MouseEvent) {
         var amt = 0;
+        var arrowoffset = 0;
         if (fullscr) {
             amt = (e.clientX / screen.width) * 100;
             seekthumbtime.innerHTML = formatTime(amt / 100 * video.duration) + "";
             seekthumbimage.currentTime = amt / 100 * video.duration;
             var test = (128 / screen.width) * 100;
-            amt = clamp(amt, test, 100 - test);
+            if (amt < test) {
+                arrowoffset = -((test - amt) * 50 / test);
+                amt = test;
+            }
+            if (amt > 100 - test) {
+                arrowoffset = (test - (100 - amt)) * 50 / test;
+                amt = 100 - test;
+            }
+            //amt = clamp(amt, test, 100 - test);
             amt -= test;
         }
         else {
-            amt = ((e.clientX - seekbackpos) / 1280) * 100;
+            amt = ((e.clientX - seekback.getBoundingClientRect().left) / 1280) * 100;
             if (amt < 0) amt = 0;
             seekthumbtime.innerHTML = formatTime(amt / 100 * video.duration) + "";
             seekthumbimage.currentTime = amt / 100 * video.duration;
             var test = 128 / 1280 * 100;
-            amt = clamp(amt, test, 100 - test);
+            if (amt < test) {
+                arrowoffset = -((test - amt) * 50 / test);
+                amt = test;
+            }
+            if (amt > 100 - test) {
+                arrowoffset = (test - (100 - amt)) * 50 / test;
+                amt = 100 - test;
+            }
+            //amt = clamp(amt, test, 100 - test);
             amt -= test;
         }
         seekthumb.style.left = amt + "%";
         seekthumb.style.opacity = "1";
+        seekthumbarrow.style.left = (50 + arrowoffset) + "%";
     }
 
     seekback.addEventListener("mouseout", function (e) {

@@ -185,7 +185,6 @@ video::-webkit-media-controls-enclosure {
 }
 
 .video-seek-thumbnail-arrow {
-    content: " ";
     top:100%;
     left:50%;
     position: absolute;
