@@ -48,6 +48,9 @@ window.onload = function () {
     var seekthumb = document.getElementById("seekthumbnail");
     var seekthumbimage = <HTMLVideoElement>(document.getElementById("seekthumbnailimage"));
     var seekthumbtime = document.getElementById("seekthumbnailtime");
+    var vidmainiconplay = document.getElementById("vidmainiconplay");
+    var vidmainiconplayicon = document.getElementById("vidmainiconplayicon");
+    var vidmainiconbuffer = document.getElementById("vidmainiconbuffer");
 
     seekthumbimage.src = video.currentSrc;
     var seekbackpos = seekback.getBoundingClientRect().left;
@@ -119,24 +122,43 @@ window.onload = function () {
                 settings.style.webkitTransform = "rotate(12deg)";
             }
             if (video.paused) {
+                //vidmainiconicon.className = "fa fa-pause";
+                //vidmainicon.style.opacity = "0";
                 video.play();
             }
             else {
+                //vidmainiconicon.className = "fa fa-play";
+                //vidmainicon.style.opacity = "1";
                 video.pause();
             }
         }
     });
 
+    video.addEventListener("waiting", function () {
+        vidmainiconbuffer.style.webkitAnimationPlayState = "running";
+        vidmainiconplay.style.opacity = "0";
+        vidmainiconbuffer.style.opacity = "1";
+    })
+
     video.addEventListener('ended', function () {
         playicon.className = "fa fa-play";
+        vidmainiconbuffer.style.opacity = "0";
+        vidmainiconplay.style.opacity = "1";
+        vidmainiconbuffer.style.webkitAnimationPlayState = "paused";
     });
 
     video.addEventListener('playing', function () {
         playicon.className = "fa fa-pause";
+        vidmainiconplay.style.opacity = "0";
+        vidmainiconbuffer.style.opacity = "0";
+        vidmainiconbuffer.style.webkitAnimationPlayState = "paused";
     });
 
     video.addEventListener('pause', function () {
         playicon.className = "fa fa-play";
+        vidmainiconbuffer.style.opacity = "0";
+        vidmainiconplay.style.opacity = "1";
+        vidmainiconbuffer.style.webkitAnimationPlayState = "paused";
     });
 
     document.addEventListener("mousedown", function (e) {
