@@ -184,15 +184,15 @@ video::-webkit-media-controls-enclosure {
     position: relative;
 }
 
-.video-seek-thumbnail-time::after {
+.video-seek-thumbnail-arrow {
     content: " ";
+    top:100%;
+    left:50%;
     position: absolute;
-    left: 50%;
     border-width: 10px;
     border-style: solid;
     border-color: #1c2f2f transparent transparent transparent;
     margin-left: -10px;
-    top:118%
 }
 
 .video-controls-seek:hover + .video-controls-seek div::before, .video-controls-seek:hover div::before {

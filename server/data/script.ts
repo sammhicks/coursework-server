@@ -52,7 +52,6 @@ window.onload = function () {
     var vidmainiconplayicon = document.getElementById("vidmainiconplayicon");
     var vidmainiconbuffer = document.getElementById("vidmainiconbuffer");
 
-    seekthumbimage.src = video.currentSrc;
     var seekbackpos = seekback.getBoundingClientRect().left;
     var time = 0;
     var once = true;
