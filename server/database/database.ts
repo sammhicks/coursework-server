@@ -7,7 +7,7 @@ export class Inserter {
     statement: SqliteStatement;
 
     constructor(private database: SqliteDatabase) {
-        this.statement = database.prepare('INSERT INTO "videos" ("source_id", "reddit_id", "creation_time", "title", "url") VALUES ((SELECT "id" FROM "sources" WHERE "domain"=$domain), $rid, $creation_time, $title, $url)');
+        this.statement = database.prepare("INSERT INTO videos (source_id, reddit_id, creation_time, title, url) VALUES ((SELECT id FROM sources WHERE domain=$domain), $rid, $creation_time, $title, $url)");
     }
 
     insert(video: Video): void {
@@ -32,7 +32,7 @@ export class Fetcher {
 
     constructor(database: Promise<Database>) {
         this.allVideosStatement = database.then(function prepareStatement(database: Database) {
-            return database.prepare('SELECT * from "videos"');
+            return database.prepare("SELECT sources.domain, videos.creation_time, videos.title, videos.url FROM sources JOIN videos WHERE sources.id = videos.source_id ORDER BY videos.creation_time DESC");
         }).catch(function handleError(error: Error) {
             console.error("Failed to prepare All Videos Statement:", error.message);
         });
