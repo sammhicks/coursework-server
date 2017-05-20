@@ -132,6 +132,12 @@ video::-webkit-media-controls-enclosure {
     height: 6px;
 }
 
+.video-controls-seek:hover{
+    height: 26px;
+    top: -20px;
+    margin-bottom: -20px;
+}
+
 .video-controls-seek div {
     width: 0%;
     background-color: darkorange;
@@ -154,7 +160,7 @@ video::-webkit-media-controls-enclosure {
 .video-seek-thumbnail {
     opacity: 0;
     position: absolute;
-    bottom: 55px;
+    bottom: 75px;
     height: 170px;
     width: 256px;
     left: 100%;
