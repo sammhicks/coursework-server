@@ -87,6 +87,34 @@ var latestGoal = new Element("p", {}, [
 ])
 
 var video = (url: string) => new Element("div", { class: "video-wrapper" }, [
+    new Element("div", { class: "video-info-wrapper", id: "videoinfo" }, [
+        new Element("span", { class: "video-title", id: "videotitle" }, [
+            new String("Eden Hazard Goal Chelsea 2-0 Arsenal")
+        ]),
+        new Element("span", { class: "video-date", id: "videodate" }, [
+            new String("20-05-2017")
+        ]),
+        new Element("span", { class: "video-tags", id: "videotags" }, [
+            new String("Tags"),
+            new Element("ul", {}, [
+                new Element("li", { class: "tag-team" }, [
+                    new String("CHELSEA")
+                ]),
+                new Element("li", { class: "tag-player" }, [
+                    new String("EDEN HAZARD")
+                ]),
+                new Element("li", { class: "tag-comp" }, [
+                    new String("PREMIERSHIP")
+                ]),
+                new Element("li", { class: "tag-country" }, [
+                    new String("ENGLAND")
+                ]),
+                new Element("li", { class: "tag-media" }, [
+                    new String("VIDEO")
+                ])
+            ])
+        ])
+    ]),
     new Element("div", { class: "video-player-wrapper", tabindex: "0" }, [
         new Element("div", {}, [
             new Element("div", { class: "video-container", id: "testyfull" }, [

@@ -407,3 +407,84 @@ video::-webkit-media-controls-enclosure {
     transform: rotate(360deg);
   }
 }
+
+.video-info-wrapper{
+    margin: auto;
+    width: 1200px;
+}
+
+.video-title{
+    display: block;
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.video-date{
+    display: block;
+    float: right;
+    font-size: 12px;
+    color: #ffe8cc;
+}
+
+.video-tags{
+    display: block;
+    width: 100%;
+    color: #ffe8cc;
+    font-size: 18px;
+    margin: 3px 0px 10px 30px;
+    position: relative;
+}
+
+.video-tags::before {
+    font-family: FontAwesome;
+    font-size: 18px;
+    left: -25px;
+    position: absolute;
+    top: 6px;
+    content: "\f02c";
+}
+
+.video-tags ul{
+    display: inline;
+    list-style-type: none;
+    padding: 3px;
+    overflow: auto;
+    text-align: center;
+}
+
+.video-tags ul li{
+    margin: 4px 4px;
+    font-size: 13px;
+    display: inline-block;
+    padding: 2px 5px;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 5px;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.tag-team{
+    border-color: #980000;
+    background-color: #980000;
+}
+
+.tag-player{
+    border-color: #4c004c;
+    background-color: #4c004c;
+}
+
+.tag-comp{
+    border-color: #a77f03;
+    background-color: #a77f03;
+}
+
+.tag-media{
+    border-color: #0c8900;
+    background-color: #0c8900;
+}
+
+.tag-country{
+    border-color: #004b83;
+    background-color: #004b83;
+}
