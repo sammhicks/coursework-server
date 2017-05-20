@@ -89,7 +89,7 @@ var latestGoal = new Element("p", {}, [
 var video = (url: string) => new Element("div", { class: "video-wrapper" }, [
     new Element("div", { class: "video-info-wrapper", id: "videoinfo" }, [
         new Element("span", { class: "video-title", id: "videotitle" }, [
-            new String("Eden Hazard Goal Chelsea 2-0 Arsenal")
+            new String("Eden Hazard Goal Chelsea 2-0 Arsenal This Title Is Long Enough For 2 Lines")
         ]),
         new Element("span", { class: "video-date", id: "videodate" }, [
             new String("20-05-2017")

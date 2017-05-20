@@ -165,6 +165,7 @@ video::-webkit-media-controls-enclosure {
     -khtml-user-select: none;
     -webkit-user-select: none;
     -o-user-select: none;
+    pointer-events: none;
 }
 
 .video-seek-thumbnail-image {
