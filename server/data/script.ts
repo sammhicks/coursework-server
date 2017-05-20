@@ -28,8 +28,6 @@ function clamp(input: number, min: number, max: number) {
 }
 
 window.onload = function () {
-
-    var body = document.body;
     // Video
     var video = <HTMLVideoElement>(document.getElementById("myvideo"));
 
@@ -56,6 +54,7 @@ window.onload = function () {
     var time = 0;
     var once = true;
     var fullscr = false;
+    var mousedown = false;
 
     var speedsmap = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
     var speeds = document.querySelectorAll("#playbackspeed li");
@@ -92,7 +91,9 @@ window.onload = function () {
 
     var settings = document.getElementById("settings");
     var settingsmenu = document.getElementById("settingsmenu");
-    settingsmenu.style.visibility = "hidden"
+    settingsmenu.style.visibility = "hidden";
+    settings.style.transform = "rotate(12deg);";
+    settings.style.webkitTransform = "rotate(12deg)";
     settings.addEventListener("click", function () {
         if (settingsmenu.style.visibility == "hidden") {
             this.style.transform = "rotate(0deg);";
@@ -110,12 +111,19 @@ window.onload = function () {
         e.stopPropagation();
     });
 
-    video.addEventListener("mousedown", function () {
-        if (video.paused) {
-            video.play();
-        }
-        else {
-            video.pause();
+    video.addEventListener("mousedown", function (e) {
+        if (e.button === 0) {
+            if (settingsmenu.style.visibility === "visible") {
+                settingsmenu.style.visibility = "hidden";
+                settings.style.transform = "rotate(12deg);";
+                settings.style.webkitTransform = "rotate(12deg)";
+            }
+            if (video.paused) {
+                video.play();
+            }
+            else {
+                video.pause();
+            }
         }
     });
 
@@ -131,38 +139,63 @@ window.onload = function () {
         playicon.className = "fa fa-play";
     });
 
+    document.addEventListener("mousedown", function (e) {
+        if (e.button === 0) {
+            mousedown = true;
+        }
+    });
+
+    document.addEventListener("mouseup", function (e) {
+        mousedown = false;
+    })
+
+    document.addEventListener("mouseleave", function (e) {
+        mousedown = false;
+    })
+
     seekback.addEventListener("mousedown", function (e) {
-        video.pause();
-        if (fullscr) {
-            video.currentTime = (e.clientX / screen.width) * video.duration;
-        }
-        else {
-            video.currentTime = ((e.clientX - seekbackpos) / 1280) * video.duration;
-        }
-        body.addEventListener("mousemove", function mouseMove(e) {
+        e.preventDefault();
+        if (e.button === 0) {
+            video.pause();
             if (fullscr) {
-                time = (e.clientX / screen.width) * video.duration;
+                video.currentTime = (e.clientX / screen.width) * video.duration;
             }
             else {
-                time = ((e.clientX - seekbackpos) / 1280) * video.duration;
+                video.currentTime = ((e.clientX - seekbackpos) / 1280) * video.duration;
             }
-            time = clamp(time, 0, video.duration);
-            seek.style.width = ((time / video.duration) * 100) + "%";
-            if (Math.abs(video.currentTime - time) > (video.duration * 0.05)) {
-                video.currentTime = time;
-            }
-            thumbMove(e);
-            if (once) {
-                once = false;
-                body.addEventListener("mouseup", function mouseUp(e) {
-                    once = true;
+            document.addEventListener("mousemove", function mouseMove(e) {
+                if (fullscr) {
+                    time = (e.clientX / screen.width) * video.duration;
+                }
+                else {
+                    time = ((e.clientX - seekbackpos) / 1280) * video.duration;
+                }
+                time = clamp(time, 0, video.duration);
+                if (Math.abs(video.currentTime - time) > (video.duration * 0.02)) {
                     video.currentTime = time;
-                    video.play();
-                    body.removeEventListener("mousemove", mouseMove);
-                    body.removeEventListener("mouseup", mouseUp);
-                });
-            }
-        });
+                }
+                seek.style.width = ((time / video.duration) * 100) + "%";
+                thumbMove(e);
+                if (once) {
+                    once = false;
+                    document.addEventListener("mouseup", function mouseUp(e) {
+                        once = true;
+                        document.removeEventListener("mousemove", mouseMove);
+                        document.removeEventListener("mouseup", mouseUp);
+                        video.currentTime = time;
+                        video.play();
+                        seekthumb.style.opacity = "0";
+                    });
+                    document.addEventListener("mouseleave", function mouseExit(e) {
+                        document.removeEventListener("mousemove", mouseMove);
+                        document.removeEventListener("mouseleave", mouseExit);
+                        video.currentTime = time;
+                        video.play();
+                        seekthumb.style.opacity = "0";
+                    });
+                }
+            });
+        }
     });
 
     seekback.addEventListener("mousemove", () => thumbMove(event as MouseEvent));/*function (e) {
@@ -210,11 +243,11 @@ window.onload = function () {
             amt -= test;
         }
         seekthumb.style.left = amt + "%";
-        seekthumb.style.opacity = 1 + "";
+        seekthumb.style.opacity = "1";
     }
 
     seekback.addEventListener("mouseout", function (e) {
-        seekthumb.style.opacity = 0 + "";
+        seekthumb.style.opacity = "0";
     })
 
     play.addEventListener("click", function () {
@@ -249,7 +282,7 @@ window.onload = function () {
 
         this.onmousemove = function (e) {
             posx = clamp(e.clientX - this.getBoundingClientRect().left, 0, 100);
-            //if (down) video.volume = posx / 100;
+            if (mousedown) video.volume = posx / 100;
         }
     });
 

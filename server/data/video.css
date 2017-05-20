@@ -171,6 +171,11 @@ video::-webkit-media-controls-enclosure {
     height: 144px;
     width: 100%;
     background-color: darkblue;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
 }
 
 .video-seek-thumbnail-time {
@@ -199,6 +204,11 @@ video::-webkit-media-controls-enclosure {
     font-size: 12px;
     color: #6d8383;
     cursor: default;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
 }
 
 .video-controls-time div {
