@@ -15,7 +15,7 @@ export abstract class Handler {
 
     request.response.setHeader("Content-Type", "text/plain; charset=UTF-8");
 
-    request.response.writeHead(error.errorCode);
+    request.response.writeHead(error.errorCode, httpStatus.getStatusText(error.errorCode));
 
     request.response.end(httpStatus.getStatusText(error.errorCode) + os.EOL);
 

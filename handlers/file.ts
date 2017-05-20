@@ -41,11 +41,12 @@ export class FileHandler extends Handler {
       if (self.eTagHandler.tryHandle(request)) {
         resolve();
       } else {
-        request.response.writeHead(httpStatus.OK, httpStatus.getStatusText(httpStatus.OK), {
-          "Content-Type": mimeTypes[path.extname(self.serverPath)],
-          "Content-Length": self.length.toString(10),
-          "Cache-Control": "public, must-revalidate"
-        });
+        request.response.setHeader("Content-Type", mimeTypes[path.extname(self.serverPath)]);
+        request.response.setHeader("Content-Length", self.length.toString(10));
+        request.response.setHeader("Cache-Control", "public, must-revalidate");
+
+        const status = httpStatus.OK;
+        request.response.writeHead(status, httpStatus.getStatusText(status));
 
         request.response.on("finish", resolve);
 
