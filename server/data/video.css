@@ -159,6 +159,11 @@ video::-webkit-media-controls-enclosure {
     left: 100%;
     background-color: #1c2f2f;
     text-align: center;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
 }
 
 .video-seek-thumbnail-image {

@@ -29,6 +29,7 @@ function clamp(input: number, min: number, max: number) {
 
 window.onload = function () {
 
+    var body = document.body;
     // Video
     var video = <HTMLVideoElement>(document.getElementById("myvideo"));
 
@@ -51,6 +52,10 @@ window.onload = function () {
     var seekthumbtime = document.getElementById("seekthumbnailtime");
 
     seekthumbimage.src = video.currentSrc;
+    var seekbackpos = seekback.getBoundingClientRect().left;
+    var time = 0;
+    var once = true;
+    var fullscr = false;
 
     var speedsmap = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
     var speeds = document.querySelectorAll("#playbackspeed li");
@@ -105,15 +110,6 @@ window.onload = function () {
         e.stopPropagation();
     });
 
-    var down = false;
-    document.addEventListener("mousedown", function () {
-        down = true;
-    });
-
-    document.addEventListener("mouseup", function () {
-        down = false;
-    });
-
     video.addEventListener("mousedown", function () {
         if (video.paused) {
             video.play();
@@ -137,53 +133,47 @@ window.onload = function () {
 
     seekback.addEventListener("mousedown", function (e) {
         video.pause();
-        this.onmouseup = function () {
-            video.play();
-        }
-        var fullscr = false;
-        if (
-            document.fullscreenElement ||
-            document.webkitFullscreenElement ||
-            document.mozFullScreenElement ||
-            document.msFullscreenElement
-        ) {
-            fullscr = true;
-        }
         if (fullscr) {
             video.currentTime = (e.clientX / screen.width) * video.duration;
         }
         else {
-            video.currentTime = ((e.clientX - this.getBoundingClientRect().left) / 1280) * video.duration;
+            video.currentTime = ((e.clientX - seekbackpos) / 1280) * video.duration;
         }
-        this.onmousemove = function (e) {
-            if (down) {
-                if (fullscr) {
-                    video.currentTime = (e.clientX / screen.width) * video.duration;
-                }
-                else {
-                    video.currentTime = ((e.clientX - this.getBoundingClientRect().left) / 1280) * video.duration;
-                }
+        body.addEventListener("mousemove", function mouseMove(e) {
+            if (fullscr) {
+                time = (e.clientX / screen.width) * video.duration;
             }
-        }
+            else {
+                time = ((e.clientX - seekbackpos) / 1280) * video.duration;
+            }
+            time = clamp(time, 0, video.duration);
+            seek.style.width = ((time / video.duration) * 100) + "%";
+            if (Math.abs(video.currentTime - time) > (video.duration * 0.05)) {
+                video.currentTime = time;
+            }
+            thumbMove(e);
+            if (once) {
+                once = false;
+                body.addEventListener("mouseup", function mouseUp(e) {
+                    once = true;
+                    video.currentTime = time;
+                    video.play();
+                    body.removeEventListener("mousemove", mouseMove);
+                    body.removeEventListener("mouseup", mouseUp);
+                });
+            }
+        });
     });
 
-    seekback.addEventListener("mouseover", function (e) {
+    seekback.addEventListener("mousemove", () => thumbMove(event as MouseEvent));/*function (e) {
         this.onmousemove = function (e) {
             var amt = 0;
-            var fullscr = false;
-            if (document.fullscreenElement ||
-                document.webkitFullscreenElement ||
-                document.mozFullScreenElement ||
-                document.msFullscreenElement) {
-                fullscr = true;
-            }
             if (fullscr) {
                 amt = (e.clientX / screen.width) * 100;
                 seekthumbtime.innerHTML = formatTime(amt / 100 * video.duration) + "";
                 seekthumbimage.currentTime = amt / 100 * video.duration;
                 var test = (128 / screen.width) * 100;
-                if (amt > 100 - test) amt = 100 - test;
-                if (amt < test) amt = test;
+                amt = clamp(amt, test, 100 - test);
                 amt -= test;
             }
             else {
@@ -192,14 +182,36 @@ window.onload = function () {
                 seekthumbtime.innerHTML = formatTime(amt / 100 * video.duration) + "";
                 seekthumbimage.currentTime = amt / 100 * video.duration;
                 var test = 128 / 1280 * 100;
-                if (amt > 100 - test) amt = 100 - test;
-                if (amt < test) amt = test;
+                amt = clamp(amt, test, 100 - test);
                 amt -= test;
             }
             seekthumb.style.left = amt + "%";
             seekthumb.style.opacity = 1 + "";
         }
-    });
+    });*/
+
+    function thumbMove(e: MouseEvent) {
+        var amt = 0;
+        if (fullscr) {
+            amt = (e.clientX / screen.width) * 100;
+            seekthumbtime.innerHTML = formatTime(amt / 100 * video.duration) + "";
+            seekthumbimage.currentTime = amt / 100 * video.duration;
+            var test = (128 / screen.width) * 100;
+            amt = clamp(amt, test, 100 - test);
+            amt -= test;
+        }
+        else {
+            amt = ((e.clientX - seekbackpos) / 1280) * 100;
+            if (amt < 0) amt = 0;
+            seekthumbtime.innerHTML = formatTime(amt / 100 * video.duration) + "";
+            seekthumbimage.currentTime = amt / 100 * video.duration;
+            var test = 128 / 1280 * 100;
+            amt = clamp(amt, test, 100 - test);
+            amt -= test;
+        }
+        seekthumb.style.left = amt + "%";
+        seekthumb.style.opacity = 1 + "";
+    }
 
     seekback.addEventListener("mouseout", function (e) {
         seekthumb.style.opacity = 0 + "";
@@ -237,7 +249,7 @@ window.onload = function () {
 
         this.onmousemove = function (e) {
             posx = clamp(e.clientX - this.getBoundingClientRect().left, 0, 100);
-            if (down) video.volume = posx / 100;
+            //if (down) video.volume = posx / 100;
         }
     });
 
@@ -285,6 +297,7 @@ window.onload = function () {
                 document.msExitFullscreen();
             }
             fullicon.innerHTML = "fullscreen";
+            fullscr = false;
         }
         else {
             if (testyfull.requestFullscreen) {
@@ -297,6 +310,7 @@ window.onload = function () {
                 testyfull.msRequestFullscreen();
             }
             fullicon.innerHTML = "fullscreen_exit";
+            fullscr = true;
         }
     })
 }
