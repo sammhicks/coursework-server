@@ -13,6 +13,7 @@ export abstract class Handler {
       error.errorCode = httpStatus.INTERNAL_SERVER_ERROR;
     }
 
+    request.response.setHeader("Cache-Control", "no-store");
     request.response.setHeader("Content-Type", "text/plain; charset=UTF-8");
 
     request.response.writeHead(error.errorCode, httpStatus.getStatusText(error.errorCode));

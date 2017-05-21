@@ -43,7 +43,6 @@ export class FileHandler extends Handler {
       } else {
         request.response.setHeader("Content-Type", mimeTypes[path.extname(self.serverPath)]);
         request.response.setHeader("Content-Length", self.length.toString(10));
-        request.response.setHeader("Cache-Control", "public, must-revalidate");
 
         const status = httpStatus.OK;
         request.response.writeHead(status, httpStatus.getStatusText(status));
