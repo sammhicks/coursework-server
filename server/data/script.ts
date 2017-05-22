@@ -57,6 +57,8 @@ window.onload = function () {
     var once = true;
     var fullscr = false;
     var mousedown = false;
+    var playstate = false;
+    var vidFocused = false;
 
     var speedsmap = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
     var speeds = document.querySelectorAll("#playbackspeed li");
@@ -113,43 +115,13 @@ window.onload = function () {
         e.stopPropagation();
     });
 
-    /*video.addEventListener("mousedown", function (e) {
-        if (e.button === 0) {
-            if (settingsmenu.style.visibility === "visible") {
-                settingsmenu.style.visibility = "hidden";
-                settings.style.transform = "rotate(12deg);";
-                settings.style.webkitTransform = "rotate(12deg)";
-            }
-            if (video.paused) {
-                //vidmainiconicon.className = "fa fa-pause";
-                //vidmainicon.style.opacity = "0";
-                video.play();
-            }
-            else {
-                //vidmainiconicon.className = "fa fa-play";
-                //vidmainicon.style.opacity = "1";
-                video.pause();
-            }
-        }
-    });*/
-
     var playPauseTimeout: NodeJS.Timer = null;
 
     video.addEventListener("click", function onVideoClick(e) {
         if (playPauseTimeout === null) {
             playPauseTimeout = setTimeout(() => {
                 if (e.button === 0) {
-                    if (settingsmenu.style.visibility === "visible") {
-                        settingsmenu.style.visibility = "hidden";
-                        settings.style.transform = "rotate(12deg);";
-                        settings.style.webkitTransform = "rotate(12deg)";
-                    }
-                    if (video.paused) {
-                        video.play();
-                    }
-                    else {
-                        video.pause();
-                    }
+                    togglePlayPause();
                 }
                 playPauseTimeout = null;
             }, 50);
@@ -209,6 +181,13 @@ window.onload = function () {
     document.addEventListener("mousedown", function (e) {
         if (e.button === 0) {
             mousedown = true;
+            //console.log(isChildOfVideo(e.target as HTMLElement));
+            if (isChildOfVideo(e.target as HTMLElement)) {
+                vidFocused = true;
+            }
+            else {
+                vidFocused = false;
+            }
         }
     });
 
@@ -250,14 +229,14 @@ window.onload = function () {
                         document.removeEventListener("mousemove", mouseMove);
                         document.removeEventListener("mouseup", mouseUp);
                         video.currentTime = time;
-                        video.play();
+                        if (playstate) video.play();
                         seekthumb.style.opacity = "0";
                     });
                     document.addEventListener("mouseleave", function mouseExit(e) {
                         document.removeEventListener("mousemove", mouseMove);
                         document.removeEventListener("mouseleave", mouseExit);
                         video.currentTime = time;
-                        video.play();
+                        if (playstate) video.play();
                         seekthumb.style.opacity = "0";
                     });
                 }
@@ -265,30 +244,7 @@ window.onload = function () {
         }
     });
 
-    seekback.addEventListener("mousemove", () => thumbMove(event as MouseEvent));/*function (e) {
-        this.onmousemove = function (e) {
-            var amt = 0;
-            if (fullscr) {
-                amt = (e.clientX / screen.width) * 100;
-                seekthumbtime.innerHTML = formatTime(amt / 100 * video.duration) + "";
-                seekthumbimage.currentTime = amt / 100 * video.duration;
-                var test = (128 / screen.width) * 100;
-                amt = clamp(amt, test, 100 - test);
-                amt -= test;
-            }
-            else {
-                amt = ((e.clientX - this.getBoundingClientRect().left) / 1280) * 100;
-                if (amt < 0) amt = 0;
-                seekthumbtime.innerHTML = formatTime(amt / 100 * video.duration) + "";
-                seekthumbimage.currentTime = amt / 100 * video.duration;
-                var test = 128 / 1280 * 100;
-                amt = clamp(amt, test, 100 - test);
-                amt -= test;
-            }
-            seekthumb.style.left = amt + "%";
-            seekthumb.style.opacity = 1 + "";
-        }
-    });*/
+    seekback.addEventListener("mousemove", () => thumbMove(event as MouseEvent));
 
     function thumbMove(e: MouseEvent) {
         var amt = 0;
@@ -336,12 +292,7 @@ window.onload = function () {
     })
 
     play.addEventListener("click", function () {
-        if (video.paused) {
-            video.play();
-        }
-        else {
-            video.pause();
-        }
+        togglePlayPause();
     });
 
     currenttime.innerHTML = formatTime(video.currentTime) + "";
@@ -454,4 +405,67 @@ window.onload = function () {
     }
 
     //doc stuff to handle keypress events - the excape one is relevant to vids the others r not
+    document.addEventListener('keydown', function (e) {
+        if (vidFocused) {
+            e.preventDefault();
+            switch (e.keyCode) {
+                //currently flat 4 secs shift - may make percentage or maybe make as an option
+                //left arrow
+                case 37:
+                    video.currentTime = clamp(video.currentTime - 4, 0, video.duration);
+                    break;
+                //right arrow
+                case 39:
+                    video.currentTime = clamp(video.currentTime + 4, 0, video.duration);
+                    break;
+                //space
+                case 32:
+                    togglePlayPause();
+                    break;
+                //up arrow
+                case 38:
+                    video.volume = clamp(video.volume + 0.05, 0, 1);
+                    break;
+                //down arrow
+                case 40:
+                    video.volume = clamp(video.volume - 0.05, 0, 1);
+                    break;
+                //esc - to unfocus video
+                case 27:
+                    vidFocused = false;
+                    break;
+                //f button
+                case 70:
+                    goFullscreen();
+                    break;
+                default: break;
+            }
+        }
+    });
+
+    function togglePlayPause() {
+        if (settingsmenu.style.visibility === "visible") {
+            settingsmenu.style.visibility = "hidden";
+            settings.style.transform = "rotate(12deg);";
+            settings.style.webkitTransform = "rotate(12deg)";
+        }
+        if (video.paused) {
+            video.play();
+            playstate = true;
+        }
+        else {
+            video.pause();
+            playstate = false;
+        }
+    }
+
+    function isChildOfVideo(target: HTMLElement): boolean {
+        if (target.classList.contains("video-player-wrapper")) {
+            return true;
+        } else if (target.parentElement == null) {
+            return false;
+        } else {
+            return isChildOfVideo(target.parentElement);
+        }
+    }
 }
