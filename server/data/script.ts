@@ -113,7 +113,7 @@ window.onload = function () {
         e.stopPropagation();
     });
 
-    video.addEventListener("mousedown", function (e) {
+    /*video.addEventListener("mousedown", function (e) {
         if (e.button === 0) {
             if (settingsmenu.style.visibility === "visible") {
                 settingsmenu.style.visibility = "hidden";
@@ -130,6 +130,49 @@ window.onload = function () {
                 //vidmainicon.style.opacity = "1";
                 video.pause();
             }
+        }
+    });*/
+
+    var playPauseTimeout: NodeJS.Timer = null;
+
+    video.addEventListener("click", function onVideoClick(e) {
+        if (playPauseTimeout === null) {
+            playPauseTimeout = setTimeout(() => {
+                if (e.button === 0) {
+                    if (settingsmenu.style.visibility === "visible") {
+                        settingsmenu.style.visibility = "hidden";
+                        settings.style.transform = "rotate(12deg);";
+                        settings.style.webkitTransform = "rotate(12deg)";
+                    }
+                    if (video.paused) {
+                        video.play();
+                    }
+                    else {
+                        video.pause();
+                    }
+                }
+                playPauseTimeout = null;
+            }, 400);
+        }
+        else {
+            playPauseTimeout = null;
+            clearTimeout(playPauseTimeout);
+        }
+    });
+
+    var mouseMoveCheck: NodeJS.Timer = null;
+
+    video.addEventListener('mousemove', function onVideoMouseMove() {
+        if (fullscr) {
+            if (mouseMoveCheck !== null) {
+                clearTimeout(mouseMoveCheck);
+            }
+            video.style.cursor = "default";
+            controls.style.opacity = "0.8";
+            mouseMoveCheck = setTimeout(() => {
+                video.style.cursor = "none";
+                controls.style.opacity = "0";
+            }, 2000);
         }
     });
 
@@ -159,6 +202,8 @@ window.onload = function () {
         vidmainiconplay.style.opacity = "1";
         vidmainiconbuffer.style.webkitAnimationPlayState = "paused";
     });
+
+    video.addEventListener('dblclick', goFullscreen);
 
     document.addEventListener("mousedown", function (e) {
         if (e.button === 0) {
@@ -350,7 +395,9 @@ window.onload = function () {
     });
     volbar.style.width = 100 * video.volume + "%";
 
-    fullscreen.addEventListener("click", function () {
+    fullscreen.addEventListener("click", goFullscreen);
+
+    function goFullscreen() {
         // are we full-screen?
         if (
             document.fullscreenElement ||
@@ -384,5 +431,5 @@ window.onload = function () {
             fullicon.innerHTML = "fullscreen_exit";
             fullscr = true;
         }
-    })
+    }
 }
