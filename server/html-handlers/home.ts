@@ -111,6 +111,9 @@ var video = (url: string) => new Element("div", { class: "video-wrapper" }, [
                 ]),
                 new Element("li", { class: "tag-media" }, [
                     new String("VIDEO")
+                ]),
+                new Element("li", { class: "tag-source" }, [
+                    new String("STREAMABLE")
                 ])
             ])
         ])

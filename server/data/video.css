@@ -496,7 +496,12 @@ video::-webkit-media-controls-enclosure {
     background-color: #004b83;
 }
 
-.tag-team::before, .tag-player::before, .tag-comp::before, .tag-media::before, .tag-country::before{
+.tag-source{
+    border-color: #171438;
+    background-color: #171438;
+}
+
+.tag-team::before, .tag-player::before, .tag-comp::before, .tag-media::before, .tag-country::before, .tag-source::before{
     font-family: FontAwesome;
     font-size: 13px;
     left: 4px;
@@ -523,4 +528,11 @@ video::-webkit-media-controls-enclosure {
 
 .tag-country::before{
     content: "\f024";
+}
+
+.tag-source::before{
+    /*content: "\f0ac"; globe*/
+    content: "\f093"; upload
+    /*content: "\f15b"; file*/
+    /*content: "\f019"; download*/
 }
