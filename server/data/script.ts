@@ -152,7 +152,7 @@ window.onload = function () {
                     }
                 }
                 playPauseTimeout = null;
-            }, 400);
+            }, 50);
         }
         else {
             playPauseTimeout = null;
@@ -172,6 +172,7 @@ window.onload = function () {
             mouseMoveCheck = setTimeout(() => {
                 video.style.cursor = "none";
                 controls.style.opacity = "0";
+                seekthumb.style.opacity = "0";
             }, 2000);
         }
     });
@@ -399,12 +400,7 @@ window.onload = function () {
 
     function goFullscreen() {
         // are we full-screen?
-        if (
-            document.fullscreenElement ||
-            document.webkitFullscreenElement ||
-            document.mozFullScreenElement ||
-            document.msFullscreenElement
-        ) {
+        if (fullscr) {
             // exit full-screen
             if (document.exitFullscreen) {
                 document.exitFullscreen();
@@ -415,8 +411,6 @@ window.onload = function () {
             } else if (document.msExitFullscreen) {
                 document.msExitFullscreen();
             }
-            fullicon.innerHTML = "fullscreen";
-            fullscr = false;
         }
         else {
             if (testyfull.requestFullscreen) {
@@ -428,8 +422,36 @@ window.onload = function () {
             } else if (testyfull.msRequestFullscreen) {
                 testyfull.msRequestFullscreen();
             }
-            fullicon.innerHTML = "fullscreen_exit";
-            fullscr = true;
         }
     }
+
+    document.addEventListener("webkitfullscreenchange", FullscreenEvent);
+
+    document.addEventListener("mozfullscreenchange", FullscreenEvent);
+
+    document.addEventListener("fullscreenchange", FullscreenEvent);
+
+    document.addEventListener("MSFullscreenChange", FullscreenEvent);
+
+    function FullscreenEvent() {
+        // are we full-screen?
+        if (
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement ||
+            document.msFullscreenElement
+        ) {
+            fullscr = true;
+            fullicon.innerHTML = "fullscreen_exit";
+        }
+        else {
+            clearTimeout(mouseMoveCheck);
+            fullscr = false;
+            fullicon.innerHTML = "fullscreen";
+            video.style.cursor = "default";
+            controls.style.opacity = "";
+        }
+    }
+
+    //doc stuff to handle keypress events - the excape one is relevant to vids the others r not
 }
