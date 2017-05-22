@@ -14,7 +14,7 @@ export class DirectoryHandler extends Handler {
     } else {
       const directoryItem = request.path.shift();
 
-      if (directoryItem in this.contents) {
+      if (directoryItem != undefined && directoryItem in this.contents) {
         return this.contents[directoryItem].handleRequest(request);
       } else {
         return Promise.reject(new HandlerError(httpStatus.NOT_FOUND));

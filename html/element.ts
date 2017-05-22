@@ -20,7 +20,11 @@ export class Element extends Renderable {
     }
 
     private RenderBody(): string {
-        return this.children.map(child => child.Render()).join("") + "</" + this.name + ">";
+        if (this.children === undefined) {
+            return "";
+        } else {
+            return this.children.map(child => child.Render()).join("") + "</" + this.name + ">";
+        }
     }
 
     private static RenderAttribute(name: string, value: string): string {

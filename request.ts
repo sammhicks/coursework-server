@@ -12,7 +12,7 @@ export class Request {
 
     this.requestURL = url.parse(protocol + host + request.url, true);
 
-    this.path = this.requestURL.path.split("/").slice(1);
+    this.path = this.requestURL.path === undefined ? [] : this.requestURL.path.split("/").slice(1);
     this.query = this.requestURL.query;
   }
 }

@@ -77,7 +77,7 @@ export class Statement {
 }
 
 export class Database {
-  database: sqlite3.Database;
+  database: sqlite3.Database | null;
 
   constructor() {
     this.database = null;
@@ -92,65 +92,100 @@ export class Database {
   }
 
   close(): Promise<void> {
-    let database = this.database;
+    if (this.database === null) {
+      return Promise.reject(new Error("datbase is not open"));
+    } else {
+      let database = this.database;
 
-    return new Promise<void>(function executor(resolve, reject) {
-      database.close(handleNullError(resolve, reject));
-    });
+      return new Promise<void>(function executor(resolve, reject) {
+        database.close(handleNullError(resolve, reject));
+      });
+    }
+
   }
 
   run(sql: string, params: {}): Promise<RunResult> {
-    let database = this.database;
+    if (this.database === null) {
+      return Promise.reject(new Error("datbase is not open"));
+    } else {
+      let database = this.database;
 
-    return new Promise<RunResult>(function executor(resolve, reject) {
-      database.run(sql, params, RunResult.handleNullError(resolve, reject));
-    });
+      return new Promise<RunResult>(function executor(resolve, reject) {
+        database.run(sql, params, RunResult.handleNullError(resolve, reject));
+      });
+    }
   }
 
   get(sql: string, params: {}): Promise<any> {
-    let database = this.database;
+    if (this.database === null) {
+      return Promise.reject(new Error("datbase is not open"));
+    } else {
+      let database = this.database;
 
-    return new Promise<any>(function executor(resolve, reject) {
-      database.get(sql, params, handleNullErrorWithResult(resolve, reject));
-    });
+      return new Promise<any>(function executor(resolve, reject) {
+        database.get(sql, params, handleNullErrorWithResult(resolve, reject));
+      });
+    }
   }
 
   all(sql: string, params: {}): Promise<any> {
-    let database = this.database;
+    if (this.database === null) {
+      return Promise.reject(new Error("datbase is not open"));
+    } else {
+      let database = this.database;
 
-    return new Promise<any>(function executor(resolve, reject) {
-      database.all(sql, params, handleNullErrorWithResult(resolve, reject));
-    });
+      return new Promise<any>(function executor(resolve, reject) {
+        database.all(sql, params, handleNullErrorWithResult(resolve, reject));
+      });
+    }
   }
 
   each(sql: string, params: {}, callback: (err: Error, row: any) => void): Promise<number> {
-    let database = this.database;
+    if (this.database === null) {
+      return Promise.reject(new Error("datbase is not open"));
+    } else {
+      let database = this.database;
 
-    return new Promise<number>(function executor(resolve, reject) {
-      database.each(sql, params, callback, handleNullErrorWithResult(resolve, reject));
-    });
+      return new Promise<number>(function executor(resolve, reject) {
+        database.each(sql, params, callback, handleNullErrorWithResult(resolve, reject));
+      });
+    }
   }
 
   prepare(sql: string): Promise<Statement> {
-    let database: sqlite3.Database = this.database;
-    let statement: sqlite3.Statement = null;
+    if (this.database === null) {
+      return Promise.reject(new Error("datbase is not open"));
+    } else {
+      let database: sqlite3.Database = this.database;
+      let statement: sqlite3.Statement | null = null;
 
-    return new Promise<void>(function executor(resolve, reject) {
-      statement = database.prepare(sql, handleNullError(resolve, reject));
-    }).then(() => new Statement(statement));
+      return new Promise<Statement>(function executor(resolve, reject) {
+        statement = database.prepare(sql, handleNullError(resolve, reject));
+      }).then(function returnStatement(): Promise<Statement> {
+        if (statement === null) {
+          return Promise.reject(new Error("Failed to set statement"));
+        } else {
+          return Promise.resolve(new Statement(statement));
+        }
+      });
+    }
   }
 
   serialize<T>(action: ((database: sqlite3.Database) => T)): Promise<T> {
-    const database = this.database;
-    return new Promise<T>(function executor(resolve, reject) {
-      database.serialize(function serializeCallback() {
-        try {
-          resolve(action(database));
-        } catch (error) {
-          reject(error);
-        }
+    if (this.database === null) {
+      return Promise.reject(new Error("datbase is not open"));
+    } else {
+      const database = this.database;
+      return new Promise<T>(function executor(resolve, reject) {
+        database.serialize(function serializeCallback() {
+          try {
+            resolve(action(database));
+          } catch (error) {
+            reject(error);
+          }
+        });
       });
-    });
+    }
   }
 }
 

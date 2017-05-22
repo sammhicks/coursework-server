@@ -10,7 +10,7 @@ export class Inserter {
         this.statement = database.prepare("INSERT INTO videos (source_id, reddit_id, creation_time, title, url) VALUES ((SELECT id FROM sources WHERE domain=$domain), $rid, $creation_time, $title, $url)");
     }
 
-    insert(video: Video): void {
+    insert(video: Video | null): void {
         if (video != null) {
             this.statement.run({
                 $creation_time: video.creationTime,
@@ -44,7 +44,7 @@ export class Fetcher {
                 console.error("Failed to fetch all videos");
             });
         }).catch(function handleError() {
-            return [];
+            return <any[]>[];
         })
     }
 }

@@ -84,7 +84,7 @@ export class Crawler {
 
     for (let namedHandler in contents.namedHandlers) {
       let fileName = contents.namedHandlers[namedHandler];
-      if (fileName in configuration.namedHandlers) {
+      if (configuration.namedHandlers != undefined && fileName in configuration.namedHandlers) {
         directoryHandlers[namedHandler] = configuration.namedHandlers[fileName];
       } else {
         console.error("Cannot find handler for \"", fileName, "\" in \"", serverPath, "\"");

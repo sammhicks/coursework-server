@@ -4,7 +4,7 @@ import { Page } from "./page";
 
 const header = new Element("div", { class: "header", id: "header" }, [
     new Element("h1", { class: "title" }, [
-        new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", id: "logopos1" }), ,
+        new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", id: "logopos1" }),
         new String("Ball To Hand")
     ]),
     new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", id: "logopos2" }),
