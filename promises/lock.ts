@@ -69,3 +69,17 @@ export class Lock {
         }
     }
 }
+
+export class Locked<ResourceType>{
+    private _mutex: Mutex;
+    private _resource: ResourceType;
+
+    constructor(resource: ResourceType) {
+        this._mutex = new Mutex();
+        this._resource = resource;
+    }
+
+    access<OutType>(action: (parameter: ResourceType) => Promise<OutType>): Promise<OutType> {
+        return new Lock(this._mutex).lock<ResourceType, OutType>(action)(this._resource);
+    }
+}

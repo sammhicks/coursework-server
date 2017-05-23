@@ -170,23 +170,6 @@ export class Database {
       });
     }
   }
-
-  serialize<T>(action: ((database: sqlite3.Database) => T)): Promise<T> {
-    if (this.database === null) {
-      return Promise.reject(new Error("datbase is not open"));
-    } else {
-      const database = this.database;
-      return new Promise<T>(function executor(resolve, reject) {
-        database.serialize(function serializeCallback() {
-          try {
-            resolve(action(database));
-          } catch (error) {
-            reject(error);
-          }
-        });
-      });
-    }
-  }
 }
 
 export function open(filename: string, mode?: Mode): Promise<Database> {

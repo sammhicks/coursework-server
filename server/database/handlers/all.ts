@@ -3,16 +3,16 @@ import * as httpStatus from "http-status-codes";
 import { Handler, LeafHandler } from "../../../handlers";
 import { Request } from "../../../request";
 
-import { Fetcher } from "../database";
+import { Interface as DatabaseInterface } from "../database";
 
 export class AllVideosHandler extends LeafHandler {
-    constructor(database: Fetcher) {
+    constructor(database: DatabaseInterface) {
         super(new AllVideosHandlerInner(database));
     }
 }
 
 class AllVideosHandlerInner extends Handler {
-    constructor(private database: Fetcher) {
+    constructor(private database: DatabaseInterface) {
         super();
     }
 

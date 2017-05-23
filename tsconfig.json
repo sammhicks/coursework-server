@@ -5,7 +5,6 @@
         "sourceMap": false,
         "alwaysStrict": true,
         "noImplicitReturns": true,
-        "noImplicitAny": true,
-        "strictNullChecks": true
+        "noImplicitAny": true
     }
 }

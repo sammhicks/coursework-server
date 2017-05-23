@@ -1,7 +1,7 @@
 ﻿"use strict";
 
 import { handlers } from "./server/html-handlers";
-import { HandlerError, ErrorHandler, Handler, HTMLHandler, LeafHandler, UpgradeInsecure } from "./handlers";
+import { HandlerError, ErrorHandler, Handler, HTMLHandler, LeafHandler, PromisedHandler, UpgradeInsecure } from "./handlers";
 import * as fs from "fs"
 import { IncomingMessage, ServerResponse, createServer as createHttpServer } from "http";
 import { createServer as createHttpsServer, ServerOptions as HttpsServerOptions } from "https";
@@ -10,9 +10,10 @@ import * as path from "path";
 import { Crawler } from "./crawler";
 import { Request } from "./request";
 
+import { Locked } from "./promises/lock";
 import { Database, Mode as DatabaseMode } from "./promises/sqlite3";
 import { crawl as crawlReddit } from "./server/database/reddit-crawler";
-import { Fetcher } from "./server/database/database";
+import { Interface as DatabaseInterface } from "./server/database/database";
 import { VideosAPIHandler } from "./server/database/handlers";
 
 const insecurePort: number = process.env.PORT || 8080;
@@ -26,10 +27,14 @@ const databasePromise = new Database().open("server/database/database.sqlite3", 
   throw error;
 });
 
+const databaseInterfacePromise = databasePromise.then(database => new DatabaseInterface(new Locked(database)));
+
+const videosHandler = new PromisedHandler(databaseInterfacePromise.then(database => new VideosAPIHandler(database)));
+
 const crawledHandler = new Crawler().crawl("server/data", {
   namedHandlers: {
     home: handlers.home,
-    videos: new VideosAPIHandler(new Fetcher(databasePromise))
+    videos: videosHandler
   }
 });
 
@@ -64,4 +69,4 @@ secureServer.on("listening", function serverListen() {
 
 secureServer.listen(securePort);
 
-databasePromise.then(crawlReddit);
+databaseInterfacePromise.then(crawlReddit);
