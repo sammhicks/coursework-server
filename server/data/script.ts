@@ -44,7 +44,9 @@ window.onload = function () {
     var volicon = document.getElementById("volicon");
     var seek = document.getElementById("seek");
     var playicon = document.getElementById("playicon");
-    var seekback = document.getElementById("seekback");
+    var seekback = document.getElementById("seekback") as HTMLCanvasElement;
+    var canvaswrap = document.getElementById("canvaswrap");
+    var ctx = seekback.getContext("2d");
     var fullscreen = document.getElementById("fullscreen");
     var testyfull = document.getElementById("testyfull");
     var fullicon = document.getElementById("fullicon");
@@ -56,6 +58,9 @@ window.onload = function () {
     var vidmainiconplay = document.getElementById("vidmainiconplay");
     var vidmainiconplayicon = document.getElementById("vidmainiconplayicon");
     var vidmainiconbuffer = document.getElementById("vidmainiconbuffer");
+    var loop = document.getElementById("playbackloop");
+    var settings = document.getElementById("settings");
+    var settingsmenu = document.getElementById("settingsmenu");
 
     var time = 0;
     var once = true;
@@ -63,6 +68,9 @@ window.onload = function () {
     var mousedown = false;
     var playstate = false;
     var vidFocused = false;
+    var looptoggle = false;
+    var playPauseTimeout: NodeJS.Timer = null;
+    var mouseMoveCheck: NodeJS.Timer = null;
 
     var speedsmap = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
     var speeds = document.querySelectorAll("#playbackspeed li");
@@ -82,9 +90,9 @@ window.onload = function () {
     }
     (<HTMLElement><any>speeds[3]).style.color = "#ffe8cc";
 
-    var looptoggle = false;
-    var loop = document.getElementById("playbackloop");
-    loop.addEventListener("click", function () {
+    loop.addEventListener("click", loopToggle);
+
+    function loopToggle() {
         looptoggle = !looptoggle;
         video.loop = looptoggle;
         if (looptoggle) {
@@ -95,10 +103,8 @@ window.onload = function () {
             this.style.color = "darkorange";
             this.style.backgroundColor = "#172727";
         }
-    });
+    }
 
-    var settings = document.getElementById("settings");
-    var settingsmenu = document.getElementById("settingsmenu");
     settingsmenu.style.visibility = "hidden";
     settings.style.transform = "rotate(12deg);";
     settings.style.webkitTransform = "rotate(12deg)";
@@ -119,8 +125,6 @@ window.onload = function () {
         e.stopPropagation();
     });
 
-    var playPauseTimeout: NodeJS.Timer = null;
-
     video.addEventListener("click", function onVideoClick(e) {
         if (playPauseTimeout === null) {
             playPauseTimeout = setTimeout(() => {
@@ -135,8 +139,6 @@ window.onload = function () {
             clearTimeout(playPauseTimeout);
         }
     });
-
-    var mouseMoveCheck: NodeJS.Timer = null;
 
     video.addEventListener('mousemove', function onVideoMouseMove() {
         if (fullscr) {
@@ -166,11 +168,30 @@ window.onload = function () {
         vidmainiconbuffer.style.webkitAnimationPlayState = "paused";
     });
 
+    seekback.height = 6;
+    seekback.width = 1280;
+    ctx.fillStyle = "#1c2f2f";
+    ctx.fillRect(0, 0, seekback.width, seekback.height);
+    ctx.fillStyle = "#6d8383";
+
+    function drawBuffers() {
+        ctx.fillStyle = "#1c2f2f";
+        ctx.fillRect(0, 0, seekback.width, seekback.height);
+        ctx.fillStyle = "#6d8383";
+        for (i = 0; i < video.buffered.length; i++) {
+            var inc = seekback.width / video.duration;
+            var startX = video.buffered.start(i) * inc;
+            var endX = video.buffered.end(i) * inc;
+            var width = endX - startX;
+            ctx.fillRect(startX, 0, width, seekback.height);
+        }
+    }
     video.addEventListener('playing', function () {
         playicon.className = "fa fa-pause";
         vidmainiconplay.style.opacity = "0";
         vidmainiconbuffer.style.opacity = "0";
         vidmainiconbuffer.style.webkitAnimationPlayState = "paused";
+        drawBuffers();
     });
 
     video.addEventListener('pause', function () {
@@ -182,10 +203,36 @@ window.onload = function () {
 
     video.addEventListener('dblclick', goFullscreen);
 
+    /*video.addEventListener('seeking', function () {
+        //ctx.fillStyle = "#6d8383";
+        for (i = 0; i < video.buffered.length; i++) {
+            //seekback.width = canvaswrap.getBoundingClientRect().width;
+            //seekback.height = canvaswrap.getBoundingClientRect().height;
+            var inc = seekback.width / video.duration;
+            var startX = video.buffered.start(i) * inc;
+            var endX = video.buffered.end(i) * inc;
+            var width = endX - startX;
+            ctx.fillRect(startX, 0, width, seekback.height);
+        }
+
+        /*ctx.fillStyle = "#6d8383";
+        var buffered = video.buffered;
+        var duration = video.duration;
+        var vidwidth = video.width;
+        var height = seekback.height;
+        var x = 0;
+        var width = 0;
+        for (i = 0; i < buffered.length; i++) {
+            console.log(i);
+            x = (buffered.start(i) / duration) * vidwidth;
+            width = ((buffered.start(i) - buffered.end(i)) / duration) * vidwidth;
+            ctx.fillRect(x, 0, width, height);
+        }
+    });*/
+
     document.addEventListener("mousedown", function (e) {
         if (e.button === 0) {
             mousedown = true;
-            //console.log(isChildOfVideo(e.target as HTMLElement));
             if (isChildOfVideo(e.target as HTMLElement)) {
                 vidFocused = true;
             }
@@ -203,52 +250,46 @@ window.onload = function () {
         mousedown = false;
     })
 
-    seekback.addEventListener("mousedown", function (e) {
+    function seekMe(e: MouseEvent) {
+        if (fullscr) {
+            time = (e.clientX / screen.width) * video.duration;
+        }
+        else {
+            time = ((e.clientX - canvaswrap.getBoundingClientRect().left) / video.width) * video.duration;
+        }
+        time = clamp(time, 0, video.duration);
+        if (e.type == "mousedown") {
+            video.currentTime = time;
+        } else {
+            if (Math.abs(video.currentTime - time) > (video.duration * 0.02)) {
+                video.currentTime = time;
+            }
+            thumbMove(e);
+        }
+        seek.style.width = ((time / video.duration) * 100) + "%";
+    }
+
+    function stopSeek() {
+        document.removeEventListener("mousemove", seekMe);
+        document.removeEventListener("mouseup", stopSeek);
+        document.removeEventListener("mouseleave", stopSeek);
+        video.currentTime = time;
+        if (playstate) video.play();
+        seekthumb.style.opacity = "0";
+    }
+
+    canvaswrap.addEventListener("mousedown", function (e) {
         e.preventDefault();
         if (e.button === 0) {
             video.pause();
-            if (fullscr) {
-                video.currentTime = (e.clientX / screen.width) * video.duration;
-            }
-            else {
-                video.currentTime = ((e.clientX - seekback.getBoundingClientRect().left) / 1280) * video.duration;
-            }
-            document.addEventListener("mousemove", function mouseMove(e) {
-                if (fullscr) {
-                    time = (e.clientX / screen.width) * video.duration;
-                }
-                else {
-                    time = ((e.clientX - seekback.getBoundingClientRect().left) / 1280) * video.duration;
-                }
-                time = clamp(time, 0, video.duration);
-                if (Math.abs(video.currentTime - time) > (video.duration * 0.02)) {
-                    video.currentTime = time;
-                }
-                seek.style.width = ((time / video.duration) * 100) + "%";
-                thumbMove(e);
-                if (once) {
-                    once = false;
-                    document.addEventListener("mouseup", function mouseUp(e) {
-                        once = true;
-                        document.removeEventListener("mousemove", mouseMove);
-                        document.removeEventListener("mouseup", mouseUp);
-                        video.currentTime = time;
-                        if (playstate) video.play();
-                        seekthumb.style.opacity = "0";
-                    });
-                    document.addEventListener("mouseleave", function mouseExit(e) {
-                        document.removeEventListener("mousemove", mouseMove);
-                        document.removeEventListener("mouseleave", mouseExit);
-                        video.currentTime = time;
-                        if (playstate) video.play();
-                        seekthumb.style.opacity = "0";
-                    });
-                }
-            });
+            seekMe(e);
+            document.addEventListener("mousemove", seekMe);
+            document.addEventListener("mouseup", stopSeek);
+            document.addEventListener("mouseleave", stopSeek);
         }
     });
 
-    seekback.addEventListener("mousemove", () => thumbMove(event as MouseEvent));
+    canvaswrap.addEventListener("mousemove", thumbMove);
 
     function thumbMove(e: MouseEvent) {
         var amt = 0;
@@ -270,7 +311,7 @@ window.onload = function () {
             amt -= test;
         }
         else {
-            amt = ((e.clientX - seekback.getBoundingClientRect().left) / 1280) * 100;
+            amt = ((e.clientX - canvaswrap.getBoundingClientRect().left) / 1280) * 100;
             if (amt < 0) amt = 0;
             seekthumbtime.innerHTML = formatTime(amt / 100 * video.duration) + "";
             seekthumbimage.currentTime = amt / 100 * video.duration;
@@ -289,9 +330,11 @@ window.onload = function () {
         seekthumb.style.left = amt + "%";
         seekthumb.style.opacity = "1";
         seekthumbarrow.style.left = (50 + arrowoffset) + "%";
+        seekback.height = 26;
+        drawBuffers();
     }
 
-    seekback.addEventListener("mouseout", function (e) {
+    canvaswrap.addEventListener("mouseout", function (e) {
         seekthumb.style.opacity = "0";
     })
 
@@ -395,6 +438,7 @@ window.onload = function () {
         ) {
             fullscr = true;
             fullicon.innerHTML = "fullscreen_exit";
+            seekback.width = screen.width;
         }
         else {
             clearTimeout(mouseMoveCheck);
@@ -402,7 +446,9 @@ window.onload = function () {
             fullicon.innerHTML = "fullscreen";
             video.style.cursor = "default";
             controls.style.opacity = "";
+            seekback.width = 1280;
         }
+        drawBuffers();
     }
 
     //doc stuff to handle keypress events - the excape one is relevant to vids the others r not

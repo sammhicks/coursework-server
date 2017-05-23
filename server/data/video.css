@@ -124,28 +124,40 @@ video::-webkit-media-controls-enclosure {
     /*opacity: 0.8;*/
 }
 
-.video-controls-seek {
+.canvas-wrapper {
     width: 100%;
-    background-color: #6d8383;
     margin: 0;
     padding: 0;
     height: 6px;
+    position: relative;
 }
 
-.video-controls-seek:hover{
+.canvas-wrapper:hover{
     height: 26px;
     top: -20px;
     margin-bottom: -20px;
 }
 
-.video-controls-seek div {
+.video-controls-seek {
+    width: 100%;
+    /*background-color: #6d8383;*/
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:0
+}
+
+.canvas-wrapper div {
     width: 0%;
     background-color: darkorange;
     height: 100%;
     position: relative;
 }
 
-.video-controls-seek div::before {
+.canvas-wrapper div::before {
     content: '\25cf';
     font-size: 30px;
     opacity: 0;
@@ -200,7 +212,7 @@ video::-webkit-media-controls-enclosure {
     margin-left: -10px;
 }
 
-.video-controls-seek:hover + .video-controls-seek div::before, .video-controls-seek:hover div::before {
+.canvas-wrapper:hover + .canvas-wrapper div::before, .canvas-wrapper:hover div::before {
     opacity: 1;
 }
 
@@ -291,7 +303,6 @@ video::-webkit-media-controls-enclosure {
     top: -120px;
     display: block;
     padding-right: 50px;
-
 }
 
 .video-controls-settings-menu ul {
