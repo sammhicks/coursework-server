@@ -2,211 +2,6 @@ interface Navigator {
     webkitGetGamepads?: () => Gamepad[];
 }
 
-var haveEvents = 'ongamepadconnected' in window;
-var controllers: { [Index: number]: Gamepad } = {};
-//var buttons: { [Index: number]: GamepadButton} = {}
-var currentbutton = 0;
-
-function connecthandler(e: GamepadEvent) {
-    addgamepad(e.gamepad);
-}
-
-function addgamepad(gamepad: Gamepad) {
-    controllers[gamepad.index] = gamepad;
-    requestAnimationFrame(updateStatus);
-}
-
-function disconnecthandler(e: GamepadEvent) {
-    removegamepad(e.gamepad);
-}
-
-function removegamepad(gamepad: Gamepad) {
-    delete controllers[gamepad.index];
-}
-
-function updateStatus() {
-    if (!haveEvents) {
-        scangamepads();
-    }
-
-    var i = 0;
-    var j;
-
-    for (j in controllers) {
-        var controller = controllers[j];
-        for (i = 0; i < controller.buttons.length; i++) {
-            var button: GamepadButton = controller.buttons[i];
-            var pressed: boolean = false;
-            var triggerAmount = 0;
-            if (typeof (button) == "object") {
-                pressed = button.pressed;
-                triggerAmount = button.value;
-            } else {
-                pressed = (button == 1.0) ? true : false;
-            }
-
-            //0=A
-            if (i == 0) {
-                if (pressed) {
-                    console.log("a pressed");
-                } else {
-                }
-            }
-            //1=b
-            else if (i == 1) {
-                if (pressed) {
-                } else {
-                }
-            }
-            //2=x
-            else if (i == 2) {
-                if (pressed) {
-                } else {
-                }
-            }
-            //3=y
-            else if (i == 3) {
-                if (pressed) {
-                } else {
-                }
-            }
-            //4=lb
-            else if (i == 4) {
-                if (pressed) {
-                } else {
-                }
-            }
-            //5=rb
-            else if (i == 5) {
-                if (pressed) {
-                } else {
-                }
-            }
-            //6=lt
-            else if (i == 6) {
-                if (pressed) {
-                    //var am = val * 400 + "px";
-                    console.log("lt pressed: " + triggerAmount)
-                } else {
-                }
-            }
-            //7=rt
-            else if (i == 7) {
-                if (pressed) {
-                    //var am = val * 400 + "px";
-                } else {
-                }
-            }
-            //8=select
-            else if (i == 8) {
-                if (pressed) {
-                } else {
-                }
-            }
-            //9=start
-            else if (i == 9) {
-                if (pressed) {
-                } else {
-                }
-            }
-            //10=left stick
-            else if (i == 10) {
-                if (pressed) {
-                } else {
-                }
-            }
-            //11=rightstick
-            else if (i == 11) {
-                if (pressed) {
-                } else {
-                }
-            }
-            //12=up
-            else if (i == 12) {
-                if (pressed) {
-                } else {
-                }
-            }
-            //13=down
-            else if (i == 13) {
-                if (pressed) {
-                } else {
-                }
-            }
-            //14=left
-            else if (i == 14) {
-                if (pressed) {
-                } else {
-                }
-            }
-            //15=right
-            else if (i == 15) {
-                if (pressed) {
-                } else {
-                }
-            }
-        }
-        for (i = 0; i < controller.axes.length; i++) {
-            var dead = 0.2;
-            var axisamount;
-            axisamount = controller.axes[i];
-            //dead zone stuff
-            if (axisamount >= 1 - dead) axisamount = 1;
-            if (axisamount <= -1 + dead) axisamount = -1;
-            if (axisamount <= dead && axisamount >= 0) axisamount = 0;
-            if (axisamount >= -dead && axisamount <= 0) axisamount = 0;
-            //leftstick x
-            if (i == 0) {
-            }
-            //leftstick y
-            if (i == 1) {
-            }
-            //rightstick x
-            if (i == 2) {
-            }
-            //rightstick y
-            if (i == 3) {
-            }
-        }
-    }
-
-    requestAnimationFrame(updateStatus);
-}
-
-function scangamepads() {
-    var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
-    for (var i = 0; i < gamepads.length; i++) {
-        if (gamepads[i]) {
-            if (gamepads[i].index in controllers) {
-                controllers[gamepads[i].index] = gamepads[i];
-            } else {
-                addgamepad(gamepads[i]);
-            }
-        }
-    }
-}
-
-
-window.addEventListener("gamepadconnected", connecthandler);
-window.addEventListener("gamepaddisconnected", disconnecthandler);
-/*window.addEventListener("mousedown", function (e) {
-    console.log(navigator.getGamepads()[0].id);
-    document.getElementById("gamepads-connected").innerHTML = navigator.getGamepads()[0].id;
-    buttons = document.getElementById('testbuttons').children;
-    buttons[currentbutton].focus();
-})*/
-
-if (!haveEvents) {
-    setInterval(scangamepads, 500);
-}
-
-/*window.onload = function () {
-    console.log(navigator.getGamepads()[0].id);
-    document.getElementById("gamepads-connected").innerHTML = navigator.getGamepads()[0].id;
-    buttons = document.getElementById('testbuttons').children;
-    buttons[currentbutton].focus();
-}*/
-
 interface Document {
     msExitFullscreen?: () => void;
     msFullscreenElement?: Element;
@@ -586,11 +381,8 @@ window.onload = function () {
     }
 
     document.addEventListener("webkitfullscreenchange", FullscreenEvent);
-
     document.addEventListener("mozfullscreenchange", FullscreenEvent);
-
     document.addEventListener("fullscreenchange", FullscreenEvent);
-
     document.addEventListener("MSFullscreenChange", FullscreenEvent);
 
     function FullscreenEvent() {
@@ -676,5 +468,249 @@ window.onload = function () {
         } else {
             return isChildOfVideo(target.parentElement);
         }
+    }
+
+    // CONTROLLER stuff
+
+    var haveEvents = 'ongamepadconnected' in window;
+    var controllers: { [Index: number]: Gamepad } = {};
+    var buttonTimouts: { [index: number]: NodeJS.Timer } = new Array(16);
+    //var buttons: { [Index: number]: GamepadButton} = {}
+    var currentbutton = 0;
+
+    function connecthandler(e: GamepadEvent) {
+        addgamepad(e.gamepad);
+    }
+
+    function addgamepad(gamepad: Gamepad) {
+        controllers[gamepad.index] = gamepad;
+        requestAnimationFrame(updateStatus);
+    }
+
+    function disconnecthandler(e: GamepadEvent) {
+        removegamepad(e.gamepad);
+    }
+
+    function removegamepad(gamepad: Gamepad) {
+        delete controllers[gamepad.index];
+    }
+
+    function updateStatus() {
+        if (!haveEvents) {
+            scangamepads();
+        }
+
+        for (var j in controllers) {
+            var controller = controllers[j];
+            for (var i = 0; i < controller.buttons.length; i++) {
+                var button: GamepadButton = controller.buttons[i];
+                var pressed: boolean = false;
+                var triggerAmount = 0;
+                if (typeof (button) == "object") {
+                    pressed = button.pressed;
+                    triggerAmount = button.value;
+                } else {
+                    pressed = (button == 1.0);
+                }
+                var isTrigger = (i == 6 || i == 7);
+                var triggerPressed = triggerAmount == 1;
+
+                if (!isTrigger && pressed || triggerPressed) {
+                    if (buttonTimouts[i] == undefined) {
+                        var selectedButton = i;
+                        buttonTimouts[selectedButton] = setTimeout(() => {
+                            clearTimeout(buttonTimouts[selectedButton]);
+                            buttonTimouts[selectedButton] = undefined;
+                        }, 350);
+                    }
+                    else {
+                        pressed = false;
+                    }
+                }
+
+                if (pressed) {
+                    switch (i) {
+                        // A BUTTON
+                        case 0:
+                            console.log("a");
+                            if (vidFocused) {
+                                togglePlayPause();
+                            } else {
+                                //
+                            }
+                            break;
+                        // B BUTTON
+                        case 1:
+                            if (vidFocused) {
+                                vidFocused = false;
+                            } else {
+                                //
+                            }
+                            break;
+                        // X BUTTON
+                        case 2:
+                            if (vidFocused) {
+                                //goFullscreen();
+                            } else {
+                                //
+                            }
+                            break;
+                        // Y BUTTON
+                        case 3:
+                            if (vidFocused) {
+                                //
+                            } else {
+                                //
+                            }
+                            break;
+                        // LB
+                        case 4:
+                            if (vidFocused) {
+                                //
+                            } else {
+                                //
+                            }
+                            break;
+                        // RB
+                        case 5:
+                            if (vidFocused) {
+                                //
+                            } else {
+                                //
+                            }
+                            break;
+                        // LT
+                        case 6:
+                            if (vidFocused) {
+                                //
+                            } else {
+                                //
+                            }
+                            break;
+                        // RT
+                        case 7:
+                            if (vidFocused) {
+                                //
+                            } else {
+                                //
+                            }
+                            break;
+                        // SELECT
+                        case 8:
+                            if (vidFocused) {
+                                //
+                            } else {
+                                //
+                            }
+                            break;
+                        // START
+                        case 9:
+                            if (vidFocused) {
+                                //
+                            } else {
+                                //
+                            }
+                            break;
+                        // LEFT STICK
+                        case 10:
+                            if (vidFocused) {
+                                //
+                            } else {
+                                //
+                            }
+                            break;
+                        // RIGHT STICK
+                        case 11:
+                            if (vidFocused) {
+                                //
+                            } else {
+                                //
+                            }
+                            break;
+                        // UP BUTTON
+                        case 12:
+                            if (vidFocused) {
+                                video.volume = clamp(video.volume + 0.05, 0, 1);
+                            } else {
+                                //
+                            }
+                            break;
+                        // DOWN BUTTON
+                        case 13:
+                            if (vidFocused) {
+                                video.volume = clamp(video.volume - 0.05, 0, 1);
+                            } else {
+                                //
+                            }
+                            break;
+                        // LEFT BUTTON
+                        case 14:
+                            if (vidFocused) {
+                                video.currentTime = clamp(video.currentTime - 4, 0, video.duration);
+                            } else {
+                                //
+                            }
+                            break;
+                        // RIGHT BUTTON
+                        case 15:
+                            if (vidFocused) {
+                                video.currentTime = clamp(video.currentTime + 4, 0, video.duration);
+                            } else {
+                                //
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            for (i = 0; i < controller.axes.length; i++) {
+                var dead = 0.2;
+                var axisamount;
+                axisamount = controller.axes[i];
+                //dead zone stuff
+                if (axisamount >= 1 - dead) axisamount = 1;
+                if (axisamount <= -1 + dead) axisamount = -1;
+                if (axisamount <= dead && axisamount >= 0) axisamount = 0;
+                if (axisamount >= -dead && axisamount <= 0) axisamount = 0;
+                //leftstick x
+                if (i == 0) {
+                    if (axisamount != 0) video.currentTime = clamp(video.currentTime + (0.04 * axisamount), 0, video.duration);
+                }
+                //leftstick y
+                if (i == 1) {
+                    if (axisamount != 0) video.volume = clamp(video.volume + (0.05 * axisamount), 0, 1);
+                }
+                //rightstick x
+                if (i == 2) {
+                }
+                //rightstick y
+                if (i == 3) {
+                }
+            }
+        }
+
+        requestAnimationFrame(updateStatus);
+    }
+
+    function scangamepads() {
+        var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+        for (var i = 0; i < gamepads.length; i++) {
+            if (gamepads[i]) {
+                if (gamepads[i].index in controllers) {
+                    controllers[gamepads[i].index] = gamepads[i];
+                } else {
+                    addgamepad(gamepads[i]);
+                }
+            }
+        }
+    }
+
+
+    window.addEventListener("gamepadconnected", connecthandler);
+    window.addEventListener("gamepaddisconnected", disconnecthandler);
+
+    if (!haveEvents) {
+        setInterval(scangamepads, 500);
     }
 }
