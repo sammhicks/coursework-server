@@ -46,9 +46,20 @@ INSERT INTO "competitions" VALUES (436, "Primera Division", (SELECT id from coun
 INSERT INTO "competitions" VALUES (438, "Serie A", (SELECT id from countries where shortcode = "ITA"));
 INSERT INTO "competitions" VALUES (439, "Primeira Liga", (SELECT id from countries where shortcode = "PRT"));
 
+CREATE TABLE "fixtures" (
+    "date"              INTEGER,
+    "home_team_id"      INTEGER,
+    "away_team_id"      INTEGER,
+    FOREIGN KEY ("home_team_id") REFERENCES "teams"("id")
+)
+
+CREATE INDEX "fixture_dates" ON "fixtures" ("date");
+
 CREATE TABLE "teams" (
     "id"                INTEGER PRIMARY KEY,
     "name"              TEXT,
+    "short_name"        TEXT,
+    "crest_url"         TEXT,
     "competition_id"    INTEGER,
     FOREIGN KEY ("competition_id") REFERENCES "competitions"("id")
 );
