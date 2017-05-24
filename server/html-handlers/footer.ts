@@ -10,7 +10,7 @@ export var footer = new Element("footer", { class: "footer" }, [
     ]),
     new Element("div", { class: "footer-content" }, [
         new Element("ul", {}, [
-            new Element("li", {}, [
+            /*new Element("li", {}, [
                 new Element("p", {}, [
                     new String("SiteMap")
                 ]),
@@ -31,7 +31,7 @@ export var footer = new Element("footer", { class: "footer" }, [
                         new String("images")
                     ])
                 ])
-            ]),
+            ]),*/
             new Element("li", {}, [
                 new Element("p", {}, [
                     new String("About")

@@ -23,14 +23,14 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
                 new String("Quick Search")
             ])
         ]),
-        new Element("li", { tabindex: "0" }, [
+        /*new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/media.svg", alt: "Search By Media Type" })
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Media Type")
             ])
-        ]),
+        ]),*/
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/calendar.svg", alt: "Search By Date" })
@@ -222,8 +222,8 @@ var homePage = new Page("", [], [], new Element("div", { class: "homepageContent
     spacer,
     search,
     latestGoal,
-    //video("https://u.nya.is/oobaxw.mp4")
-    video("https://r8---sn-q4f7snsy.googlevideo.com/videoplayback?key=yt6&lmt=1381899635777930&source=youtube&ratebypass=yes&dur=11866.279&clen=407996837&expire=1495586013&mime=video%2Fmp4&pl=24&initcwndbps=2390000&ip=159.253.144.86&sparams=clen%2Cdur%2Cei%2Cgir%2Cid%2Cinitcwndbps%2Cip%2Cipbits%2Citag%2Clmt%2Cmime%2Cmm%2Cmn%2Cms%2Cmv%2Cpl%2Cratebypass%2Crequiressl%2Csource%2Cexpire&ei=fIAkWfy6M9bP1gLSvrqQDA&itag=18&ms=au&mt=1495564346&mv=m&mm=31&mn=sn-q4f7snsy&id=o-AMQG5Oj4S1hwLfOMfwF4eBv_g1cVX30VaFFfSqOtQnj9&gir=yes&signature=08DA99692AC36F6B86185B74D621AC19DC1322F9.CB8269B0977101C9A77C84E59BE61B3C39B311C6&ipbits=0&requiressl=yes&title=long+test+video")
+    video("https://u.nya.is/oobaxw.mp4")
+    //video("https://r8---sn-q4f7snsy.googlevideo.com/videoplayback?key=yt6&lmt=1381899635777930&source=youtube&ratebypass=yes&dur=11866.279&clen=407996837&expire=1495586013&mime=video%2Fmp4&pl=24&initcwndbps=2390000&ip=159.253.144.86&sparams=clen%2Cdur%2Cei%2Cgir%2Cid%2Cinitcwndbps%2Cip%2Cipbits%2Citag%2Clmt%2Cmime%2Cmm%2Cmn%2Cms%2Cmv%2Cpl%2Cratebypass%2Crequiressl%2Csource%2Cexpire&ei=fIAkWfy6M9bP1gLSvrqQDA&itag=18&ms=au&mt=1495564346&mv=m&mm=31&mn=sn-q4f7snsy&id=o-AMQG5Oj4S1hwLfOMfwF4eBv_g1cVX30VaFFfSqOtQnj9&gir=yes&signature=08DA99692AC36F6B86185B74D621AC19DC1322F9.CB8269B0977101C9A77C84E59BE61B3C39B311C6&ipbits=0&requiressl=yes&title=long+test+video")
 ]));
 
 export var home = new LeafHandler(new HTMLHandler(homePage));
