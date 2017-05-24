@@ -3,8 +3,7 @@
     background-color: #172727;
     list-style-type: none;
     margin: auto;
-    max-width: 86%/*1310px*/
-    ;
+    max-width: 86%/*1310px*/;
     padding: 10px;
     overflow: auto;
     font-size: 1.5em;
@@ -16,7 +15,7 @@
     border-radius: 20px;*/
 }
 
-.searchModule li {
+.searchModule>li {
     outline: none;
     padding: 20px;
     display: inline-block;
@@ -30,12 +29,12 @@
     overflow: hidden;
 }
 
-.searchModule li:active {
+.searchModule>li:active {
     border-color: darkorange;
     /*border-radius: 0px;*/
 }
 
-.searchModule li:focus {
+.searchModule>li:focus {
     border-color: #2f4f4f;
     /*border-radius: 0px;*/
 }
@@ -86,6 +85,59 @@ li:hover .searchModuleImage img {
     text-align: center;
     padding: 0;
     margin: 0;
+    user-select: none;
+}
+
+.searchModuleContentTitle{
+    border-bottom: 2px solid #1c2f2f;
+}
+
+.searchModule>li:focus .searchModuleContentTitle{
+    border-bottom-color: #2f4f4f;
+}
+
+.searchModuleContent ul{
+    margin-top: 18px;
+    list-style-type: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 77%;
+    width: 90%;
+    padding: 0px 10px;
+}
+
+.searchModuleContent li{
+    font-size: 20px;
+    margin: 3px;
+    cursor: pointer;
+}
+
+.searchModuleContent li:first-child, .searchModuleContent li:last-child{
+    padding-top: 0;
+}
+
+.searchModuleContent li:hover{
+    background-color: darkorange;
+    color: #1c2f2f;
+}
+
+.searchModuleContent ul::-webkit-scrollbar{
+    width: 12px;
+}
+
+.searchModuleContent ul::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    cursor: n-resize;
+}
+
+.searchModuleContent ul::-webkit-scrollbar-thumb {
+  background-color: darkorange;
+  outline: 1px solid #1c2f2f;
+}
+
+.searchModuleContent li{
+    padding: 2px;
 }
 
 @keyframes animatetop {
@@ -102,4 +154,48 @@ li:hover .searchModuleImage img {
         right: 0px;
         bottom: 0px
     }
+}
+
+.searchModuleResults{
+    max-width: 86%/*1310px*/;
+    max-height: 200px;
+    overflow: hidden;
+}
+
+.searchModuleGo{
+    outline: none;
+    padding: 20px;
+    border: 10px solid #1c2f2f;
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    vertical-align: middle;
+    overflow: hidden;
+    float: right;
+    user-select: none;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.searchModuleGo:hover{
+    border-color: darkorange;
+}
+
+.searchModuleGo:active{
+    background-color: darkorange;
+}
+
+.searchModuleGo i{
+    font-size: 70px;
+    vertical-align: middle;
+    color: #1c2f2f;
+}
+
+.searchModuleGo:hover *{
+    color: darkorange;
+}
+
+.searchModuleGo:active *{
+    color: #1c2f2f;
 }

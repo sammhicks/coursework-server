@@ -90,6 +90,75 @@ window.onload = function () {
     }
     (<HTMLElement><any>speeds[3]).style.color = "#ffe8cc";
 
+    var searchbuttons = document.querySelectorAll(".searchModule>li");
+    for (var i = 0; i < searchbuttons.length; i++) {
+        (function () {
+            var modal = searchbuttons[i].firstElementChild as HTMLElement;
+            searchbuttons[i].addEventListener("click", function (e) {
+                modal.style.display = "block";
+            });
+            document.addEventListener("click", function () {
+                modal.style.display = "none";
+            });
+        }());
+    }
+    var parent = searchbuttons[0].parentElement;
+    parent.addEventListener("click", function (e) {
+        e.stopPropagation();
+    });
+
+    var date = 0;
+    var dates = document.querySelectorAll("#searchModuleDates>li");
+    setupRadio(dates, date, 0);
+
+    var orderType = 0;
+    var orderTypes = document.querySelectorAll("#searchModuleOrders>li");
+    setupRadio(orderTypes, orderType, 0);
+
+    function setupRadio(array: NodeListOf<Element>, selector: number, defaultNum: number) {
+        for (var i = 0; i < array.length; i++) {
+            if (i == defaultNum) {
+                (<HTMLElement><any>array[i]).style.color = "#1c2f2f";;
+                (<HTMLElement><any>array[i]).style.backgroundColor = "darkorange";
+                selector = defaultNum;
+            }
+            array[i].addEventListener("click", function () {
+                for (var j = 0; j < array.length; j++) {
+                    if (this == array[j]) {
+                        (<HTMLElement><any>array[j]).style.color = "#1c2f2f";;
+                        (<HTMLElement><any>array[j]).style.backgroundColor = "darkorange";
+                        selector = j;
+                    } else {
+                        (<HTMLElement><any>array[j]).style.color = "";
+                        (<HTMLElement><any>array[j]).style.backgroundColor = "";
+                    }
+                }
+            });
+        }
+    }
+
+    var countries = document.querySelectorAll("#searchModuleCountries>li");
+    var countriesOut: string[] = [];
+    setupCheckbox(countries, countriesOut);
+
+    function setupCheckbox(array: NodeListOf<Element>, output: string[]) {
+        for (var i = 0; i < array.length; i++) {
+            array[i].addEventListener("click", function () {
+                var ind = output.indexOf(this.innerHTML);
+                if (ind == -1) {
+                    this.style.color = "#1c2f2f";
+                    this.style.backgroundColor = "darkorange";
+                    output.push(this.innerHTML);
+                } else {
+                    this.style.color = "";;
+                    this.style.backgroundColor = "";
+                    output.splice(ind, 1);
+                }
+                console.log(output);
+            });
+        }
+    }
+
     loop.addEventListener("click", loopToggle);
 
     function loopToggle() {
@@ -202,33 +271,6 @@ window.onload = function () {
     });
 
     video.addEventListener('dblclick', goFullscreen);
-
-    /*video.addEventListener('seeking', function () {
-        //ctx.fillStyle = "#6d8383";
-        for (i = 0; i < video.buffered.length; i++) {
-            //seekback.width = canvaswrap.getBoundingClientRect().width;
-            //seekback.height = canvaswrap.getBoundingClientRect().height;
-            var inc = seekback.width / video.duration;
-            var startX = video.buffered.start(i) * inc;
-            var endX = video.buffered.end(i) * inc;
-            var width = endX - startX;
-            ctx.fillRect(startX, 0, width, seekback.height);
-        }
-
-        /*ctx.fillStyle = "#6d8383";
-        var buffered = video.buffered;
-        var duration = video.duration;
-        var vidwidth = video.width;
-        var height = seekback.height;
-        var x = 0;
-        var width = 0;
-        for (i = 0; i < buffered.length; i++) {
-            console.log(i);
-            x = (buffered.start(i) / duration) * vidwidth;
-            width = ((buffered.start(i) - buffered.end(i)) / duration) * vidwidth;
-            ctx.fillRect(x, 0, width, height);
-        }
-    });*/
 
     document.addEventListener("mousedown", function (e) {
         if (e.button === 0) {

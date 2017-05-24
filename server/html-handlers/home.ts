@@ -16,6 +16,11 @@ var spacer = new Element("div", { class: "spacer" }, []);
 var search = new Element("div", { class: "searchModulesContainer", id: "searchModulesContainer" }, [
     new Element("ul", { class: "searchModule", id: "searchModule" }, [
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Quick Search")
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/search.svg", alt: "Quick Search" })
             ]),
@@ -32,6 +37,28 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
             ])
         ]),*/
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Search By Date")
+                ]),
+                new Element("ul", { id: "searchModuleDates" }, [
+                    new Element("li", {}, [
+                        new String("Past 24 Hours")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Past Week")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Past Month")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Past Year")
+                    ]),
+                    new Element("li", {}, [
+                        new String("All Time")
+                    ])
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/calendar.svg", alt: "Search By Date" })
             ]),
@@ -40,6 +67,19 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
             ])
         ]),
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Order Method")
+                ]),
+                new Element("ul", { id: "searchModuleOrders" }, [
+                    new Element("li", {}, [
+                        new String("Date: New to Old")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Date: Old to New")
+                    ]),
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/podium.svg", alt: "Order Method" })
             ]),
@@ -48,6 +88,34 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
             ])
         ]),
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Search By Country")
+                ]),
+                new Element("ul", { id: "searchModuleCountries" }, [
+                    new Element("li", {}, [
+                        new String("England")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Spain")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Germany")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Italy")
+                    ]),
+                    new Element("li", {}, [
+                        new String("France")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Portugal")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Netherlands")
+                    ])
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/country.svg", alt: "Search By Country" })
             ]),
@@ -56,6 +124,16 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
             ])
         ]),
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Search By Competition")
+                ]),
+                new Element("ul", {}, [
+                    new Element("li", {}, [
+                        new String("TEST")
+                    ])
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/trophy.svg", alt: "Search By Competition" })
             ]),
@@ -64,6 +142,16 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
             ])
         ]),
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Search By Club")
+                ]),
+                new Element("ul", {}, [
+                    new Element("li", {}, [
+                        new String("TEST")
+                    ])
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/club.svg", alt: "Search By Club" })
             ]),
@@ -72,6 +160,16 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
             ])
         ]),
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Search By Player")
+                ]),
+                new Element("ul", {}, [
+                    new Element("li", {}, [
+                        new String("TEST")
+                    ])
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/player.svg", alt: "Search By Player" })
             ]),
@@ -79,7 +177,24 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
                 new String("Search By Player")
             ])
         ])
+    ]),
+    new Element("div", { class: "searchModuleResults" }, [
+        new Element("div", {}, [
+            new Element("span", {}, [
+                new String("Number of Results: ")
+            ]),
+            new Element("span", {}, [
+                new String("69")
+            ])
+        ]),
+        new Element("div", { class: "searchModuleGo", id: "searchModuleGo" }, [
+            new Element("i", { class: "fa fa-search-plus" }, []),
+            new Element("span", {}, [
+                new String("Search")
+            ])
+        ])
     ])
+
 ]);
 
 var latestGoal = new Element("p", {}, [
