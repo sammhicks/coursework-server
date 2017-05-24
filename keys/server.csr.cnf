@@ -1,0 +1,14 @@
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+distinguished_name = dn
+
+[dn]
+C=GB
+ST=Bristol
+L=Bristol
+O=Ball To Hand
+OU=Ball To Hand
+emailAddress=sh14820@my.bristol.ac.uk
+CN = localhost

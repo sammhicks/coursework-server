@@ -52,12 +52,7 @@ insecureServer.on("listening", function serverListen() {
 
 insecureServer.listen(insecurePort);
 
-/* generated using
-openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
-openssl pkcs12 -inkey key.pem -in cert.pem -export -out pfx.pfx
-*/
-
-const certs = fs.readFileSync('keys/pfx.pfx');
+const certs = fs.readFileSync("keys/server.pfx");
 
 const secureServer = createHttpsServer({ pfx: certs }, function requestListener(request: IncomingMessage, response: ServerResponse) {
   errorHandler.handleRequest(new Request(request, response, true));
