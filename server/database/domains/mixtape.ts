@@ -10,6 +10,6 @@ export class Mixtape implements Domain {
     }
 
     resolve(link: HasLink): Promise<Video> {
-        return Promise.resolve(new Video(link.data, link.data.title, this.domain, link.data.url));
+        return Promise.resolve(new Video(link.data, this.domain, link.data.url));
     }
 }
