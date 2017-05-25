@@ -156,13 +156,17 @@ li:hover .searchModuleImage img {
     }
 }
 
-.searchModuleResults{
-    max-width: 86%/*1310px*/;
-    max-height: 200px;
-    overflow: hidden;
+.searchModuleGoWrapper{
+    padding: 20px;
+    display: inline-block;
+    width: 220px;
+    height: 220px;
+    margin: 30px;
+    vertical-align: middle;
 }
 
 .searchModuleGo{
+    margin: auto;
     outline: none;
     padding: 20px;
     border: 10px solid #1c2f2f;
@@ -171,11 +175,10 @@ li:hover .searchModuleImage img {
     height: 100px;
     vertical-align: middle;
     overflow: hidden;
-    float: right;
     user-select: none;
     cursor: pointer;
-    text-align: center;
-    font-size: 1.5em;
+    display: inline-block;
+    margin-top: 30px
 }
 
 .searchModuleGo:hover{
@@ -198,4 +201,16 @@ li:hover .searchModuleImage img {
 
 .searchModuleGo:active *{
     color: #1c2f2f;
+}
+
+.searchModuleResults{
+    max-width: 86%/*1310px*/;
+    height: 60px;
+    background-color: purple;
+    overflow: hidden;
+    margin: auto;
+}
+
+#numberOfResults{
+    vertical-align: middle;
 }

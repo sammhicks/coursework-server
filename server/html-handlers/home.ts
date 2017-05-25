@@ -176,25 +176,27 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Player")
             ])
+        ]),
+        new Element("div", { class: "searchModuleGoWrapper" }, [
+            new Element("div", { class: "searchModuleGo", id: "searchModuleGo" }, [
+                new Element("i", { class: "fa fa-search-plus" }, []),
+                new Element("span", {}, [
+                    new String("Search")
+                ])
+            ])
         ])
     ]),
     new Element("div", { class: "searchModuleResults" }, [
-        new Element("div", {}, [
+        new Element("div", { class: "searchModuleTags", id: "searchModuleTags" }, []),
+        new Element("div", { id: "numberOfresults" }, [
             new Element("span", {}, [
                 new String("Number of Results: ")
             ]),
             new Element("span", {}, [
                 new String("69")
             ])
-        ]),
-        new Element("div", { class: "searchModuleGo", id: "searchModuleGo" }, [
-            new Element("i", { class: "fa fa-search-plus" }, []),
-            new Element("span", {}, [
-                new String("Search")
-            ])
         ])
     ])
-
 ]);
 
 var latestGoal = new Element("p", {}, [
