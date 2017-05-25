@@ -128,9 +128,9 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
                 new Element("span", { class: "searchModuleContentTitle" }, [
                     new String("Search By Competition")
                 ]),
-                new Element("ul", {}, [
+                new Element("ul", { id: "searchModuleCompetitions" }, [
                     new Element("li", {}, [
-                        new String("TEST")
+                        new String("PREMIERSHIP")
                     ])
                 ])
             ]),
@@ -146,9 +146,9 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
                 new Element("span", { class: "searchModuleContentTitle" }, [
                     new String("Search By Club")
                 ]),
-                new Element("ul", {}, [
+                new Element("ul", { id: "searchModuleTeams" }, [
                     new Element("li", {}, [
-                        new String("TEST")
+                        new String("CHELSEA")
                     ])
                 ])
             ]),
@@ -164,9 +164,9 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
                 new Element("span", { class: "searchModuleContentTitle" }, [
                     new String("Search By Player")
                 ]),
-                new Element("ul", {}, [
+                new Element("ul", { id: "searchModulePlayers" }, [
                     new Element("li", {}, [
-                        new String("TEST")
+                        new String("HAZARD")
                     ])
                 ])
             ]),
@@ -187,13 +187,15 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
         ])
     ]),
     new Element("div", { class: "searchModuleResults" }, [
-        new Element("div", { class: "searchModuleTags", id: "searchModuleTags" }, []),
-        new Element("div", { id: "numberOfresults" }, [
+        new Element("div", { class: "searchModuleTags", id: "searchModuleTags" }, [
+            new Element("ul", {}, [])
+        ]),
+        new Element("div", { id: "numberOfResults" }, [
             new Element("span", {}, [
                 new String("Number of Results: ")
             ]),
             new Element("span", {}, [
-                new String("69")
+                new String("0")
             ])
         ])
     ])
