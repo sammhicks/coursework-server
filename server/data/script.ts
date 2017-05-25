@@ -936,17 +936,8 @@ window.onload = function () {
         });
 
         video.addEventListener("click", function onVideoClick(e) {
-            if (playPauseTimeout === null) {
-                playPauseTimeout = setTimeout(() => {
-                    if (e.button === 0) {
-                        playstate = togglePlayPause();
-                    }
-                    playPauseTimeout = null;
-                }, 100);
-            }
-            else {
-                clearTimeout(playPauseTimeout);
-                playPauseTimeout = null;
+            if (e.button === 0) {
+                playstate = togglePlayPause();
             }
         });
 
