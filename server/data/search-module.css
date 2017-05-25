@@ -221,6 +221,7 @@ li:hover .searchModuleImage img {
     overflow: auto;
     text-align: center;
     color: #ffe8cc;
+    text-transform: uppercase;
 }
 
 .searchModuleTags ul li{

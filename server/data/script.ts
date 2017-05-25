@@ -36,7 +36,6 @@ window.onload = function () {
     var mousedown = false;
     var vidFocused = false;
     var fullscr = false;
-    var playPauseTimeout: NodeJS.Timer = null;
     var mouseMoveCheck: NodeJS.Timer = null;
 
     //global video objects
@@ -179,7 +178,7 @@ window.onload = function () {
                 throw TypeError("TYPE DOESN'T EXIST");
         }
         var tag = document.createElement("li") as HTMLElement;
-        tag.innerHTML = contents.toUpperCase();
+        tag.innerHTML = contents;
         tag.className = classID;
         tag.id = "tag: " + type + " " + contents;
         if (asButton) {
@@ -880,6 +879,7 @@ window.onload = function () {
         var time = 0;
         var playstate = false;
         var looptoggle = false;
+        var playPauseTimeout: NodeJS.Timer = null;
 
         function loopToggle() {
             looptoggle = !looptoggle;
@@ -937,16 +937,17 @@ window.onload = function () {
 
         video.addEventListener("click", function onVideoClick(e) {
             if (playPauseTimeout === null) {
+                console.log(playPauseTimeout);
                 playPauseTimeout = setTimeout(() => {
                     if (e.button === 0) {
                         playstate = togglePlayPause();
                     }
                     playPauseTimeout = null;
-                }, 100);
+                }, 10000000);
             }
             else {
-                playPauseTimeout = null;
                 clearTimeout(playPauseTimeout);
+                playPauseTimeout = null;
             }
         });
 
