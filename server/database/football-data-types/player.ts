@@ -3,5 +3,5 @@ export interface Players {
 }
 
 export interface Player {
-    name: "Allan McGregor"
+    name: string;
 }

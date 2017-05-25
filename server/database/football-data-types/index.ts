@@ -1,3 +1,3 @@
-export { Fixture, Fixtures } from "./fixture";
+export { Fixture, Fixtures, getHomeTeamID, getAwayTeamID } from "./fixture";
 export { Player, Players } from "./player";
-export { Team, Teams } from "./team";
+export { Team, Teams, getID as getTeamID } from "./team";

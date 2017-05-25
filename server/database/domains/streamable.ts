@@ -6,7 +6,7 @@ import { StatusCodeError } from "request-promise-native/errors"
 import { Domain } from "./domain";
 import { createDelay } from "../../../promises/delay";
 import { HasLink } from "../reddit";
-import { Video as CrawledVideo } from "../video";
+import { Video as CrawledVideo } from "./video";
 
 export enum VideoStatus {
     UPOADING = 0,

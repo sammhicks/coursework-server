@@ -1,15 +1,19 @@
+import { Link, getResourceID } from "./link";
+
 export interface Teams {
-    team: Team[];
+    teams: Team[];
 }
 
 export interface Team {
     _links: {
-        players: {
-            href: string
-        },
-    },
-    name: string,
-    code: string,
-    shortName: string,
-    crestUrl: string
+        self: Link
+    };
+    name: string;
+    code: string;
+    shortName: string;
+    crestUrl: string;
+}
+
+export function getID(team: Team) {
+    return getResourceID(team._links.self);
 }

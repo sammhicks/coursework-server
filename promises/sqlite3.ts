@@ -59,10 +59,10 @@ export class Statement {
     });
   }
 
-  all(params: {}): Promise<any> {
+  all(params: {}): Promise<any[]> {
     let statement = this.statement;
 
-    return new Promise<any>(function executor(resolve, reject) {
+    return new Promise<any[]>(function executor(resolve, reject) {
       statement.all(params, handleNullErrorWithResult(resolve, reject));
     });
   }
@@ -128,13 +128,13 @@ export class Database {
     }
   }
 
-  all(sql: string, params: {}): Promise<any> {
+  all(sql: string, params: {}): Promise<any[]> {
     if (this.database === null) {
       return Promise.reject(new Error("datbase is not open"));
     } else {
       let database = this.database;
 
-      return new Promise<any>(function executor(resolve, reject) {
+      return new Promise<any[]>(function executor(resolve, reject) {
         database.all(sql, params, handleNullErrorWithResult(resolve, reject));
       });
     }

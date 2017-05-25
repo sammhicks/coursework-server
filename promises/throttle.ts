@@ -7,7 +7,7 @@ export class Throttle {
         this._queue = [];
     }
 
-    access<PassType>() {
+    access() {
         const self = this;
 
         function setThrottleTimeout() {
@@ -28,17 +28,13 @@ export class Throttle {
             }
         }
 
-        return function throttleQueue(passValue: PassType) {
-            return new Promise<PassType>(function executor(resolve, reject) {
-                if (self._timeoutInstance == null) {
-                    resolve(passValue);
-                    setThrottleTimeout();
-                } else {
-                    self._queue.push(function handleThrottleQueueItem() {
-                        resolve(passValue);
-                    });
-                }
-            });
-        }
+        return new Promise<void>(function executor(resolve, reject) {
+            if (self._timeoutInstance == null) {
+                resolve();
+                setThrottleTimeout();
+            } else {
+                self._queue.push(resolve);
+            }
+        });
     }
 }

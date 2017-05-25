@@ -2,9 +2,9 @@ import * as requestPromise from "request-promise-native";
 import * as url from "url";
 
 import { Interface as DatabaseInterface } from "./database";
-import { Domain, Mixtape, Streamable } from "./domains";
+import { Competition, Country } from "./database-types";
+import { Domain, Mixtape, Streamable, Video } from "./domains";
 import { hasListing, hasLink, HasLink, Link, Listing, Thing } from "./reddit";
-import { Video } from "./video";
 
 import { Locked } from "../../promises/lock";
 import { pFor } from "../../promises/loops";
@@ -16,7 +16,13 @@ const searchUrl = "https://www.reddit.com/r/soccer/search.json?q=" + domains.map
 
 export function crawl(database: DatabaseInterface, after?: string) {
     console.log("Crawling: ", after);
-    requestPromise(searchUrl + (after == undefined ? "" : ("&after=" + after))).then(JSON.parse).then(function handleThing(thing: Thing) {
+    requestPromise({
+        url: searchUrl + (after == undefined ? "" : ("&after=" + after)),
+        headers: {
+            "User-Agent": "Ball To Hand Crawler"
+        },
+        json: true
+    }).then(function handleThing(thing: Thing) {
         if (hasListing(thing)) {
             Promise.all(thing.data.children.map(function handleChild(child: Thing) {
                 if (hasLink(child)) {
