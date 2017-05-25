@@ -188,6 +188,9 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
     ]),
     new Element("div", { class: "searchModuleResults" }, [
         new Element("div", { class: "searchModuleTags", id: "searchModuleTags" }, [
+            new Element("ul", {}, []),
+            new Element("ul", {}, []),
+            new Element("ul", {}, []),
             new Element("ul", {}, [])
         ]),
         new Element("div", { id: "numberOfResults" }, [

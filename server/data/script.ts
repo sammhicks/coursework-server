@@ -110,7 +110,10 @@ window.onload = function () {
     var playersOut: string[] = [];
 
     var searchTags = document.getElementById("searchModuleTags");
-    var searchTagsUL = searchTags.firstChild as HTMLElement;
+    var searchTagsCountry = searchTags.firstElementChild as HTMLElement;
+    var searchTagsComp = searchTagsCountry.nextElementSibling as HTMLElement;
+    var searchTagsTeam = searchTagsCountry.nextElementSibling as HTMLElement;
+    var searchTagsPlayer = searchTagsCountry.nextElementSibling as HTMLElement;
 
     setupCheckbox(countries, countriesOut, "country");
     setupCheckbox(competitions, competitionsOut, "competition");
@@ -126,7 +129,22 @@ window.onload = function () {
                     this.style.color = "#1c2f2f";
                     this.style.backgroundColor = "darkorange";
                     output.push(this.innerHTML);
-                    makeTag(this.innerHTML, type, searchTagsUL, true);
+                    switch (type) {
+                        case "country":
+                            makeTag(this.innerHTML, type, searchTagsCountry, true);
+                            break;
+                        case "competition":
+                            makeTag(this.innerHTML, type, searchTagsComp, true);
+                            break;
+                        case "team":
+                            makeTag(this.innerHTML, type, searchTagsTeam, true);
+                            break;
+                        case "player":
+                            makeTag(this.innerHTML, type, searchTagsPlayer, true);
+                            break;
+                        default:
+                            break;
+                    }
                 } else {
                     this.style.color = "";
                     this.style.backgroundColor = "";
