@@ -218,6 +218,7 @@ window.onload = function () {
             default:
                 throw TypeError("TYPE DOESN'T EXIST");
         }
+        classID = classID.toUpperCase();
         var tag = document.createElement("li") as HTMLElement;
         tag.innerHTML = contents;
         tag.className = classID;
@@ -656,6 +657,9 @@ window.onload = function () {
         }
     }
 
+    var testyplease = createVideoEnvironment("https://u.nya.is/oobaxw.mp4", ["test title", "12-12-2012", "england", "orem", "chelsea", "hazard", "streamable"]);
+    document.getElementById("homepageContent").appendChild(testyplease);
+
     // CONTROLLER stuff
 
     var haveEvents = 'ongamepadconnected' in window;
@@ -1077,81 +1081,140 @@ window.onload = function () {
         vidcontrolsplaypausei.id = "playicon" + url;
         vidcontrolsplaypause.appendChild(vidcontrolsplaypausei);
 
+        var vidcontrolstime = div();
+        vidcontrolstime.className = "video-controls-time";
+        vidcontrols.appendChild(vidcontrolstime);
 
+        var vidcontrolscurrenttime = div();
+        vidcontrolscurrenttime.id = "currenttime" + url;
+        vidcontrolscurrenttime.innerHTML = "00:00";
+        vidcontrolstime.appendChild(vidcontrolscurrenttime);
 
-        new Element("div", { class: "video-wrapper" }, [
-            new Element("div", { class: "video-player-wrapper", tabindex: "0" }, [
-                new Element("div", {}, [
-                    new Element("div", { class: "video-container", id: "testyfull" }, [
+        var vidcontrolsslash = div();
+        vidcontrolsslash.innerHTML = "/";
+        vidcontrolstime.appendChild(vidcontrolsslash);
 
-                        new Element("div", { class: "video-controls", id: "controls" }, [
+        var vidcontrolsendtime = div();
+        vidcontrolsendtime.id = "endtime" + url;
+        vidcontrolsendtime.innerHTML = "69:69";
+        vidcontrolstime.appendChild(vidcontrolsendtime);
 
-                            new Element("div", { class: "video-controls-time" }, [
-                                new Element("div", { id: "currenttime" }, [
-                                    new String("13:37")
-                                ]),
-                                new Element("div", {}, [
-                                    new String("/")
-                                ]),
-                                new Element("div", { id: "endtime" }, [
-                                    new String("69:69")
-                                ])
-                            ]),
-                            new Element("div", { class: "video-controls-volume", id: "volume" }, [
-                                new Element("i", { class: "material-icons md-48", id: "volicon" }, [
-                                    new String("volume_up")
-                                ])
-                            ]),
-                            new Element("div", { class: "video-controls-volume-content" }, [
-                                new Element("div", { id: "volbarback" }, [
-                                    new Element("div", { id: "volbar" }, [])
-                                ])
-                            ]),
-                            new Element("div", { class: "video-controls-fullscreen", id: "fullscreen" }, [
-                                new Element("i", { class: "material-icons md-48", id: "fullicon" }, [
-                                    new String("fullscreen")
-                                ])
-                            ]),
-                            new Element("div", { class: "video-controls-settings", id: "settings" }, [
-                                new Element("i", { class: "fa fa-cog" }, []),
-                                new Element("div", { class: "video-controls-settings-menu", id: "settingsmenu" }, [
-                                    new Element("ul", {}, [
-                                        new Element("li", { id: "playbackspeed" }, [
-                                            new String("Speed"),
-                                            new Element("ul", {}, [
-                                                new Element("li", { id: "playback-0.25x" }, [
-                                                    new String("0.25x")
-                                                ]),
-                                                new Element("li", { id: "playback-0.5x" }, [
-                                                    new String("0.5x")
-                                                ]),
-                                                new Element("li", { id: "playback-0.75x" }, [
-                                                    new String("0.75x")
-                                                ]),
-                                                new Element("li", { id: "playback-1x" }, [
-                                                    new String("Default")
-                                                ]),
-                                                new Element("li", { id: "playback-1.25x" }, [
-                                                    new String("1.25x")
-                                                ]),
-                                                new Element("li", { id: "playback-1.5x" }, [
-                                                    new String("1.5x")
-                                                ]),
-                                                new Element("li", { id: "playback-2x" }, [
-                                                    new String("2x")
-                                                ])
-                                            ])
-                                        ]),
-                                        new Element("li", { id: "playbackloop" }, [
-                                            new String("Loop"),
-                                        ])
-                                    ])
-                                ])
-                            ])
-                        ])
-                    ])
-                ])
-            ])
-        ])
+        var vidcontrolsvolume = div();
+        vidcontrolsvolume.className = "video-controls-volume";
+        vidcontrolsvolume.id = "volume" + url;
+        vidcontrols.appendChild(vidcontrolsvolume);
+
+        var vidcontrolsvolumei = ii();
+        vidcontrolsvolumei.className = "material-icons md-48";
+        vidcontrolsvolumei.id = "volicon" + url;
+        vidcontrolsvolumei.innerHTML = "volume_up";
+        vidcontrolsvolume.appendChild(vidcontrolsvolumei);
+
+        var vidcontrolsvolumecontent = div();
+        vidcontrolsvolumecontent.className = "video-controls-volume-content";
+        vidcontrols.appendChild(vidcontrolsvolumecontent);
+
+        var vidcontrolsvolumecontentbackground = div();
+        vidcontrolsvolumecontentbackground.id = "volbarback" + url;
+        vidcontrolsvolumecontent.appendChild(vidcontrolsvolumecontentbackground);
+
+        var vidcontrolsvolumecontentbar = div();
+        vidcontrolsvolumecontentbar.id = "volbar" + url;
+        vidcontrolsvolumecontentbackground.appendChild(vidcontrolsvolumecontentbar);
+
+        var vidcontrolsfullscreen = div();
+        vidcontrolsfullscreen.className = "video-controls-fullscreen";
+        vidcontrolsfullscreen.id = "fullscreen" + url;
+        vidcontrols.appendChild(vidcontrolsfullscreen);
+
+        var vidcontrolsfullscreeni = ii();
+        vidcontrolsfullscreeni.className = "material-icons md-48";
+        vidcontrolsfullscreeni.id = "fullicon" + url;
+        vidcontrolsfullscreeni.innerHTML = "fullscreen";
+        vidcontrolsfullscreen.appendChild(vidcontrolsfullscreeni);
+
+        var vidcontrolssettings = div();
+        vidcontrolssettings.className = "video-controls-settings";
+        vidcontrolssettings.id = "settings" + url;
+        vidcontrols.appendChild(vidcontrolssettings);
+
+        var vidcontrolssettingsi = ii();
+        vidcontrolssettingsi.className = "fa fa-cog";
+        vidcontrolssettings.appendChild(vidcontrolssettingsi);
+
+        var vidcontrolssettingsmenu = div();
+        vidcontrolssettingsmenu.className = "video-controls-settings-menu";
+        vidcontrolssettingsmenu.id = "settingsmenu" + url;
+        vidcontrolssettings.appendChild(vidcontrolssettingsmenu);
+
+        var vidcontrolssettingsmenuul = ul();
+        vidcontrolssettingsmenu.appendChild(vidcontrolssettingsmenuul);
+
+        var vidcontrolssettingsmenuli = li();
+        vidcontrolssettingsmenuli.id = "playbackspeed";
+        vidcontrolssettingsmenuli.innerHTML = "Speed";
+        vidcontrolssettingsmenuul.appendChild(vidcontrolssettingsmenuli);
+
+        var vidcontrolssettingsmenuliul = ul();
+        vidcontrolssettingsmenuli.appendChild(vidcontrolssettingsmenuliul);
+
+        var vidcontrolssettingsmenuliulli025 = li();
+        vidcontrolssettingsmenuliulli025.id = "playback-0.25x";
+        vidcontrolssettingsmenuliulli025.innerHTML = "0.25x";
+        vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli025);
+
+        var vidcontrolssettingsmenuliulli05 = li();
+        vidcontrolssettingsmenuliulli05.id = "playback-0.5x";
+        vidcontrolssettingsmenuliulli05.innerHTML = "0.5x";
+        vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli05);
+
+        var vidcontrolssettingsmenuliulli075 = li();
+        vidcontrolssettingsmenuliulli075.id = "playback-0.75x";
+        vidcontrolssettingsmenuliulli075.innerHTML = "0.75x";
+        vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli075);
+
+        var vidcontrolssettingsmenuliulli1 = li();
+        vidcontrolssettingsmenuliulli1.id = "playback-1x";
+        vidcontrolssettingsmenuliulli1.innerHTML = "Default";
+        vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli1);
+
+        var vidcontrolssettingsmenuliulli125 = li();
+        vidcontrolssettingsmenuliulli125.id = "playback-1.25x";
+        vidcontrolssettingsmenuliulli125.innerHTML = "1.25x";
+        vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli125);
+
+        var vidcontrolssettingsmenuliulli15 = li();
+        vidcontrolssettingsmenuliulli15.id = "playback-1.5x";
+        vidcontrolssettingsmenuliulli15.innerHTML = "1.5x";
+        vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli15);
+
+        var vidcontrolssettingsmenuliulli2 = li();
+        vidcontrolssettingsmenuliulli2.id = "playback-2x";
+        vidcontrolssettingsmenuliulli2.innerHTML = "2x";
+        vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli2);
+
+        var vidcontrolssettingsmenuloop = li();
+        vidcontrolssettingsmenuloop.id = "playbackloop";
+        vidcontrolssettingsmenuloop.innerHTML = "Loop";
+        vidcontrolssettingsmenuul.appendChild(vidcontrolssettingsmenuloop);
+
+        //wiring
+
+        function loopToggle() {
+            looptoggle = !looptoggle;
+            video.loop = looptoggle;
+            if (looptoggle) {
+                this.style.color = "#ffe8cc";
+                this.style.backgroundColor = "#1c2f2f";
+            }
+            else {
+                this.style.color = "darkorange";
+                this.style.backgroundColor = "#172727";
+            }
+        }
+
+        vidcontrolsplaypause.addEventListener("click", loopToggle);
+
+        return vidwrap;
     }
 }
