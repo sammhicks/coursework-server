@@ -937,13 +937,12 @@ window.onload = function () {
 
         video.addEventListener("click", function onVideoClick(e) {
             if (playPauseTimeout === null) {
-                console.log(playPauseTimeout);
                 playPauseTimeout = setTimeout(() => {
                     if (e.button === 0) {
                         playstate = togglePlayPause();
                     }
                     playPauseTimeout = null;
-                }, 10000000);
+                }, 100);
             }
             else {
                 clearTimeout(playPauseTimeout);
