@@ -390,7 +390,18 @@ window.onload = function () {
     }
 
     var testyplease = createVideoEnvironment("https://u.nya.is/oobaxw.mp4", ["test title", "12-12-2012", "england", "prem", "chelsea", "hazard", "streamable"]);
-    document.getElementById("homepageContent").appendChild(testyplease);
+    var home = document.getElementById("homepageContent").appendChild(testyplease);
+
+    var vid1 = createVideoEnvironment("https://cdn-e2.streamable.com/video/mp4/m445e_1.mp4?token=1496778426_07e366ba0b3fa0a794e9c2dd6bbb4b49a7178485",
+        ["SECOND VID", "01-12-2016", "Spain", "la liga", "real madrid", "ronaldo", "streamable"]);
+    var vid2 = createVideoEnvironment("https://cdn-e2.streamable.com/video/mp4/cahge.mp4?token=1496778368_80dfcb565d05f3cee83cbf98d8107497a14085a7",
+        ["third vid", "12-12-1972", "France", "ligue 1", "monaco", "", "streamable"]);
+    var vid3 = createVideoEnvironment("https://cdn-e2.streamable.com/video/mp4/z2bnh.mp4?token=1496778133_f95644a1a6f3dd47dfb804c181a94efe3053950f",
+        ["4th", "12-12-2069", "england", "championship", "", "", "streamable"]);
+
+    home.appendChild(vid1);
+    home.appendChild(vid2);
+    home.appendChild(vid3);
 
     // CONTROLLER stuff
 
@@ -990,8 +1001,9 @@ window.onload = function () {
         vidcontrolsseekcanvas.height = 6;
         vidcontrolsseekcanvas.width = 1280;
         var ctx = vidcontrolsseekcanvas.getContext("2d");
-        ctx.fillStyle = "#1c2f2f";
-        ctx.fillRect(0, 0, vidcontrolsseekcanvas.width, vidcontrolsseekcanvas.height);
+        //ctx.fillStyle = "6d8383";//"#1c2f2f";
+        //ctx.fillRect(0, 0, vidcontrolsseekcanvas.width, vidcontrolsseekcanvas.height);
+        vidcontrolsseekcanvas.style.backgroundColor = "#1c2f2f";
         ctx.fillStyle = "#6d8383";
 
         video.addEventListener('playing', function () {
@@ -1148,7 +1160,7 @@ window.onload = function () {
 
         vidcontrolsfullscreen.addEventListener("click", goFullscreen);
 
-        vidwrap.addEventListener("mousedown", function (e) {
+        vidcontainer.addEventListener("mouseover", function () {
             globalVideo = video;
             globalContainer = vidcontainer;
             globalCanvas = vidcontrolsseekcanvas;
@@ -1158,6 +1170,7 @@ window.onload = function () {
             globalPlaystate = playstate;
             globalSettingsMenu = vidcontrolssettingsmenu;
             globalSettings = vidcontrolssettings;
+            drawBuffers();
         });
 
         return vidwrap;
