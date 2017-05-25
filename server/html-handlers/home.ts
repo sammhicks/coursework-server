@@ -298,7 +298,7 @@ var video = (url: string) => new Element("div", { class: "video-wrapper" }, [
                         new Element("i", { class: "fa fa-cog" }, []),
                         new Element("div", { class: "video-controls-settings-menu", id: "settingsmenu" }, [
                             new Element("ul", {}, [
-                                new Element("li", { id: "playbackspeed" }, [
+                                new Element("li", { class: "video-controls-playback-speed" }, [
                                     new String("Speed"),
                                     new Element("ul", {}, [
                                         new Element("li", { id: "playback-0.25x" }, [

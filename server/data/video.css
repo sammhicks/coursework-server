@@ -338,7 +338,7 @@ video::-webkit-media-controls-enclosure {
     z-index: 0;
 }
 
-.video-controls-settings-menu #playbackspeed ul {
+.video-controls-settings-menu .video-controls-playback-speed ul {
     top: -250px;
 }
 
