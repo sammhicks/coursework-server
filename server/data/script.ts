@@ -235,14 +235,13 @@ window.onload = function () {
                     checkboxRemove(countriesOut, checkbox);
                     break;
                 case "competition":
+                    checkboxRemove(competitionsOut, checkbox);
                     break;
                 case "team":
+                    checkboxRemove(teamsOut, checkbox);
                     break;
                 case "player":
-                    break;
-                case "source":
-                    break;
-                case "media":
+                    checkboxRemove(playersOut, checkbox);
                     break;
                 default:
                     throw TypeError("TYPE DOESN'T EXIST");
@@ -254,6 +253,10 @@ window.onload = function () {
     function removeTag(contents: string) {
         var tag = document.getElementById(contents);
         tag.parentNode.removeChild(tag);
+    }
+
+    function createVideoEnvironment(url: string, meta: string[]) {
+        //
     }
 
     loop.addEventListener("click", loopToggle);
