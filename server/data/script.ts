@@ -193,6 +193,8 @@ window.onload = function () {
     }
 
     function makeTag(contents: string, type: string, parent: HTMLElement, asButton: boolean) {
+        if (contents.length < 1)
+            return;
         var classID = "";
         switch (type) {
             case "country":
@@ -253,10 +255,6 @@ window.onload = function () {
     function removeTag(contents: string) {
         var tag = document.getElementById(contents);
         tag.parentNode.removeChild(tag);
-    }
-
-    function createVideoEnvironment(url: string, meta: string[]) {
-        //
     }
 
     loop.addEventListener("click", loopToggle);
@@ -900,5 +898,260 @@ window.onload = function () {
 
     if (!haveEvents) {
         setInterval(scangamepads, 500);
+    }
+
+
+    function div() {
+        return document.createElement("div");
+    }
+
+    function span() {
+        return document.createElement("span");
+    }
+
+    function ul() {
+        return document.createElement("ul");
+    }
+
+    function li() {
+        return document.createElement("li");
+    }
+
+    function ii() {
+        return document.createElement("i");
+    }
+
+    //video generation
+    //meta stuff
+    //0 = title
+    //1 = date
+    //2 = countries - blank if none
+    //3 = comps - blank if none
+    //4 = teams - blank if none
+    //5 = players - blank if none
+    //6 = source
+    function createVideoEnvironment(url: string, meta: string[]) {
+        var vidwrap = div();
+        vidwrap.className = "video-wrapper";
+
+        var vidinfowrap = div();
+        vidinfowrap.className = "video-info-wrapper";
+        vidinfowrap.id = "videoinfo" + url;
+        vidwrap.appendChild(vidinfowrap);
+
+        var vidtitle = span();
+        vidtitle.className = "video-title";
+        vidtitle.id = "videotitle" + url;
+        vidtitle.innerHTML = meta[0];
+        vidinfowrap.appendChild(vidtitle);
+
+        var viddate = span();
+        viddate.className = "video-date";
+        viddate.id = "videodate" + url;
+        viddate.innerHTML = meta[1];
+        vidinfowrap.appendChild(viddate);
+
+        var vidtags = span();
+        vidtags.className = "video-tags";
+        vidtags.id = "videotags" + url;
+        vidtags.innerHTML = "Tags";
+        vidinfowrap.appendChild(vidtags);
+
+        var vidtagsul = ul();
+        vidtags.appendChild(vidtagsul);
+
+        var metatagscountry = meta[2].split("-");
+        for (var i = 0; i < metatagscountry.length; i++) {
+            makeTag(meta[i], "country", vidtagsul, false);
+        }
+
+        var metatagscomp = meta[3].split("-");
+        for (var i = 0; i < metatagscomp.length; i++) {
+            makeTag(meta[i], "competition", vidtagsul, false);
+        }
+
+        var metatagsteam = meta[4].split("-");
+        for (var i = 0; i < metatagsteam.length; i++) {
+            makeTag(meta[i], "team", vidtagsul, false);
+        }
+
+        var metatagsplayer = meta[5].split("-");
+        for (var i = 0; i < metatagsplayer.length; i++) {
+            makeTag(meta[i], "player", vidtagsul, false);
+        }
+
+        makeTag("VIDEO", "media", vidtagsul, false);
+
+        makeTag(meta[6], "source", vidtagsul, false);
+
+        var vidplayerwrap = div();
+        vidplayerwrap.className = "video-player-wrapper";
+        vidplayerwrap.tabIndex = 0;
+        vidwrap.appendChild(vidplayerwrap);
+
+        var vidplayerwrapdiv = div();
+        vidplayerwrap.appendChild(vidplayerwrapdiv);
+
+        var vidcontainer = div();
+        vidcontainer.className = "video-container";
+        vidcontainer.id = "videocontainer" + url;
+        vidplayerwrapdiv.appendChild(vidcontainer);
+
+        var video = document.createElement("video");
+        video.src = url;
+        video.width = 1280;
+        video.height = 720;
+        video.id = "myvideo" + url;
+        video.innerHTML = "Your browser does not support the video tag.";
+        vidcontainer.appendChild(video);
+
+        var vidmainiconplay = div();
+        vidmainiconplay.className = "video-main-icon-play";
+        vidmainiconplay.id = "vidmainiconplay" + url;
+        vidcontainer.appendChild(vidmainiconplay);
+
+        var vidmainiconplayi = ii();
+        vidmainiconplayi.className = "fa fa-play";
+        vidmainiconplayi.id = "vidmainiconplayicon" + url;
+        vidmainiconplay.appendChild(vidmainiconplayi);
+
+        var vidmainiconbuffer = div();
+        vidmainiconbuffer.className = "video-main-icon-buffer";
+        vidmainiconbuffer.id = "vidmainiconbuffer" + url;
+        vidcontainer.appendChild(vidmainiconbuffer);
+
+        var vidmainiconbufferi = ii();
+        vidmainiconbufferi.className = "fa fa-spinner";
+        vidmainiconbufferi.id = "vidmainiconbuffericon" + url;
+        vidmainiconbuffer.appendChild(vidmainiconbufferi);
+
+        var vidseekthumb = div();
+        vidseekthumb.className = "video-seek-thumbnail";
+        vidseekthumb.id = "seekthumbnail" + url;
+        vidcontainer.appendChild(vidseekthumb);
+
+        var vidseekthumbvideo = document.createElement("video");
+        vidseekthumbvideo.className = "video-seek-thumbnail-image";
+        vidseekthumbvideo.id = "seekthumbnailimage" + url;
+        vidseekthumbvideo.src = url;
+        vidseekthumbvideo.innerHTML = "Your browser does not support the video tag.";
+        vidseekthumb.appendChild(vidseekthumbvideo);
+
+        var vidseekthumbtime = span();
+        vidseekthumbtime.className = "video-seek-thumbnail-time";
+        vidseekthumbtime.id = "seekthumbtime" + url;
+        vidseekthumbtime.innerHTML = "00:00";
+        vidseekthumb.appendChild(vidseekthumbtime);
+
+        var vidseekthumbarrow = div();
+        vidseekthumbarrow.className = "video-seek-thumbnail-arrow";
+        vidseekthumbarrow.id = "seekthumbarrow" + url;
+        vidseekthumb.appendChild(vidseekthumbarrow);
+
+        var vidcontrols = div();
+        vidcontrols.className = "video-controls";
+        vidcontrols.id = "controls" + url;
+        vidcontainer.appendChild(vidcontrols);
+
+        var vidcontrolsseekwrapper = div();
+        vidcontrolsseekwrapper.className = "canvas-wrapper";
+        vidcontrolsseekwrapper.id = "canvaswrap" + url;
+        vidcontrols.appendChild(vidcontrolsseekwrapper);
+
+        var vidcontrolsseekcanvas = document.createElement("canvas");
+        vidcontrolsseekcanvas.className = "video-controls-seek";
+        vidcontrolsseekcanvas.id = "seekback" + url;
+        vidcontrolsseekwrapper.appendChild(vidcontrolsseekcanvas);
+
+        var vidcontrolsseek = div();
+        vidcontrolsseek.id = "seek" + url;
+        vidcontrolsseekwrapper.appendChild(vidcontrolsseek);
+
+        var vidcontrolsplaypause = div();
+        vidcontrolsplaypause.className = "video-controls-play-pause";
+        vidcontrolsplaypause.id = "play" + url;
+        vidcontrols.appendChild(vidcontrolsplaypause);
+
+        var vidcontrolsplaypausei = ii();
+        vidcontrolsplaypausei.className = "fa fa-play";
+        vidcontrolsplaypausei.id = "playicon" + url;
+        vidcontrolsplaypause.appendChild(vidcontrolsplaypausei);
+
+
+
+        new Element("div", { class: "video-wrapper" }, [
+            new Element("div", { class: "video-player-wrapper", tabindex: "0" }, [
+                new Element("div", {}, [
+                    new Element("div", { class: "video-container", id: "testyfull" }, [
+
+                        new Element("div", { class: "video-controls", id: "controls" }, [
+
+                            new Element("div", { class: "video-controls-time" }, [
+                                new Element("div", { id: "currenttime" }, [
+                                    new String("13:37")
+                                ]),
+                                new Element("div", {}, [
+                                    new String("/")
+                                ]),
+                                new Element("div", { id: "endtime" }, [
+                                    new String("69:69")
+                                ])
+                            ]),
+                            new Element("div", { class: "video-controls-volume", id: "volume" }, [
+                                new Element("i", { class: "material-icons md-48", id: "volicon" }, [
+                                    new String("volume_up")
+                                ])
+                            ]),
+                            new Element("div", { class: "video-controls-volume-content" }, [
+                                new Element("div", { id: "volbarback" }, [
+                                    new Element("div", { id: "volbar" }, [])
+                                ])
+                            ]),
+                            new Element("div", { class: "video-controls-fullscreen", id: "fullscreen" }, [
+                                new Element("i", { class: "material-icons md-48", id: "fullicon" }, [
+                                    new String("fullscreen")
+                                ])
+                            ]),
+                            new Element("div", { class: "video-controls-settings", id: "settings" }, [
+                                new Element("i", { class: "fa fa-cog" }, []),
+                                new Element("div", { class: "video-controls-settings-menu", id: "settingsmenu" }, [
+                                    new Element("ul", {}, [
+                                        new Element("li", { id: "playbackspeed" }, [
+                                            new String("Speed"),
+                                            new Element("ul", {}, [
+                                                new Element("li", { id: "playback-0.25x" }, [
+                                                    new String("0.25x")
+                                                ]),
+                                                new Element("li", { id: "playback-0.5x" }, [
+                                                    new String("0.5x")
+                                                ]),
+                                                new Element("li", { id: "playback-0.75x" }, [
+                                                    new String("0.75x")
+                                                ]),
+                                                new Element("li", { id: "playback-1x" }, [
+                                                    new String("Default")
+                                                ]),
+                                                new Element("li", { id: "playback-1.25x" }, [
+                                                    new String("1.25x")
+                                                ]),
+                                                new Element("li", { id: "playback-1.5x" }, [
+                                                    new String("1.5x")
+                                                ]),
+                                                new Element("li", { id: "playback-2x" }, [
+                                                    new String("2x")
+                                                ])
+                                            ])
+                                        ]),
+                                        new Element("li", { id: "playbackloop" }, [
+                                            new String("Loop"),
+                                        ])
+                                    ])
+                                ])
+                            ])
+                        ])
+                    ])
+                ])
+            ])
+        ])
     }
 }
