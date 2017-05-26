@@ -12,6 +12,46 @@ export const navbar = new Element("nav", { class: "navbar", id: "navbar" }, [
         ])
     ]),
     new Element("span", {}, [
+        new Element("a", { href: "about.html", title: "About Us" }, [
+            new String("About Us")
+        ]),
+        new Element("a", { href: "about_us.html", title: "About Us" }, [
+            new Element("i", { class: "fa fa-users" }, [])
+        ])
+    ]),
+    new Element("span", {}, [
+        new Element("a", { href: "blog.html", title: "Blog" }, [
+            new String("Blog")
+        ]),
+        new Element("a", { href: "blog.html", title: "Blog" }, [
+            new Element("i", { class: "fa fa-pencil-square" }, [])
+        ])
+    ]),
+    new Element("span", {}, [
+        new Element("a", { href: "privacy_policy.html", title: "Privacy Policy" }, [
+            new String("Privacy Policy")
+        ]),
+        new Element("a", { href: "privacy_policy.html", title: "Privacy Policy" }, [
+            new Element("i", { class: "fa fa-user-secret" }, [])
+        ])
+    ]),
+    new Element("span", {}, [
+        new Element("a", { href: "faqs.html", title: "FAQs" }, [
+            new String("FAQs")
+        ]),
+        new Element("a", { href: "faqs.html", title: "FAQs" }, [
+            new Element("i", { class: "fa fa-question-circle" }, [])
+        ])
+    ]),
+    new Element("span", {}, [
+        new Element("a", { href: "contact_us.html", title: "Contact Us" }, [
+            new String("Contact Us")
+        ]),
+        new Element("a", { href: "contact_us.html", title: "Contact Us" }, [
+            new Element("i", { class: "fa fa-envelope" }, [])
+        ])
+    ]),
+    /*new Element("span", {}, [
         new Element("a", { href: "news.html", title: "News" }, [
             new String("News")
         ]),
@@ -50,7 +90,7 @@ export const navbar = new Element("nav", { class: "navbar", id: "navbar" }, [
                 new String("image")
             ])
         ])
-    ]),
+    ]),*/
     new Element("form", {}, [
         new Element("input", { type: "text", title: "Search", id: "search" })
     ])

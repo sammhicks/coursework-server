@@ -22,3 +22,18 @@ a:hover {
 a:active {
     color: #ffe8cc;
 }
+
+body::-webkit-scrollbar{
+    width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    cursor: n-resize;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: darkorange;
+  outline: 1px solid #1c2f2f;
+}

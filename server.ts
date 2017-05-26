@@ -35,6 +35,7 @@ const apiHandler = new PromisedHandler(databaseInterfacePromise.then(database =>
 const crawledHandler = new Crawler().crawl("server/data", {
   namedHandlers: {
     home: handlers.home,
+    about: handlers.about,
     api: apiHandler
   }
 });

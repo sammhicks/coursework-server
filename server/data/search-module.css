@@ -3,8 +3,7 @@
     background-color: #172727;
     list-style-type: none;
     margin: auto;
-    max-width: 86%/*1310px*/
-    ;
+    max-width: 86%/*1310px*/;
     padding: 10px;
     overflow: auto;
     font-size: 1.5em;
@@ -16,7 +15,7 @@
     border-radius: 20px;*/
 }
 
-.searchModule li {
+.searchModule>li {
     outline: none;
     padding: 20px;
     display: inline-block;
@@ -30,12 +29,12 @@
     overflow: hidden;
 }
 
-.searchModule li:active {
+.searchModule>li:active {
     border-color: darkorange;
     /*border-radius: 0px;*/
 }
 
-.searchModule li:focus {
+.searchModule>li:focus {
     border-color: #2f4f4f;
     /*border-radius: 0px;*/
 }
@@ -86,6 +85,59 @@ li:hover .searchModuleImage img {
     text-align: center;
     padding: 0;
     margin: 0;
+    user-select: none;
+}
+
+.searchModuleContentTitle{
+    border-bottom: 2px solid #1c2f2f;
+}
+
+.searchModule>li:focus .searchModuleContentTitle{
+    border-bottom-color: #2f4f4f;
+}
+
+.searchModuleContent ul{
+    margin-top: 18px;
+    list-style-type: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 77%;
+    width: 90%;
+    padding: 0px 10px;
+}
+
+.searchModuleContent li{
+    font-size: 20px;
+    margin: 3px;
+    cursor: pointer;
+}
+
+.searchModuleContent li:first-child, .searchModuleContent li:last-child{
+    padding-top: 0;
+}
+
+.searchModuleContent li:hover{
+    background-color: #ffe8cc;
+    color: #1c2f2f;
+}
+
+.searchModuleContent ul::-webkit-scrollbar{
+    width: 12px;
+}
+
+.searchModuleContent ul::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    cursor: n-resize;
+}
+
+.searchModuleContent ul::-webkit-scrollbar-thumb {
+  background-color: darkorange;
+  outline: 1px solid #1c2f2f;
+}
+
+.searchModuleContent li{
+    padding: 2px;
 }
 
 @keyframes animatetop {
@@ -103,3 +155,152 @@ li:hover .searchModuleImage img {
         bottom: 0px
     }
 }
+
+.searchModuleGoWrapper{
+    padding: 20px;
+    display: inline-block;
+    width: 220px;
+    height: 220px;
+    margin: 30px;
+    vertical-align: middle;
+}
+
+.searchModuleGo{
+    margin: auto;
+    outline: none;
+    padding: 20px;
+    border: 10px solid #1c2f2f;
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    vertical-align: middle;
+    overflow: hidden;
+    user-select: none;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 30px
+}
+
+.searchModuleGo:hover{
+    border-color: darkorange;
+}
+
+.searchModuleGo:active{
+    background-color: darkorange;
+}
+
+.searchModuleGo i{
+    font-size: 70px;
+    vertical-align: middle;
+    color: #1c2f2f;
+}
+
+.searchModuleGo:hover *{
+    color: darkorange;
+}
+
+.searchModuleGo:active *{
+    color: #1c2f2f;
+}
+
+.searchModuleResults{
+    max-width: 86%/*1310px*/;
+    overflow: auto;
+    margin: auto;
+    margin-top: -30px
+}
+
+#numberOfResults{
+    float: right;
+    margin-right: 90px;
+}
+.searchModuleTags ul{
+    display: inline-block;
+    list-style-type: none;
+    padding: 3px;
+    overflow: auto;
+    text-align: center;
+    color: #ffe8cc;
+    text-transform: uppercase;
+}
+
+.searchModuleTags ul li{
+    margin: 4px 4px;
+    font-size: 13px;
+    display: inline-block;
+    padding: 2px 5px 2px 23px;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 5px;
+    vertical-align: middle;
+    font-weight: bold;
+    position: relative;
+    cursor: pointer;
+}
+
+.tag-team{
+    border-color: #980000;
+    background-color: #980000;
+}
+
+.tag-player{
+    border-color: #4c004c;
+    background-color: #4c004c;
+}
+
+.tag-comp{
+    border-color: #a77f03;
+    background-color: #a77f03;
+}
+
+.tag-media{
+    border-color: #0c8900;
+    background-color: #0c8900;
+}
+
+.tag-country{
+    border-color: #004b83;
+    background-color: #004b83;
+}
+
+.tag-source{
+    border-color: #171438;
+    background-color: #171438;
+}
+
+.tag-team::before, .tag-player::before, .tag-comp::before, .tag-media::before, .tag-country::before, .tag-source::before{
+    font-family: FontAwesome;
+    font-size: 13px;
+    left: 4px;
+    position: absolute;
+    top: 3px;
+}
+
+.tag-team::before{
+    content: "\f132";
+}
+
+.tag-player::before{
+    content: "\f007";
+}
+
+.tag-comp::before{
+    content: "\f091";
+}
+
+.tag-media::before{
+    content: "\f144";
+    /*content: "\f152";*/
+}
+
+.tag-country::before{
+    content: "\f024";
+}
+
+.tag-source::before{
+    /*content: "\f0ac"; globe*/
+    content: "\f093"; upload
+    /*content: "\f15b"; file*/
+    /*content: "\f019"; download*/
+}
+

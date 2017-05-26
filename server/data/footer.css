@@ -52,7 +52,7 @@
 
 .footer-content {
     list-style-type: none;
-    margin-left: 10%;
+    margin-left: 15%;
     margin-bottom: 20px;
     overflow: auto;
     text-align: left;
@@ -63,7 +63,7 @@
     outline: none;
     display: inline-block;
     width: 200px;
-    min-height: 200px;
+    min-height: 150px;
     margin-bottom: 10px;
     vertical-align: top;
     text-align: left;

@@ -16,6 +16,11 @@ const spacer = new Element("div", { class: "spacer" }, []);
 const search = new Element("div", { class: "searchModulesContainer", id: "searchModulesContainer" }, [
     new Element("ul", { class: "searchModule", id: "searchModule" }, [
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Quick Search")
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/search.svg", alt: "Quick Search" })
             ]),
@@ -23,15 +28,37 @@ const search = new Element("div", { class: "searchModulesContainer", id: "search
                 new String("Quick Search")
             ])
         ]),
-        new Element("li", { tabindex: "0" }, [
+        /*new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/media.svg", alt: "Search By Media Type" })
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Media Type")
             ])
-        ]),
+        ]),*/
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Search By Date")
+                ]),
+                new Element("ul", { id: "searchModuleDates" }, [
+                    new Element("li", {}, [
+                        new String("Past 24 Hours")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Past Week")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Past Month")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Past Year")
+                    ]),
+                    new Element("li", {}, [
+                        new String("All Time")
+                    ])
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/calendar.svg", alt: "Search By Date" })
             ]),
@@ -40,6 +67,19 @@ const search = new Element("div", { class: "searchModulesContainer", id: "search
             ])
         ]),
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Order Method")
+                ]),
+                new Element("ul", { id: "searchModuleOrders" }, [
+                    new Element("li", {}, [
+                        new String("Date: New to Old")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Date: Old to New")
+                    ]),
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/podium.svg", alt: "Order Method" })
             ]),
@@ -48,6 +88,34 @@ const search = new Element("div", { class: "searchModulesContainer", id: "search
             ])
         ]),
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Search By Country")
+                ]),
+                new Element("ul", { id: "searchModuleCountries" }, [
+                    new Element("li", {}, [
+                        new String("England")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Spain")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Germany")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Italy")
+                    ]),
+                    new Element("li", {}, [
+                        new String("France")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Portugal")
+                    ]),
+                    new Element("li", {}, [
+                        new String("Netherlands")
+                    ])
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/country.svg", alt: "Search By Country" })
             ]),
@@ -56,6 +124,16 @@ const search = new Element("div", { class: "searchModulesContainer", id: "search
             ])
         ]),
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Search By Competition")
+                ]),
+                new Element("ul", { id: "searchModuleCompetitions" }, [
+                    new Element("li", {}, [
+                        new String("PREMIERSHIP")
+                    ])
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/trophy.svg", alt: "Search By Competition" })
             ]),
@@ -64,6 +142,16 @@ const search = new Element("div", { class: "searchModulesContainer", id: "search
             ])
         ]),
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Search By Club")
+                ]),
+                new Element("ul", { id: "searchModuleTeams" }, [
+                    new Element("li", {}, [
+                        new String("CHELSEA")
+                    ])
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/club.svg", alt: "Search By Club" })
             ]),
@@ -72,11 +160,45 @@ const search = new Element("div", { class: "searchModulesContainer", id: "search
             ])
         ]),
         new Element("li", { tabindex: "0" }, [
+            new Element("div", { class: "searchModuleContent" }, [
+                new Element("span", { class: "searchModuleContentTitle" }, [
+                    new String("Search By Player")
+                ]),
+                new Element("ul", { id: "searchModulePlayers" }, [
+                    new Element("li", {}, [
+                        new String("HAZARD")
+                    ])
+                ])
+            ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/player.svg", alt: "Search By Player" })
             ]),
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Player")
+            ])
+        ]),
+        new Element("div", { class: "searchModuleGoWrapper" }, [
+            new Element("div", { class: "searchModuleGo", id: "searchModuleGo" }, [
+                new Element("i", { class: "fa fa-search-plus" }, []),
+                new Element("span", {}, [
+                    new String("Search")
+                ])
+            ])
+        ])
+    ]),
+    new Element("div", { class: "searchModuleResults" }, [
+        new Element("div", { class: "searchModuleTags", id: "searchModuleTags" }, [
+            new Element("ul", {}, []),
+            new Element("ul", {}, []),
+            new Element("ul", {}, []),
+            new Element("ul", {}, [])
+        ]),
+        new Element("div", { id: "numberOfResults" }, [
+            new Element("span", {}, [
+                new String("Number of Results: ")
+            ]),
+            new Element("span", {}, [
+                new String("0")
             ])
         ])
     ])
@@ -85,8 +207,38 @@ const search = new Element("div", { class: "searchModulesContainer", id: "search
 const latestGoal = new Element("p", {}, [
     new String("Latest goal from around the world")
 ])
-
-const video = (url: string) => new Element("div", { class: "video-wrapper" }, [
+var video = (url: string) => new Element("div", { class: "video-wrapper" }, [
+    new Element("div", { class: "video-info-wrapper", id: "videoinfo" }, [
+        new Element("span", { class: "video-title", id: "videotitle" }, [
+            new String("Eden Hazard Goal Chelsea 2-0 Arsenal This Title Is Long Enough For 2 Lines")
+        ]),
+        new Element("span", { class: "video-date", id: "videodate" }, [
+            new String("20-05-2017")
+        ]),
+        new Element("span", { class: "video-tags", id: "videotags" }, [
+            new String("Tags"),
+            new Element("ul", {}, [
+                new Element("li", { class: "tag-team" }, [
+                    new String("CHELSEA")
+                ]),
+                new Element("li", { class: "tag-player" }, [
+                    new String("EDEN HAZARD")
+                ]),
+                new Element("li", { class: "tag-comp" }, [
+                    new String("PREMIERSHIP")
+                ]),
+                new Element("li", { class: "tag-country" }, [
+                    new String("ENGLAND")
+                ]),
+                new Element("li", { class: "tag-media" }, [
+                    new String("VIDEO")
+                ]),
+                new Element("li", { class: "tag-source" }, [
+                    new String("STREAMABLE")
+                ])
+            ])
+        ])
+    ]),
     new Element("div", { class: "video-player-wrapper", tabindex: "0" }, [
         new Element("div", {}, [
             new Element("div", { class: "video-container", id: "testyfull" }, [
@@ -94,8 +246,25 @@ const video = (url: string) => new Element("div", { class: "video-wrapper" }, [
                     new Element("source", { src: url }),
                     new String("Your browser does not support the video tag.")
                 ]),
+                new Element("div", { class: "video-main-icon-play", id: "vidmainiconplay" }, [
+                    new Element("i", { class: "fa fa-play", id: "vidmainiconplayicon" }, [])
+                ]),
+                new Element("div", { class: "video-main-icon-buffer", id: "vidmainiconbuffer" }, [
+                    new Element("i", { class: "fa fa-spinner", id: "vidmainiconbuffericon" }, [])
+                ]),
+                new Element("div", { class: "video-seek-thumbnail", id: "seekthumbnail" }, [
+                    new Element("video", { class: "video-seek-thumbnail-image", id: "seekthumbnailimage" }, [
+                        new Element("source", { src: url }),
+                        new String("Your browser does not support the video tag.")
+                    ]),
+                    new Element("span", { class: "video-seek-thumbnail-time", id: "seekthumbnailtime" }, [
+                        new String("00:00")
+                    ]),
+                    new Element("div", { class: "video-seek-thumbnail-arrow", id: "seekthumbarrow" }, [])
+                ]),
                 new Element("div", { class: "video-controls", id: "controls" }, [
-                    new Element("div", { class: "video-controls-seek", id: "seekback" }, [
+                    new Element("div", { class: "canvas-wrapper", id: "canvaswrap" }, [
+                        new Element("canvas", { class: "video-controls-seek", id: "seekback" }, []),
                         new Element("div", { id: "seek" }, [])
                     ]),
                     new Element("div", { class: "video-controls-play-pause", id: "play" }, [
@@ -131,7 +300,7 @@ const video = (url: string) => new Element("div", { class: "video-wrapper" }, [
                         new Element("i", { class: "fa fa-cog" }, []),
                         new Element("div", { class: "video-controls-settings-menu", id: "settingsmenu" }, [
                             new Element("ul", {}, [
-                                new Element("li", { id: "playbackspeed" }, [
+                                new Element("li", { class: "video-controls-playback-speed" }, [
                                     new String("Speed"),
                                     new Element("ul", {}, [
                                         new Element("li", { id: "playback-0.25x" }, [
@@ -173,8 +342,9 @@ const homePage = new Page("", [], [], new Element("div", { class: "homepageConte
     header,
     spacer,
     search,
-    latestGoal,
-    video("https://u.nya.is/oobaxw.mp4")
+    latestGoal//,
+    //video("https://u.nya.is/oobaxw.mp4")
+    //video("https://r8---sn-q4f7snsy.googlevideo.com/videoplayback?key=yt6&lmt=1381899635777930&source=youtube&ratebypass=yes&dur=11866.279&clen=407996837&expire=1495586013&mime=video%2Fmp4&pl=24&initcwndbps=2390000&ip=159.253.144.86&sparams=clen%2Cdur%2Cei%2Cgir%2Cid%2Cinitcwndbps%2Cip%2Cipbits%2Citag%2Clmt%2Cmime%2Cmm%2Cmn%2Cms%2Cmv%2Cpl%2Cratebypass%2Crequiressl%2Csource%2Cexpire&ei=fIAkWfy6M9bP1gLSvrqQDA&itag=18&ms=au&mt=1495564346&mv=m&mm=31&mn=sn-q4f7snsy&id=o-AMQG5Oj4S1hwLfOMfwF4eBv_g1cVX30VaFFfSqOtQnj9&gir=yes&signature=08DA99692AC36F6B86185B74D621AC19DC1322F9.CB8269B0977101C9A77C84E59BE61B3C39B311C6&ipbits=0&requiressl=yes&title=long+test+video")
 ]));
 
 export const home = new LeafHandler(new HTMLHandler(homePage));

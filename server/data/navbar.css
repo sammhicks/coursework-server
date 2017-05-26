@@ -72,9 +72,11 @@
 
 .navbar span a:nth-child(2) {
     display: none;
+    font-family: FontAwesome;
+    font-size: 24px;
 }
 
-@media (max-width:975px) {
+@media (max-width:1050px) {
     .navbar span a:nth-child(1) {
         display: none;
     }
