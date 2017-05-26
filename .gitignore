@@ -45,8 +45,5 @@ jspm_packages
 # Javascript files
 *.js
 
-# Database
-*.sqlite3
-
 # Windows generated
 Thumbs.db
