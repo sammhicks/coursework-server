@@ -92,29 +92,7 @@ const search = new Element("div", { class: "searchModulesContainer", id: "search
                 new Element("span", { class: "searchModuleContentTitle" }, [
                     new String("Search By Country")
                 ]),
-                new Element("ul", { id: "searchModuleCountries" }, [
-                    new Element("li", {}, [
-                        new String("England")
-                    ]),
-                    new Element("li", {}, [
-                        new String("Spain")
-                    ]),
-                    new Element("li", {}, [
-                        new String("Germany")
-                    ]),
-                    new Element("li", {}, [
-                        new String("Italy")
-                    ]),
-                    new Element("li", {}, [
-                        new String("France")
-                    ]),
-                    new Element("li", {}, [
-                        new String("Portugal")
-                    ]),
-                    new Element("li", {}, [
-                        new String("Netherlands")
-                    ])
-                ])
+                new Element("ul", { id: "searchModuleCountries" }, [])
             ]),
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/country.svg", alt: "Search By Country" })

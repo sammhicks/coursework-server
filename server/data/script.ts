@@ -80,17 +80,17 @@ window.onload = function () {
     }
 
     var countries = document.querySelectorAll("#searchModuleCountries>li");
-    var countriesOut: string[] = [];
+    var countriesOut: Set<any> = new Set();
 
     //will be filled via server requests
     var competitions = document.querySelectorAll("#searchModuleCompetitions>li");
-    var competitionsOut: string[] = [];
+    var competitionsOut: Set<any> = new Set();
 
     var teams = document.querySelectorAll("#searchModuleTeams>li");
-    var teamsOut: string[] = [];
+    var teamsOut: Set<any> = new Set();
 
     var players = document.querySelectorAll("#searchModulePlayers>li");
-    var playersOut: string[] = [];
+    var playersOut: Set<any> = new Set();
 
     var searchTags = document.getElementById("searchModuleTags");
     var searchTagsCountry = searchTags.firstElementChild as HTMLElement;
@@ -98,68 +98,40 @@ window.onload = function () {
     var searchTagsTeam = searchTagsCountry.nextElementSibling as HTMLElement;
     var searchTagsPlayer = searchTagsCountry.nextElementSibling as HTMLElement;
 
-    setupCheckboxes(countries, countriesOut, "country");
-    setupCheckboxes(competitions, competitionsOut, "competition");
-    setupCheckboxes(teams, teamsOut, "team");
-    setupCheckboxes(players, playersOut, "player");
-
-    function setupCheckboxes(array: NodeListOf<Element>, output: string[], type: string) {
-        for (var i = 0; i < array.length; i++) {
-            array[i].id = "checkbox: " + type + " " + array[i].innerHTML;
-            array[i].addEventListener("click", function () {
-                var ind = output.indexOf(this.innerHTML);
-                if (ind == -1) {
-                    this.style.color = "#1c2f2f";
-                    this.style.backgroundColor = "darkorange";
-                    output.push(this.innerHTML);
-                    switch (type) {
-                        case "country":
-                            makeTag(this.innerHTML, type, searchTagsCountry);
-                            break;
-                        case "competition":
-                            makeTag(this.innerHTML, type, searchTagsComp);
-                            break;
-                        case "team":
-                            makeTag(this.innerHTML, type, searchTagsTeam);
-                            break;
-                        case "player":
-                            makeTag(this.innerHTML, type, searchTagsPlayer);
-                            break;
-                        default:
-                            break;
-                    }
-                } else {
-                    this.style.color = "";
-                    this.style.backgroundColor = "";
-                    output.splice(ind, 1);
-                    removeTag("tag: " + type + " " + this.innerHTML);
-                }
-                console.log(output);
-            });
-        }
-    }
-
-    function setupCheckbox(elem: HTMLElement, output: string[], type: string, id: number, content: string) {
-        elem.innerHTML = content;
-        elem.id = "checkbox: " + type + " " + id;
+    function setupCheckbox(elem: HTMLElement, output: Set<any>, type: string, obj: any) {
+        elem.innerHTML = obj.name;
+        elem.id = "checkbox: " + type + " " + obj.id;
         elem.addEventListener("click", function () {
-            var ind = output.indexOf(this.innerHTML);
-            if (ind == -1) {
+            if (!output.has(obj)) {
                 this.style.color = "#1c2f2f";
                 this.style.backgroundColor = "darkorange";
-                output.push(this.innerHTML);
+                output.add(obj);
                 switch (type) {
                     case "country":
-                        makeTagButton(this.innerHTML, type, searchTagsCountry, id);
+                        makeTagButton(type, searchTagsCountry, obj);
+                        var parent2 = document.getElementById("searchModuleCompetitions");
+                        var call = "api/countries/" + Array.from(countriesOut).map(c => c.id).join("+") + "/competitions";
+                        jQuery.getJSON(call, function onResult(compsJson) {
+                            //remove stuff
+                            while (parent2.firstElementChild) {
+                                parent2.removeChild(parent2.firstElementChild);
+                            }
+                            //add stuff
+                            for (var i = 0; i < compsJson.length; i++) {
+                                var elem = document.createElement("li");
+                                parent2.appendChild(elem);
+                                setupCheckbox(elem, competitionsOut, "competition", compsJson[i]);
+                            }
+                        });
                         break;
                     case "competition":
-                        makeTagButton(this.innerHTML, type, searchTagsComp, id);
+                        makeTagButton(type, searchTagsComp, obj);
                         break;
                     case "team":
-                        makeTagButton(this.innerHTML, type, searchTagsTeam, id);
+                        makeTagButton(type, searchTagsTeam, obj);
                         break;
                     case "player":
-                        makeTagButton(this.innerHTML, type, searchTagsPlayer, id);
+                        makeTagButton(type, searchTagsPlayer, obj);
                         break;
                     default:
                         break;
@@ -167,23 +139,47 @@ window.onload = function () {
             } else {
                 this.style.color = "";
                 this.style.backgroundColor = "";
-                output.splice(ind, 1);
-                removeTag("tag: " + type + " " + id);
+                output.delete(obj);
+                removeTag("tag: " + type + " " + obj.id);
+                switch (type) {
+                    case "country":
+                        var parent2 = document.getElementById("searchModuleCompetitions");
+                        var call = "api/countries/" + Array.from(countriesOut).map(c => c.id).join("+") + "/competitions";
+                        jQuery.getJSON(call, function onResult(compsJson) {
+                            //remove stuff
+                            while (parent2.firstElementChild) {
+                                parent2.removeChild(parent2.firstElementChild);
+                            }
+                            //add stuff
+                            for (var i = 0; i < compsJson.length; i++) {
+                                var elem = document.createElement("li");
+                                parent2.appendChild(elem);
+                                setupCheckbox(elem, competitionsOut, "competition", compsJson[i]);
+                            }
+                        });
+                        break;
+                    case "competition":
+                        break;
+                    case "team":
+                        break;
+                    case "player":
+                        break;
+                    default:
+                        break;
+                }
             }
-            console.log(output);
         });
     }
 
-    function checkboxRemove(output: string[], elem: HTMLElement) {
-        var ind = output.indexOf(elem.innerHTML);
-        if (ind == -1) {
+    function checkboxRemove(output: Set<any>, elem: HTMLElement, obj: any) {
+        if (!output.has(obj)) {
             elem.style.color = "#1c2f2f";
             elem.style.backgroundColor = "darkorange";
-            output.push(this.innerHTML);
+            output.add(obj)
         } else {
             elem.style.color = "";;
             elem.style.backgroundColor = "";
-            output.splice(ind, 1);
+            output.delete(obj);
         }
     }
 
@@ -220,8 +216,8 @@ window.onload = function () {
         parent.appendChild(tag)
     }
 
-    function makeTagButton(contents: string, type: string, parent: HTMLElement, id: number) {
-        if (contents.length < 1)
+    function makeTagButton(type: string, parent: HTMLElement, obj: any) {
+        if (obj.name.length < 1)
             return;
         var classID = "";
         switch (type) {
@@ -247,29 +243,29 @@ window.onload = function () {
                 throw TypeError("TYPE DOESN'T EXIST");
         }
         var tag = document.createElement("li") as HTMLElement;
-        tag.innerHTML = contents;
+        tag.innerHTML = obj.name;
         tag.className = classID;
-        tag.id = "tag: " + type + " " + id;
-        tag = wireTag(tag, parent, type, id);
+        tag.id = "tag: " + type + " " + obj.id;
+        tag = wireTag(tag, parent, type, obj);
         parent.appendChild(tag)
     }
 
-    function wireTag(tag: HTMLElement, parent: HTMLElement, type: string, id: number) {
+    function wireTag(tag: HTMLElement, parent: HTMLElement, type: string, obj: any) {
         tag.addEventListener("click", function () {
             parent.removeChild(this);
-            var checkbox = document.getElementById("checkbox: " + type + " " + id);
+            var checkbox = document.getElementById("checkbox: " + type + " " + obj.id);
             switch (type) {
                 case "country":
-                    checkboxRemove(countriesOut, checkbox);
+                    checkboxRemove(countriesOut, checkbox, obj);
                     break;
                 case "competition":
-                    checkboxRemove(competitionsOut, checkbox);
+                    checkboxRemove(competitionsOut, checkbox, obj);
                     break;
                 case "team":
-                    checkboxRemove(teamsOut, checkbox);
+                    checkboxRemove(teamsOut, checkbox, obj);
                     break;
                 case "player":
-                    checkboxRemove(playersOut, checkbox);
+                    checkboxRemove(playersOut, checkbox, obj);
                     break;
                 default:
                     throw TypeError("TYPE DOESN'T EXIST");
@@ -283,6 +279,48 @@ window.onload = function () {
         tag.parentNode.removeChild(tag);
     }
 
+    var parent1 = document.getElementById("searchModuleCountries");
+    jQuery.getJSON("/api/countries", function onResult(countriesJson) {
+        //remove stuff
+        while (parent1.firstElementChild) {
+            parent1.removeChild(parent1.firstElementChild);
+        }
+        //add stuff
+        for (var i = 0; i < countriesJson.length; i++) {
+            var elem = document.createElement("li");
+            parent1.appendChild(elem);
+            setupCheckbox(elem, countriesOut, "country", countriesJson[i]);
+        }
+    });
+
+    var parent2 = document.getElementById("searchModuleCompetitions");
+    jQuery.getJSON("/api/competitions", function onResult(compsJson) {
+        //remove stuff
+        while (parent2.firstElementChild) {
+            parent2.removeChild(parent2.firstElementChild);
+        }
+        //add stuff
+        for (var i = 0; i < compsJson.length; i++) {
+            var elem = document.createElement("li");
+            parent2.appendChild(elem);
+            setupCheckbox(elem, competitionsOut, "competition", compsJson[i]);
+        }
+    });
+
+    var parent3 = document.getElementById("searchModuleTeams");
+    jQuery.getJSON("/api/teams", function onResult(teamsJson) {
+        //remove stuff
+        while (parent3.firstElementChild) {
+            parent3.removeChild(parent3.firstElementChild);
+        }
+        //add stuff
+        for (var i = 0; i < teamsJson.length; i++) {
+            var elem = document.createElement("li");
+            parent3.appendChild(elem);
+            setupCheckbox(elem, teamsOut, "team", teamsJson[i]);
+        }
+    });
+
     var searchbuttons = document.querySelectorAll(".searchModule>li");
     for (var i = 0; i < searchbuttons.length; i++) {
         (function () {
@@ -290,50 +328,6 @@ window.onload = function () {
             var savedi = i;
             searchbuttons[i].addEventListener("click", function (e) {
                 modal.style.display = "block";
-                switch (savedi) {
-                    //countries
-                    case 3:
-                        var parent = document.getElementById("searchModuleCountries");
-                        jQuery.getJSON("/api/countries", function onResult(countriesJson) {
-                            //remove stuff
-                            for (var i = 0; i < countries.length; i++) {
-                                parent.removeChild(countries[i]);
-                                countriesOut = [];
-                            }
-                            //add stuff
-                            for (var i = 0; i < countriesJson.length; i++) {
-                                var elem = document.createElement("li");
-                                parent.appendChild(elem);
-                                setupCheckbox(elem, countriesOut, "country", countriesJson[i].id, countriesJson[i].name);
-                            }
-                            //deal with children
-                            for (var i = 0; i < countriesOut.length; i++) {
-
-                            }
-                            //rewire what was already selected
-                        });
-                        break;
-                    //comps
-                    case 4:
-                        var parent = document.getElementById("searchModuleCompetitions");
-                        jQuery.getJSON("/api/competitions", function onResult(compsJson) {
-                            //remove stuff
-                            for (var i = 0; i < competitions.length; i++) {
-                                parent.removeChild(competitions[i]);
-                                competitionsOut = [];
-                            }
-                            //add stuff
-                            for (var i = 0; i < compsJson.length; i++) {
-                                var elem = document.createElement("li");
-                                parent.appendChild(elem);
-                                setupCheckbox(elem, competitionsOut, "competition", compsJson[i].id, compsJson[i].name);
-                            }
-                            //rewire what was already selected
-                        });
-                        break;
-                    default:
-                        break;
-                }
             });
             document.addEventListener("click", function () {
                 modal.style.display = "none";
