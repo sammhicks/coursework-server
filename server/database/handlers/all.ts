@@ -18,6 +18,7 @@ class AllVideosHandlerInner extends Handler {
 
     handleRequest(request: Request): Promise<void> {
         request.response.setHeader("Cache-Control", "no-store");
-        return this.database.allVideos().then(Handler.handleJSONCurry(request));
+        return Promise.reject(new Error("Test Failure"));
+        //return this.database.allVideos().then(Handler.handleJSONCurry(request));
     }
 }

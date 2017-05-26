@@ -1,4 +1,4 @@
-import { Link } from "./reddit";
+import { Link } from "../reddit";
 
 export class Video {
     redditId: string;

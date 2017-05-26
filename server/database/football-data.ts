@@ -20,8 +20,15 @@ export class FootballData {
                 "User-Agent": "Ball To Hand Crawler",
                 "X-Auth-Token": "31a3eb348dce4d8fa6b62ab42e898f59"
             },
-            json: true
-        }));
+            json: true,
+            followRedirect: function (response) {
+                console.error(resource, response);
+                return false;
+            }
+        })).then(result => { console.log(resource, result); return result; }, error => {
+            console.error(resource, error);
+            throw error;
+        });
     }
 
     getTeams(competitionID: number) {
@@ -29,6 +36,6 @@ export class FootballData {
     }
 
     getPlayers(teamID: number) {
-        return this.request<Players>("teams" + teamID.toString(10) + "players")
+        return this.request<Players>("teams", teamID.toString(10), "players")
     }
 }

@@ -12,6 +12,7 @@ import { Request } from "./request";
 
 import { Locked } from "./promises/lock";
 import { Database, Mode as DatabaseMode } from "./promises/sqlite3";
+import { crawl as crawlFootballData } from "./server/database/football-data-crawler";
 import { crawl as crawlReddit } from "./server/database/reddit-crawler";
 import { Interface as DatabaseInterface } from "./server/database/database";
 import { VideosAPIHandler } from "./server/database/handlers";
@@ -64,4 +65,4 @@ secureServer.on("listening", function serverListen() {
 
 secureServer.listen(securePort);
 
-databaseInterfacePromise.then(crawlReddit);
+databaseInterfacePromise.then(database => crawlFootballData(database).then(() => database)).then(crawlReddit);

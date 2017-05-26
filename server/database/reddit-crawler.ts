@@ -26,12 +26,12 @@ export function crawl(database: DatabaseInterface, after?: string) {
         if (hasListing(thing)) {
             Promise.all(thing.data.children.map(function handleChild(child: Thing) {
                 if (hasLink(child)) {
-                    return database.videoExists(child.data.id).then(function handleExists(exists: boolean) {
+                    /*return database.videoExists(child.data.id).then(function handleExists(exists: boolean) {
                         if (!exists) {
                             for (let n = 0; n < domains.length; ++n) {
                                 if (domains[n].domain === child.data.domain) {
                                     return domains[n].resolve(child).then(function insertVideo(video: Video) {
-                                        database.insert(video);
+                                        //database.insert(video);
                                     }, function handleError(error: Error) { });
                                 }
                             }
@@ -39,7 +39,8 @@ export function crawl(database: DatabaseInterface, after?: string) {
                         } else {
                             return Promise.resolve();
                         }
-                    });
+                    });*/
+                    return Promise.reject(new Error("Finish redddit crawler!"));
                 } else {
                     return Promise.resolve();
                 }

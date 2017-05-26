@@ -55,8 +55,8 @@ CREATE TABLE "fixtures" (
     "competition_id"    INTEGER,
     FOREIGN KEY ("home_team_id") REFERENCES "teams"("id"),
     FOREIGN KEY ("away_team_id") REFERENCES "teams"("id"),
-    FOREIGN KEY ("competition_id") REFERENCES "competitions"("id"),
-)
+    FOREIGN KEY ("competition_id") REFERENCES "competitions"("id")
+);
 
 CREATE INDEX "fixture_dates" ON "fixtures" ("date");
 

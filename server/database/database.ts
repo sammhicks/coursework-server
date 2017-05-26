@@ -6,9 +6,9 @@ import { FootballData } from "./football-data";
 import * as footballDataTypes from "./football-data-types";
 import { Video as RedditVideo } from "./domains";
 
-function createInsertTag(table: string) {
+/*function createInsertTag(table: string) {
     return "INSERT INTO " + table + "_tags (video_id, " + table + "_id) VALUES ($video_id, $tag_id)";
-}
+}*/
 
 const statementStrings = {
     allCountries: "SELECT id, name FROM countries",
@@ -18,10 +18,10 @@ const statementStrings = {
     allPlayers: "SELECT id, name from players",
     insertPlayer: "INSERT INTO players (name, team_id) VALUES ($name, $team_id)",
     insertFixture: "INSERT INTO fixtures (date, home_team_id, away_team_id, competition_id) VALUES ($date, $home_team_id, $away_team_id, $competition_id)",
-    insertCountryTag: createInsertTag("country"),
+    /*insertCountryTag: createInsertTag("country"),
     insertCompetitionTag: createInsertTag("competition"),
     insertTeamTag: createInsertTag("team"),
-    insertPlayerTag: createInsertTag("player")
+    insertPlayerTag: createInsertTag("player"),*/
 }
 
 function prepareStatement(database: Locked<Database>, statement: string): Promise<Statement> {
@@ -34,10 +34,6 @@ function prepareParameterNames(count: number) {
     return "(" + Array.from(Array(count)).map(() => "?").join(",") + ")";
 }
 
-function getIDs(items: { id: number }[]) {
-    return items.map(item => item.id);
-}
-
 export class Interface {
     private footballData: FootballData;
 
@@ -48,10 +44,10 @@ export class Interface {
     private allPlayersStatement: Promise<Statement>;
     private insertPlayerStatement: Promise<Statement>;
     private insertFixtureStatement: Promise<Statement>;
-    private insertCountryTagStatement: Promise<Statement>;
+    /*private insertCountryTagStatement: Promise<Statement>;
     private insertCompetitionTagStatement: Promise<Statement>;
     private insertTeamTagStatement: Promise<Statement>;
-    private insertPlayerTagStatement: Promise<Statement>;
+    private insertPlayerTagStatement: Promise<Statement>;*/
 
     constructor(private database: Locked<Database>) {
         this.footballData = new FootballData();
@@ -63,7 +59,7 @@ export class Interface {
         this.allPlayersStatement = prepareStatement(database, statementStrings.allPlayers);
         this.insertPlayerStatement = prepareStatement(database, statementStrings.insertPlayer);
         this.insertFixtureStatement = prepareStatement(database, statementStrings.insertFixture);
-        this.insertCountryTagStatement = prep
+        //this.insertCountryTagStatement = prep
     }
 
     private runSimpleAllStatement<Result>(statementPromise: Promise<Statement>): Promise<Result[]> {
@@ -97,14 +93,13 @@ export class Interface {
         return this.runSimpleAllStatement<databaseTypes.Competition>(this.allCompetitionsStatement);
     }
 
-    getCompetitions(countries: databaseTypes.Country[]) {
+    getCompetitions(countries: number[]) {
         if (countries.length == 0) {
             return this.getAllCompetitions();
         } else {
             const statement = statementStrings.allCountries + " WHERE country_id IN " + prepareParameterNames(countries.length);
-            const options = getIDs(countries);
 
-            return this.runAllStatement<databaseTypes.Competition>(statement, options);
+            return this.runAllStatement<databaseTypes.Competition>(statement, countries);
         }
     }
 
@@ -112,14 +107,13 @@ export class Interface {
         return this.runSimpleAllStatement<databaseTypes.Team>(this.allTeamsStatement);
     }
 
-    getTeams(competitions: databaseTypes.Competition[]) {
+    getTeams(competitions: number[]) {
         if (competitions.length == 0) {
             return this.getAllTeams();
         } else {
             const statement = statementStrings.allTeams + " WHERE competition_id IN " + prepareParameterNames(competitions.length);
-            const options = getIDs(competitions);
 
-            return this.runAllStatement<databaseTypes.Team>(statement, options);
+            return this.runAllStatement<databaseTypes.Team>(statement, competitions);
         }
     }
 
@@ -139,14 +133,13 @@ export class Interface {
         return this.runSimpleAllStatement<databaseTypes.Player>(this.allPlayersStatement);
     }
 
-    getPlayers(teams: databaseTypes.Team[]) {
+    getPlayers(teams: number[]) {
         if (teams.length == 0) {
             return this.getAllPlayers();
         } else {
             const statement = statementStrings.allPlayers + " WHERE team_id IN " + prepareParameterNames(teams.length);
-            const options = getIDs(teams);
 
-            return this.runAllStatement<databaseTypes.Player>(statement, options);
+            return this.runAllStatement<databaseTypes.Player>(statement, teams);
         }
     }
 
@@ -170,9 +163,16 @@ export class Interface {
         });
     }
 
-    insertCountryTags(videoID: number, tags: databaseTypes.CountryTag[]) {
-        return this.insertItems()
+    /*private insertTags(statementPromise: Promise<Statement>, videoID: string, tags: databaseTypes.Tag[], getTagID: (tag: databaseTypes.Tag) => number) {
+        return this.insertItems(statementPromise, tags, function getOptions(tag) {
+            return {
+                $video_id: tag.video_id,
+                $tag_id: getTagID(tag)
+            }
+        });
     }
+
+    private getTags*/
 }
 
 /*export class Interface {

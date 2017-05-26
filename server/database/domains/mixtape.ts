@@ -1,6 +1,6 @@
 import { Domain } from "./domain"
 import { HasLink } from "../reddit";
-import { Video } from "../video";
+import { Video } from "./video";
 
 export class Mixtape implements Domain {
     domain: string;
