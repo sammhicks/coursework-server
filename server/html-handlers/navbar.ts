@@ -15,7 +15,7 @@ export const navbar = new Element("nav", { class: "navbar", id: "navbar" }, [
         new Element("a", { href: "about.html", title: "About Us" }, [
             new String("About Us")
         ]),
-        new Element("a", { href: "about_us.html", title: "About Us" }, [
+        new Element("a", { href: "about.html", title: "About Us" }, [
             new Element("i", { class: "fa fa-users" }, [])
         ])
     ]),
@@ -28,10 +28,10 @@ export const navbar = new Element("nav", { class: "navbar", id: "navbar" }, [
         ])
     ]),
     new Element("span", {}, [
-        new Element("a", { href: "privacy_policy.html", title: "Privacy Policy" }, [
+        new Element("a", { href: "privacy.html", title: "Privacy Policy" }, [
             new String("Privacy Policy")
         ]),
-        new Element("a", { href: "privacy_policy.html", title: "Privacy Policy" }, [
+        new Element("a", { href: "privacy.html", title: "Privacy Policy" }, [
             new Element("i", { class: "fa fa-user-secret" }, [])
         ])
     ]),
@@ -44,10 +44,10 @@ export const navbar = new Element("nav", { class: "navbar", id: "navbar" }, [
         ])
     ]),
     new Element("span", {}, [
-        new Element("a", { href: "contact_us.html", title: "Contact Us" }, [
+        new Element("a", { href: "contact.html", title: "Contact Us" }, [
             new String("Contact Us")
         ]),
-        new Element("a", { href: "contact_us.html", title: "Contact Us" }, [
+        new Element("a", { href: "contact.html", title: "Contact Us" }, [
             new Element("i", { class: "fa fa-envelope" }, [])
         ])
     ]),

@@ -5,6 +5,10 @@
 	"namedHandlers": {
 		"index.html": "home",
 		"about.html": "about",
+		"faqs.html": "faqs",
+		"blog.html": "blog",
+		"contact.html": "contact",
+		"privacy.html": "privacy",
 		"api": "api"
 	}
 }

@@ -36,6 +36,10 @@ const crawledHandler = new Crawler().crawl("server/data", {
   namedHandlers: {
     home: handlers.home,
     about: handlers.about,
+    faqs: handlers.faqs,
+    blog: handlers.blog,
+    contact: handlers.contact,
+    privacy: handlers.privacy,
     api: apiHandler
   }
 });

@@ -37,13 +37,13 @@ export const footer = new Element("footer", { class: "footer" }, [
                     new String("About")
                 ]),
                 new Element("nav", {}, [
-                    new Element("a", { href: "about_us.html", title: "About Us" }, [
+                    new Element("a", { href: "about.html", title: "About Us" }, [
                         new String("About Us")
                     ]),
                     new Element("a", { href: "blog.html", title: "Blog" }, [
                         new String("Blog")
                     ]),
-                    new Element("a", { href: "privacy_policy.html", title: "Privacy Policy" }, [
+                    new Element("a", { href: "privacy.html", title: "Privacy Policy" }, [
                         new String("Privacy Policy")
                     ])
                 ])
@@ -53,7 +53,7 @@ export const footer = new Element("footer", { class: "footer" }, [
                     new String("Help")
                 ]),
                 new Element("nav", {}, [
-                    new Element("a", { href: "contact_us.html", title: "Contact Us" }, [
+                    new Element("a", { href: "contact.html", title: "Contact Us" }, [
                         new String("Contact Us")
                     ]),
                     new Element("a", { href: "faqs.html", title: "FAQs" }, [

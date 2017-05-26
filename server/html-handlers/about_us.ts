@@ -37,7 +37,7 @@ var commandments = new Element("div", { class: "commandments" }, [
     new Element("span", { class: "commandmentItem" })
 ])
 
-var aboutPage = new Page("", ["about.css"], [], new Element("div", { class: "aboutContent", id: "aboutContent" }, [
+var aboutPage = new Page("About Us", ["about.css"], [], new Element("div", { class: "aboutContent", id: "aboutContent" }, [
     imageWrap,
     commandments
 ]));

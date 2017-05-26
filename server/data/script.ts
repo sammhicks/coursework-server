@@ -175,7 +175,7 @@ window.onload = function () {
                     for (var i = 0; i < playersJson.length; i++) {
                         var elem = document.createElement("li");
                         parent2.appendChild(elem);
-                        setupCheckbox(elem, playersOut, "team", playersJson[i]);
+                        setupCheckbox(elem, playersOut, "player", playersJson[i]);
                     }
                 });
                 break;
@@ -542,9 +542,9 @@ window.onload = function () {
 
         //handle sort orderType
         if (orderType == 0) {//new to old
-            call + "?sorting=dsc";
+            call += "?sorting=dsc";
         } else {//old to new
-            call + "?sorting=asc";
+            call += "?sorting=asc";
         }
 
         jQuery.getJSON(call, function onResult(vids) {
@@ -557,8 +557,8 @@ window.onload = function () {
     });
 
     function unixToDate(input: number) {
-        var date = new Date(input);
-        return date.getDay().toString(10) + "-" + date.getMonth().toString(10) + "-" + date.getFullYear().toString(10);
+        var date = new Date(input * 1000);
+        return date.toLocaleDateString();
     }
 
     // CONTROLLER stuff
