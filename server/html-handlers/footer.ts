@@ -66,13 +66,13 @@ export const footer = new Element("footer", { class: "footer" }, [
                     new String("Connect")
                 ]),
                 new Element("nav", {}, [
-                    new Element("a", { href: "#", id: "socialFB", title: "Facebook" }, [
+                    new Element("a", { href: "http://www.facebook.com", id: "socialFB", title: "Facebook" }, [
                         new String("Facebook")
                     ]),
-                    new Element("a", { href: "#", id: "socialTW", title: "Twitter" }, [
+                    new Element("a", { href: "http://www.twitter.com", id: "socialTW", title: "Twitter" }, [
                         new String("Twitter")
                     ]),
-                    new Element("a", { href: "#", id: "socialIN", title: "Instagram" }, [
+                    new Element("a", { href: "http://www.instagram.com", id: "socialIN", title: "Instagram" }, [
                         new String("Instagram")
                     ])
                 ])

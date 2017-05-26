@@ -542,7 +542,7 @@ window.onload = function () {
 
         //handle sort orderType
         if (orderType == 0) {//new to old
-            call += "?sorting=dsc";
+            call += "?sorting=desc";
         } else {//old to new
             call += "?sorting=asc";
         }

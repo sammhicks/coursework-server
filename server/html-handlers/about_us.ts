@@ -10,7 +10,7 @@ var imageWrap = new Element("div", { class: "image-wrap" }, [
             new String("Samuel Hicks")
         ]),
         new Element("span", {}, [
-            new String("Programming wizard. Old man. Lead back-end developer. May actually be a lizard person. Handy with an accordian.")
+            new String("Programming wizard. Old man. Lead back-end developer. May actually be a lizard person. Knows more Haskell than you. Handy with an accordian.")
         ]),
     ]),
     new Element("div", { class: "bio-circle", id: "bio-circle-mike" }, []),
@@ -25,16 +25,39 @@ var imageWrap = new Element("div", { class: "image-wrap" }, [
 ]);
 
 var commandments = new Element("div", { class: "commandments" }, [
-    new Element("span", { class: "commandmentItem" }),
-    new Element("span", { class: "commandmentItem" }),
-    new Element("span", { class: "commandmentItem" }),
-    new Element("span", { class: "commandmentItem" }),
-    new Element("span", { class: "commandmentItem" }),
-    new Element("span", { class: "commandmentItem" }),
-    new Element("span", { class: "commandmentItem" }),
-    new Element("span", { class: "commandmentItem" }),
-    new Element("span", { class: "commandmentItem" }),
-    new Element("span", { class: "commandmentItem" })
+    new Element("h1", {}, [
+        new String("10 Commandments of Ball 2 Hand")
+    ]),
+    new Element("p", { class: "commandmentItem" }, [
+        new String("I: Thou shalt not use any other websites for football videos")
+    ]),
+    new Element("p", { class: "commandmentItem" }, [
+        new String("II: Thou shalt give us full marks")
+    ]),
+    new Element("p", { class: "commandmentItem" }, [
+        new String("III: Thou shalt tell all your friends about this website")
+    ]),
+    new Element("p", { class: "commandmentItem" }, [
+        new String("IV: Thou must put faith in Reddit's API")
+    ]),
+    new Element("p", { class: "commandmentItem" }, [
+        new String("V: Thou must not copy this website idea")
+    ]),
+    new Element("p", { class: "commandmentItem" }, [
+        new String("VI: Thou shalt not repeat commandments because you hath run out of ideas")
+    ]),
+    new Element("p", { class: "commandmentItem" }, [
+        new String("VII: Thou shalt not repeat commandments because you hath run out of ideas")
+    ]),
+    new Element("p", { class: "commandmentItem" }, [
+        new String("VIII: Thou must not beg for more leagues")
+    ]),
+    new Element("p", { class: "commandmentItem" }, [
+        new String("IX: Thou must enjoy the animation in the footer")
+    ]),
+    new Element("p", { class: "commandmentItem" }, [
+        new String("X: Thou must be bored if you have got this far")
+    ])
 ])
 
 var aboutPage = new Page("About Us", ["about.css"], [], new Element("div", { class: "aboutContent", id: "aboutContent" }, [
