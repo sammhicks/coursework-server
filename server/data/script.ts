@@ -107,9 +107,7 @@ window.onload = function () {
                 } else {
                     call = "api/competitions";
                 }
-                /*while (searchTagsComp.firstElementChild) {
-                    searchTagsComp.removeChild(searchTagsComp.firstElementChild);
-                }*/
+                competitionsOut.clear()
                 var parent2 = document.getElementById("searchModuleCompetitions");
                 jQuery.getJSON(call, function onResult(compsJson) {
                     //remove stuff
@@ -135,9 +133,7 @@ window.onload = function () {
                 } else {
                     call = "api/countries/" + Array.from(countriesOut).map(c => c.id).join("+") + "/teams";
                 }
-                /*while (searchTagsTeam.firstElementChild) {
-                    searchTagsTeam.removeChild(searchTagsTeam.firstElementChild);
-                }*/
+                teamsOut.clear()
                 var parent2 = document.getElementById("searchModuleTeams");
                 jQuery.getJSON(call, function onResult(teamsJson) {
                     //remove stuff
@@ -166,9 +162,7 @@ window.onload = function () {
                 } else {
                     call = "api/countries/" + Array.from(countriesOut).map(c => c.id).join("+") + "/players";
                 }
-                /*while (searchTagsPlayer.firstElementChild) {
-                    searchTagsPlayer.removeChild(searchTagsPlayer.firstElementChild);
-                }*/
+                playersOut.clear()
                 var parent2 = document.getElementById("searchModulePlayers");
                 jQuery.getJSON(call, function onResult(playersJson) {
                     //remove stuff

@@ -92,6 +92,10 @@ li:hover .searchModuleImage img {
     border-bottom: 2px solid #1c2f2f;
 }
 
+.searchModule>li:nth-of-type(5)>div>span{
+    font-size: 20px;
+}
+
 .searchModule>li:focus .searchModuleContentTitle{
     border-bottom-color: #2f4f4f;
 }
