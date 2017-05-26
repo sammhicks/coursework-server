@@ -49,23 +49,6 @@ window.onload = function () {
     var globalSettingsMenu: HTMLElement = null;
     var globalSettings: HTMLElement = null;
 
-    var searchbuttons = document.querySelectorAll(".searchModule>li");
-    for (var i = 0; i < searchbuttons.length; i++) {
-        (function () {
-            var modal = searchbuttons[i].firstElementChild as HTMLElement;
-            searchbuttons[i].addEventListener("click", function (e) {
-                modal.style.display = "block";
-            });
-            document.addEventListener("click", function () {
-                modal.style.display = "none";
-            });
-        }());
-    }
-    var parent = searchbuttons[0].parentElement.parentElement;
-    parent.addEventListener("click", function (e) {
-        e.stopPropagation();
-    });
-
     var date = 0;
     var dates = document.querySelectorAll("#searchModuleDates>li");
     setupRadio(dates, date, 0);
@@ -115,12 +98,12 @@ window.onload = function () {
     var searchTagsTeam = searchTagsCountry.nextElementSibling as HTMLElement;
     var searchTagsPlayer = searchTagsCountry.nextElementSibling as HTMLElement;
 
-    setupCheckbox(countries, countriesOut, "country");
-    setupCheckbox(competitions, competitionsOut, "competition");
-    setupCheckbox(teams, teamsOut, "team");
-    setupCheckbox(players, playersOut, "player");
+    setupCheckboxes(countries, countriesOut, "country");
+    setupCheckboxes(competitions, competitionsOut, "competition");
+    setupCheckboxes(teams, teamsOut, "team");
+    setupCheckboxes(players, playersOut, "player");
 
-    function setupCheckbox(array: NodeListOf<Element>, output: string[], type: string) {
+    function setupCheckboxes(array: NodeListOf<Element>, output: string[], type: string) {
         for (var i = 0; i < array.length; i++) {
             array[i].id = "checkbox: " + type + " " + array[i].innerHTML;
             array[i].addEventListener("click", function () {
@@ -131,16 +114,16 @@ window.onload = function () {
                     output.push(this.innerHTML);
                     switch (type) {
                         case "country":
-                            makeTag(this.innerHTML, type, searchTagsCountry, true);
+                            makeTag(this.innerHTML, type, searchTagsCountry);
                             break;
                         case "competition":
-                            makeTag(this.innerHTML, type, searchTagsComp, true);
+                            makeTag(this.innerHTML, type, searchTagsComp);
                             break;
                         case "team":
-                            makeTag(this.innerHTML, type, searchTagsTeam, true);
+                            makeTag(this.innerHTML, type, searchTagsTeam);
                             break;
                         case "player":
-                            makeTag(this.innerHTML, type, searchTagsPlayer, true);
+                            makeTag(this.innerHTML, type, searchTagsPlayer);
                             break;
                         default:
                             break;
@@ -156,6 +139,41 @@ window.onload = function () {
         }
     }
 
+    function setupCheckbox(elem: HTMLElement, output: string[], type: string, id: number, content: string) {
+        elem.innerHTML = content;
+        elem.id = "checkbox: " + type + " " + id;
+        elem.addEventListener("click", function () {
+            var ind = output.indexOf(this.innerHTML);
+            if (ind == -1) {
+                this.style.color = "#1c2f2f";
+                this.style.backgroundColor = "darkorange";
+                output.push(this.innerHTML);
+                switch (type) {
+                    case "country":
+                        makeTagButton(this.innerHTML, type, searchTagsCountry, id);
+                        break;
+                    case "competition":
+                        makeTagButton(this.innerHTML, type, searchTagsComp, id);
+                        break;
+                    case "team":
+                        makeTagButton(this.innerHTML, type, searchTagsTeam, id);
+                        break;
+                    case "player":
+                        makeTagButton(this.innerHTML, type, searchTagsPlayer, id);
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                this.style.color = "";
+                this.style.backgroundColor = "";
+                output.splice(ind, 1);
+                removeTag("tag: " + type + " " + id);
+            }
+            console.log(output);
+        });
+    }
+
     function checkboxRemove(output: string[], elem: HTMLElement) {
         var ind = output.indexOf(elem.innerHTML);
         if (ind == -1) {
@@ -169,7 +187,7 @@ window.onload = function () {
         }
     }
 
-    function makeTag(contents: string, type: string, parent: HTMLElement, asButton: boolean) {
+    function makeTag(contents: string, type: string, parent: HTMLElement) {
         if (contents.length < 1)
             return;
         var classID = "";
@@ -199,16 +217,47 @@ window.onload = function () {
         tag.innerHTML = contents;
         tag.className = classID;
         tag.id = "tag: " + type + " " + contents;
-        if (asButton) {
-            tag = wireTag(tag, parent, type);
-        }
         parent.appendChild(tag)
     }
 
-    function wireTag(tag: HTMLElement, parent: HTMLElement, type: string) {
+    function makeTagButton(contents: string, type: string, parent: HTMLElement, id: number) {
+        if (contents.length < 1)
+            return;
+        var classID = "";
+        switch (type) {
+            case "country":
+                classID = "tag-country";
+                break;
+            case "competition":
+                classID = "tag-comp";
+                break;
+            case "team":
+                classID = "tag-team";
+                break;
+            case "player":
+                classID = "tag-player";
+                break;
+            case "source":
+                classID = "tag-source";
+                break;
+            case "media":
+                classID = "tag-media";
+                break;
+            default:
+                throw TypeError("TYPE DOESN'T EXIST");
+        }
+        var tag = document.createElement("li") as HTMLElement;
+        tag.innerHTML = contents;
+        tag.className = classID;
+        tag.id = "tag: " + type + " " + id;
+        tag = wireTag(tag, parent, type, id);
+        parent.appendChild(tag)
+    }
+
+    function wireTag(tag: HTMLElement, parent: HTMLElement, type: string, id: number) {
         tag.addEventListener("click", function () {
             parent.removeChild(this);
-            var checkbox = document.getElementById("checkbox: " + type + " " + this.innerHTML);
+            var checkbox = document.getElementById("checkbox: " + type + " " + id);
             switch (type) {
                 case "country":
                     checkboxRemove(countriesOut, checkbox);
@@ -233,6 +282,68 @@ window.onload = function () {
         var tag = document.getElementById(contents);
         tag.parentNode.removeChild(tag);
     }
+
+    var searchbuttons = document.querySelectorAll(".searchModule>li");
+    for (var i = 0; i < searchbuttons.length; i++) {
+        (function () {
+            var modal = searchbuttons[i].firstElementChild as HTMLElement;
+            var savedi = i;
+            searchbuttons[i].addEventListener("click", function (e) {
+                modal.style.display = "block";
+                switch (savedi) {
+                    //countries
+                    case 3:
+                        var parent = document.getElementById("searchModuleCountries");
+                        jQuery.getJSON("/api/countries", function onResult(countriesJson) {
+                            //remove stuff
+                            for (var i = 0; i < countries.length; i++) {
+                                parent.removeChild(countries[i]);
+                                countriesOut = [];
+                            }
+                            //add stuff
+                            for (var i = 0; i < countriesJson.length; i++) {
+                                var elem = document.createElement("li");
+                                parent.appendChild(elem);
+                                setupCheckbox(elem, countriesOut, "country", countriesJson[i].id, countriesJson[i].name);
+                            }
+                            //deal with children
+                            for (var i = 0; i < countriesOut.length; i++) {
+
+                            }
+                            //rewire what was already selected
+                        });
+                        break;
+                    //comps
+                    case 4:
+                        var parent = document.getElementById("searchModuleCompetitions");
+                        jQuery.getJSON("/api/competitions", function onResult(compsJson) {
+                            //remove stuff
+                            for (var i = 0; i < competitions.length; i++) {
+                                parent.removeChild(competitions[i]);
+                                competitionsOut = [];
+                            }
+                            //add stuff
+                            for (var i = 0; i < compsJson.length; i++) {
+                                var elem = document.createElement("li");
+                                parent.appendChild(elem);
+                                setupCheckbox(elem, competitionsOut, "competition", compsJson[i].id, compsJson[i].name);
+                            }
+                            //rewire what was already selected
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            });
+            document.addEventListener("click", function () {
+                modal.style.display = "none";
+            });
+        }());
+    }
+    var parent = searchbuttons[0].parentElement.parentElement;
+    parent.addEventListener("click", function (e) {
+        e.stopPropagation();
+    });
 
     //COMEBACKTO
     document.addEventListener("mousedown", function (e) {
@@ -705,27 +816,27 @@ window.onload = function () {
 
         var metatagscountry = meta[2].split("-");
         for (var i = 0; i < metatagscountry.length; i++) {
-            makeTag(metatagscountry[i], "country", vidtagsul, false);
+            makeTag(metatagscountry[i], "country", vidtagsul);
         }
 
         var metatagscomp = meta[3].split("-");
         for (var i = 0; i < metatagscomp.length; i++) {
-            makeTag(metatagscomp[i], "competition", vidtagsul, false);
+            makeTag(metatagscomp[i], "competition", vidtagsul);
         }
 
         var metatagsteam = meta[4].split("-");
         for (var i = 0; i < metatagsteam.length; i++) {
-            makeTag(metatagsteam[i], "team", vidtagsul, false);
+            makeTag(metatagsteam[i], "team", vidtagsul);
         }
 
         var metatagsplayer = meta[5].split("-");
         for (var i = 0; i < metatagsplayer.length; i++) {
-            makeTag(metatagsplayer[i], "player", vidtagsul, false);
+            makeTag(metatagsplayer[i], "player", vidtagsul);
         }
 
-        makeTag("VIDEO", "media", vidtagsul, false);
+        makeTag("VIDEO", "media", vidtagsul);
 
-        makeTag(meta[6], "source", vidtagsul, false);
+        makeTag(meta[6], "source", vidtagsul);
 
         var vidplayerwrap = div();
         vidplayerwrap.className = "video-player-wrapper";

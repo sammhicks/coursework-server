@@ -15,7 +15,7 @@ export class CompetitionsHandler extends Handler {
     handleRequest(request: Request): Promise<void> {
         if (request.path.length === 0) {
             request.response.setHeader("Cache-Control", "no-store");
-            return this.database.getAllCountries().then(Handler.handleJSONCurry(request));
+            return this.database.getAllCompetitions().then(Handler.handleJSONCurry(request));
         } else if (request.path.length === 2) {
             var errorFound = false;
             const competitions = parseIndices(request.path.shift());
