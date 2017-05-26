@@ -98,6 +98,96 @@ window.onload = function () {
     var searchTagsTeam = searchTagsCountry.nextElementSibling as HTMLElement;
     var searchTagsPlayer = searchTagsCountry.nextElementSibling as HTMLElement;
 
+    function request(type: string) {
+        switch (type) {
+            case "country":
+                var call = "";
+                if (countriesOut.size > 0) {
+                    call = "api/countries/" + Array.from(countriesOut).map(c => c.id).join("+") + "/competitions";
+                } else {
+                    call = "api/competitions";
+                }
+                /*while (searchTagsComp.firstElementChild) {
+                    searchTagsComp.removeChild(searchTagsComp.firstElementChild);
+                }*/
+                var parent2 = document.getElementById("searchModuleCompetitions");
+                jQuery.getJSON(call, function onResult(compsJson) {
+                    //remove stuff
+                    while (parent2.firstElementChild) {
+                        parent2.removeChild(parent2.firstElementChild);
+                    }
+                    //add stuff
+                    for (var i = 0; i < compsJson.length; i++) {
+                        var elem = document.createElement("li");
+                        parent2.appendChild(elem);
+                        setupCheckbox(elem, competitionsOut, "competition", compsJson[i]);
+                    }
+                });
+                request("competition");
+                break;
+            case "competition":
+                var call = "";
+                if (countriesOut.size == 0 && competitionsOut.size == 0) {
+                    call = "api/teams";
+                }
+                else if (competitionsOut.size > 0) {
+                    call = "api/competitions/" + Array.from(competitionsOut).map(c => c.id).join("+") + "/teams";
+                } else {
+                    call = "api/countries/" + Array.from(countriesOut).map(c => c.id).join("+") + "/teams";
+                }
+                /*while (searchTagsTeam.firstElementChild) {
+                    searchTagsTeam.removeChild(searchTagsTeam.firstElementChild);
+                }*/
+                var parent2 = document.getElementById("searchModuleTeams");
+                jQuery.getJSON(call, function onResult(teamsJson) {
+                    //remove stuff
+                    while (parent2.firstElementChild) {
+                        parent2.removeChild(parent2.firstElementChild);
+                    }
+                    //add stuff
+                    for (var i = 0; i < teamsJson.length; i++) {
+                        var elem = document.createElement("li");
+                        parent2.appendChild(elem);
+                        setupCheckbox(elem, teamsOut, "team", teamsJson[i]);
+                    }
+                });
+                request("team");
+                break;
+            case "team":
+                var call = "";
+                if (countriesOut.size == 0 && competitionsOut.size == 0 && teamsOut.size == 0) {
+                    call = "api/players";
+                }
+                else if (teamsOut.size > 0) {
+                    call = "api/tams/" + Array.from(teamsOut).map(c => c.id).join("+") + "/players";
+                }
+                else if (competitionsOut.size > 0) {
+                    call = "api/competitions/" + Array.from(competitionsOut).map(c => c.id).join("+") + "/players";
+                } else {
+                    call = "api/countries/" + Array.from(countriesOut).map(c => c.id).join("+") + "/players";
+                }
+                /*while (searchTagsPlayer.firstElementChild) {
+                    searchTagsPlayer.removeChild(searchTagsPlayer.firstElementChild);
+                }*/
+                var parent2 = document.getElementById("searchModulePlayers");
+                jQuery.getJSON(call, function onResult(playersJson) {
+                    //remove stuff
+                    while (parent2.firstElementChild) {
+                        parent2.removeChild(parent2.firstElementChild);
+                    }
+                    //add stuff
+                    for (var i = 0; i < playersJson.length; i++) {
+                        var elem = document.createElement("li");
+                        parent2.appendChild(elem);
+                        setupCheckbox(elem, playersOut, "team", playersJson[i]);
+                    }
+                });
+                break;
+            default:
+                break;
+        }
+    }
+
     function setupCheckbox(elem: HTMLElement, output: Set<any>, type: string, obj: any) {
         elem.innerHTML = obj.name;
         elem.id = "checkbox: " + type + " " + obj.id;
@@ -109,29 +199,19 @@ window.onload = function () {
                 switch (type) {
                     case "country":
                         makeTagButton(type, searchTagsCountry, obj);
-                        var parent2 = document.getElementById("searchModuleCompetitions");
-                        var call = "api/countries/" + Array.from(countriesOut).map(c => c.id).join("+") + "/competitions";
-                        jQuery.getJSON(call, function onResult(compsJson) {
-                            //remove stuff
-                            while (parent2.firstElementChild) {
-                                parent2.removeChild(parent2.firstElementChild);
-                            }
-                            //add stuff
-                            for (var i = 0; i < compsJson.length; i++) {
-                                var elem = document.createElement("li");
-                                parent2.appendChild(elem);
-                                setupCheckbox(elem, competitionsOut, "competition", compsJson[i]);
-                            }
-                        });
+                        request(type);
                         break;
                     case "competition":
                         makeTagButton(type, searchTagsComp, obj);
+                        request(type);
                         break;
                     case "team":
                         makeTagButton(type, searchTagsTeam, obj);
+                        request(type);
                         break;
                     case "player":
                         makeTagButton(type, searchTagsPlayer, obj);
+                        request(type);
                         break;
                     default:
                         break;
@@ -141,32 +221,7 @@ window.onload = function () {
                 this.style.backgroundColor = "";
                 output.delete(obj);
                 removeTag("tag: " + type + " " + obj.id);
-                switch (type) {
-                    case "country":
-                        var parent2 = document.getElementById("searchModuleCompetitions");
-                        var call = "api/countries/" + Array.from(countriesOut).map(c => c.id).join("+") + "/competitions";
-                        jQuery.getJSON(call, function onResult(compsJson) {
-                            //remove stuff
-                            while (parent2.firstElementChild) {
-                                parent2.removeChild(parent2.firstElementChild);
-                            }
-                            //add stuff
-                            for (var i = 0; i < compsJson.length; i++) {
-                                var elem = document.createElement("li");
-                                parent2.appendChild(elem);
-                                setupCheckbox(elem, competitionsOut, "competition", compsJson[i]);
-                            }
-                        });
-                        break;
-                    case "competition":
-                        break;
-                    case "team":
-                        break;
-                    case "player":
-                        break;
-                    default:
-                        break;
-                }
+                request(type);
             }
         });
     }
@@ -257,15 +312,19 @@ window.onload = function () {
             switch (type) {
                 case "country":
                     checkboxRemove(countriesOut, checkbox, obj);
+                    request(type);
                     break;
                 case "competition":
                     checkboxRemove(competitionsOut, checkbox, obj);
+                    request(type);
                     break;
                 case "team":
                     checkboxRemove(teamsOut, checkbox, obj);
+                    request(type);
                     break;
                 case "player":
                     checkboxRemove(playersOut, checkbox, obj);
+                    request(type);
                     break;
                 default:
                     throw TypeError("TYPE DOESN'T EXIST");
@@ -293,33 +352,7 @@ window.onload = function () {
         }
     });
 
-    var parent2 = document.getElementById("searchModuleCompetitions");
-    jQuery.getJSON("/api/competitions", function onResult(compsJson) {
-        //remove stuff
-        while (parent2.firstElementChild) {
-            parent2.removeChild(parent2.firstElementChild);
-        }
-        //add stuff
-        for (var i = 0; i < compsJson.length; i++) {
-            var elem = document.createElement("li");
-            parent2.appendChild(elem);
-            setupCheckbox(elem, competitionsOut, "competition", compsJson[i]);
-        }
-    });
-
-    var parent3 = document.getElementById("searchModuleTeams");
-    jQuery.getJSON("/api/teams", function onResult(teamsJson) {
-        //remove stuff
-        while (parent3.firstElementChild) {
-            parent3.removeChild(parent3.firstElementChild);
-        }
-        //add stuff
-        for (var i = 0; i < teamsJson.length; i++) {
-            var elem = document.createElement("li");
-            parent3.appendChild(elem);
-            setupCheckbox(elem, teamsOut, "team", teamsJson[i]);
-        }
-    });
+    request("country");
 
     var searchbuttons = document.querySelectorAll(".searchModule>li");
     for (var i = 0; i < searchbuttons.length; i++) {
