@@ -43,7 +43,10 @@ export class Streamable implements Domain {
     resolve(link: HasLink): Promise<CrawledVideo> {
         const self = this;
         const shortcode = url.parse(link.data.url).pathname;
-        return requestPromise("https://api.streamable.com/videos" + shortcode).catch(function handleError(error: StatusCodeError) {
+        return requestPromise({
+            url: "https://api.streamable.com/videos" + shortcode,
+            json: true
+        }).catch(function handleError(error: StatusCodeError) {
             if (error.statusCode == httpStatus.TOO_MANY_REQUESTS) {
                 const timeout = parseInt(error.response.headers["retry-after"]);
                 console.log("Retrying %s after %ds", shortcode, timeout);
@@ -52,12 +55,20 @@ export class Streamable implements Domain {
                 console.error("Error processing streamable with shortcode \"%s\": %j", shortcode, error.message);
                 throw error;
             }
-        }).then(JSON.parse).then(function handleVideo(video: Video): Promise<CrawledVideo> {
-            if (video.status == VideoStatus.READY && video.files.mp4 != null) {
-                return Promise.resolve(new CrawledVideo(link.data, self.domain, "https:" + video.files.mp4.url));
+        }).then(function handleVideo(video: Video): Promise<CrawledVideo> {
+            var url: string;
+            if (video.status == VideoStatus.READY) {
+                if (video.files["mp4"] != null && video.files["mp4"] != undefined) {
+                    url = video.files["mp4"].url
+                } else if (video.files["mp4-mobile"] != null && video.files["mp4-mobile"] != undefined) {
+                    url = video.files["mp4-mobile"].url;
+                } else {
+                    throw new Error("video " + shortcode + " has no files");
+                }
             } else {
-                throw new Error();
+                throw new Error("video " + shortcode + " is not ready");
             }
+            return Promise.resolve(new CrawledVideo(link.data, self.domain, "https:" + url));
         });
     }
 }

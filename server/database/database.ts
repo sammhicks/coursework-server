@@ -6,10 +6,6 @@ import { FootballData } from "./football-data";
 import * as footballDataTypes from "./football-data-types";
 import { Video as RedditVideo } from "./domains";
 
-/*function createInsertTag(table: string) {
-    return "INSERT INTO " + table + "_tags (video_id, " + table + "_id) VALUES ($video_id, $tag_id)";
-}*/
-
 const statementStrings = {
     allCountries: "SELECT id, name FROM countries",
     allCompetitions: "SELECT id, name FROM competitions",
@@ -17,12 +13,13 @@ const statementStrings = {
     insertTeam: "INSERT INTO teams (id, name, short_name, crest_url, competition_id) VALUES ($id, $name, $short_name, $crest_url, $competition_id)",
     allPlayers: "SELECT id, name from players",
     insertPlayer: "INSERT INTO players (name, team_id) VALUES ($name, $team_id)",
+    hasFixtures: "SELECT * from fixtures WHERE competition_id == $competition_id LIMIT 1",
     insertFixture: "INSERT INTO fixtures (date, home_team_id, away_team_id, competition_id) VALUES ($date, $home_team_id, $away_team_id, $competition_id)",
-    /*insertCountryTag: createInsertTag("country"),
-    insertCompetitionTag: createInsertTag("competition"),
-    insertTeamTag: createInsertTag("team"),
-    insertPlayerTag: createInsertTag("player"),*/
+    videoExists: "SELECT * FROM videos WHERE id == $id LIMIT 1",
+    insertVideo: "INSERT INTO videos (id, source_id, date, title, url) VALUES ($id, (SELECT id FROM sources WHERE domain == $domain), $date, $title, $url)"
 }
+
+const orderbyNameString = " ORDER BY name ASC";
 
 function prepareStatement(database: Locked<Database>, statement: string): Promise<Statement> {
     return database.access(function action(lockedDatabase: Database) {
@@ -34,6 +31,11 @@ function prepareParameterNames(count: number) {
     return "(" + Array.from(Array(count)).map(() => "?").join(",") + ")";
 }
 
+export enum Sorting {
+    asc,
+    desc
+};
+
 export class Interface {
     private footballData: FootballData;
 
@@ -43,23 +45,24 @@ export class Interface {
     private insertTeamStatement: Promise<Statement>;
     private allPlayersStatement: Promise<Statement>;
     private insertPlayerStatement: Promise<Statement>;
+    private hasFixturesStatement: Promise<Statement>;
     private insertFixtureStatement: Promise<Statement>;
-    /*private insertCountryTagStatement: Promise<Statement>;
-    private insertCompetitionTagStatement: Promise<Statement>;
-    private insertTeamTagStatement: Promise<Statement>;
-    private insertPlayerTagStatement: Promise<Statement>;*/
+    private videoExistsStatement: Promise<Statement>;
+    private insertVideoStatement: Promise<Statement>;
 
     constructor(private database: Locked<Database>) {
         this.footballData = new FootballData();
 
-        this.allCountriesStatement = prepareStatement(database, statementStrings.allCountries);
-        this.allCompetitionsStatement = prepareStatement(database, statementStrings.allCompetitions);
-        this.allTeamsStatement = prepareStatement(database, statementStrings.allTeams);
+        this.allCountriesStatement = prepareStatement(database, statementStrings.allCountries + orderbyNameString);
+        this.allCompetitionsStatement = prepareStatement(database, statementStrings.allCompetitions + orderbyNameString);
+        this.allTeamsStatement = prepareStatement(database, statementStrings.allTeams + orderbyNameString);
         this.insertTeamStatement = prepareStatement(database, statementStrings.insertTeam);
-        this.allPlayersStatement = prepareStatement(database, statementStrings.allPlayers);
+        this.allPlayersStatement = prepareStatement(database, statementStrings.allPlayers + orderbyNameString);
         this.insertPlayerStatement = prepareStatement(database, statementStrings.insertPlayer);
         this.insertFixtureStatement = prepareStatement(database, statementStrings.insertFixture);
-        //this.insertCountryTagStatement = prep
+        this.hasFixturesStatement = prepareStatement(database, statementStrings.hasFixtures);
+        this.videoExistsStatement = prepareStatement(database, statementStrings.videoExists);
+        this.insertVideoStatement = prepareStatement(database, statementStrings.insertVideo);
     }
 
     private runSimpleAllStatement<Result>(statementPromise: Promise<Statement>): Promise<Result[]> {
@@ -97,7 +100,7 @@ export class Interface {
         if (countries.length == 0) {
             return this.getAllCompetitions();
         } else {
-            const statement = statementStrings.allCountries + " WHERE country_id IN " + prepareParameterNames(countries.length);
+            const statement = statementStrings.allCompetitions + " WHERE country_id IN " + prepareParameterNames(countries.length) + orderbyNameString;
 
             return this.runAllStatement<databaseTypes.Competition>(statement, countries);
         }
@@ -111,7 +114,7 @@ export class Interface {
         if (competitions.length == 0) {
             return this.getAllTeams();
         } else {
-            const statement = statementStrings.allTeams + " WHERE competition_id IN " + prepareParameterNames(competitions.length);
+            const statement = statementStrings.allTeams + " WHERE competition_id IN " + prepareParameterNames(competitions.length) + orderbyNameString;
 
             return this.runAllStatement<databaseTypes.Team>(statement, competitions);
         }
@@ -137,7 +140,7 @@ export class Interface {
         if (teams.length == 0) {
             return this.getAllPlayers();
         } else {
-            const statement = statementStrings.allPlayers + " WHERE team_id IN " + prepareParameterNames(teams.length);
+            const statement = statementStrings.allPlayers + " WHERE team_id IN " + prepareParameterNames(teams.length) + orderbyNameString;
 
             return this.runAllStatement<databaseTypes.Player>(statement, teams);
         }
@@ -152,6 +155,13 @@ export class Interface {
         });
     }
 
+    hasFixtures(competitionID: number) {
+        const self = this;
+        return self.database.access(() => self.hasFixturesStatement.then(statement => statement.all({
+            $competition_id: competitionID
+        }))).then(fixtures => fixtures.length > 0);
+    }
+
     insertFixtures(fixtures: footballDataTypes.Fixtures, competitionID: number) {
         return this.insertItems(this.insertFixtureStatement, fixtures.fixtures, function getOptions(fixture) {
             return {
@@ -163,74 +173,23 @@ export class Interface {
         });
     }
 
-    /*private insertTags(statementPromise: Promise<Statement>, videoID: string, tags: databaseTypes.Tag[], getTagID: (tag: databaseTypes.Tag) => number) {
-        return this.insertItems(statementPromise, tags, function getOptions(tag) {
-            return {
-                $video_id: tag.video_id,
-                $tag_id: getTagID(tag)
-            }
-        });
-    }
-
-    private getTags*/
-}
-
-/*export class Interface {
-    insertStatement: Promise<Statement>;
-    videoExistsStatement: Promise<Statement>;
-    allVideosStatement: Promise<Statement>;
-
-    constructor(private database: Locked<Database>) {
-        this.insertStatement = prepareStatement(database, "INSERT INTO videos VALUES ($id, (SELECT id FROM sources WHERE domain=$domain), $creation_time, $title, $url)");
-        this.videoExistsStatement = prepareStatement(database, "SELECT COUNT(*) as count FROM videos WHERE videos.id == $id");
-        this.allVideosStatement = prepareStatement(database, "SELECT sources.domain, videos.creation_time, videos.title, videos.url FROM sources JOIN videos WHERE sources.id = videos.source_id ORDER BY videos.creation_time DESC");
-    }
-
-    insertVideo(video: RedditVideo): Promise<void> {
+    videoExists(videoID: string) {
         const self = this;
-        return self.database.access(function insideLock() {
-            return self.insertStatement.then(function runStatement(statement: Statement) {
-                return statement.run({
-                    $id: video.redditId,
-                    $creation_time: video.creationTime,
-                    $domain: video.domain,
-                    $title: video.title,
-                    $url: video.url
-                }).then((function handleSuccess() { }), function handleError(error: Error) {
-                    console.error("Error inserting %s: %s", video.redditId, error.message);
-                    return Promise.reject(error);
-                })
-            });
-        });
+        return self.database.access(() => self.videoExistsStatement.then(statement => statement.all({
+            $id: videoID
+        }))).then(videos => videos.length > 0);
     }
 
-    videoExists(id: string) {
+    insertVideo(video: RedditVideo) {
         const self = this;
-        return self.database.access(function insideLock() {
-            return self.videoExistsStatement.then(function runStatement(statement: Statement) {
-                return statement.get({
-                    $id: id
-                }).then((function handleSuccess(result: any) {
-                    return result.count > 0;
-                }), function handleError(error: Error) {
-                    console.error("Error querying %s: %s", id, error.message);
-                    throw error;
-                })
-            });
-        });
+        return self.database.access(() => self.insertVideoStatement.then(statement => statement.run({
+            $id: video.redditId,
+            $domain: video.domain,
+            $date: video.creationTime,
+            $title: video.title,
+            $url: video.url
+        })));
     }
 
-    allVideos(): Promise<any[]> {
-        var self = this;
-        return self.database.access(function insideLock() {
-            return this.allVideosStatement.then(function handleStatement(statement: Statement) {
-                return statement.all({}).catch(function handleError(error: Error) {
-                    console.error("Failed to fetch all videos");
-                });
-            }).catch(function handleError() {
-                return <any[]>[];
-            })
-        });
-    }
+
 }
-*/

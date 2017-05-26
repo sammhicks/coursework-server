@@ -15,7 +15,7 @@ import { Database, Mode as DatabaseMode } from "./promises/sqlite3";
 import { crawl as crawlFootballData } from "./server/database/football-data-crawler";
 import { crawl as crawlReddit } from "./server/database/reddit-crawler";
 import { Interface as DatabaseInterface } from "./server/database/database";
-import { VideosAPIHandler } from "./server/database/handlers";
+import { APIHandler } from "./server/database/handlers";
 
 const insecurePort: number = process.env.PORT || 8080;
 const securePort: number = process.env.SECUREPORT || 443;
@@ -30,12 +30,12 @@ const databasePromise = new Database().open("server/database/database.sqlite3", 
 
 const databaseInterfacePromise = databasePromise.then(database => new DatabaseInterface(new Locked(database)));
 
-const videosHandler = new PromisedHandler(databaseInterfacePromise.then(database => new VideosAPIHandler(database)));
+const apiHandler = new PromisedHandler(databaseInterfacePromise.then(database => new APIHandler(database)));
 
 const crawledHandler = new Crawler().crawl("server/data", {
   namedHandlers: {
     home: handlers.home,
-    videos: videosHandler
+    api: apiHandler
   }
 });
 
@@ -65,4 +65,4 @@ secureServer.on("listening", function serverListen() {
 
 secureServer.listen(securePort);
 
-databaseInterfacePromise.then(database => crawlFootballData(database).then(() => database)).then(crawlReddit);
+//databaseInterfacePromise.then(database => crawlFootballData(database).then(() => database)).then(crawlReddit);

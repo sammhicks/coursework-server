@@ -2,7 +2,7 @@ import * as requestPromise from "request-promise-native";
 
 import { Throttle } from "../../promises/throttle";
 
-import { Teams, Players } from "./football-data-types";
+import { Teams, Players, Fixtures } from "./football-data-types";
 
 const apiKey = "31a3eb348dce4d8fa6b62ab42e898f59"
 
@@ -25,10 +25,7 @@ export class FootballData {
                 console.error(resource, response);
                 return false;
             }
-        })).then(result => { console.log(resource, result); return result; }, error => {
-            console.error(resource, error);
-            throw error;
-        });
+        }));
     }
 
     getTeams(competitionID: number) {
@@ -36,6 +33,10 @@ export class FootballData {
     }
 
     getPlayers(teamID: number) {
-        return this.request<Players>("teams", teamID.toString(10), "players")
+        return this.request<Players>("teams", teamID.toString(10), "players");
+    }
+
+    getFixtures(competitionID: number) {
+        return this.request<Fixtures>("competitions", competitionID.toString(10), "fixtures");
     }
 }

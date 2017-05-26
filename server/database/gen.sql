@@ -81,22 +81,6 @@ CREATE TABLE "videos" (
 
 -- Video Tags
 
-CREATE TABLE "country_tags" (
-    "video_id"      TEXT,
-    "country_id"    INTEGER,
-    FOREIGN KEY ("video_id") REFERENCES "videos"("id"),
-    FOREIGN KEY ("country_id") REFERENCES "countries"("id")
-);
-
-CREATE TABLE "competition_tags" (
-    "video_id"          TEXT,
-    "competition_id"    INTEGER,
-    FOREIGN KEY ("video_id") REFERENCES "videos"("id"),
-    FOREIGN KEY ("competition_id") REFERENCES "competitions"("id")
-);
-
-CREATE INDEX "competition_tag_videos" ON "competition_tags" ("video_id");
-
 CREATE TABLE "team_tags" (
     "video_id"      TEXT,
     "team_id"       INTEGER,

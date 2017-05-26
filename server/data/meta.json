@@ -4,6 +4,6 @@
 	},
 	"namedHandlers": {
 		"index.html": "home",
-		"videos": "videos"
+		"api": "api"
 	}
 }

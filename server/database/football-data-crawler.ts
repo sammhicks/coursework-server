@@ -25,6 +25,13 @@ export function crawl(database: DatabaseInterface) {
                             });
                         })).then(() => { }));
                 }
-            })
+            }).then(() => database.hasFixtures(competition.id))
+            .then(function checkFixturesCrawled(hasFixtures) {
+                if (hasFixtures) {
+                    return Promise.resolve();
+                } else {
+                    return footballData.getFixtures(competition.id).then(fixtures => database.insertFixtures(fixtures, competition.id))
+                }
+            });
     })).then(() => { })).then(() => { console.log("Finished crawling Football-Data"); });
 }

@@ -1,12 +1,16 @@
 
 import { Interface as DatabaseInterface } from "../database";
-import { DirectoryHandler, Handler, LeafHandler, mimeTypes } from "../../../handlers";
-import { AllVideosHandler } from "./all";
+import { DirectoryHandler } from "../../../handlers";
+import { CountriesHandler } from "./countries";
+import { CompetitionsHandler } from "./competitions";
+import { TeamsHandler } from "./teams";
 
-export class VideosAPIHandler extends DirectoryHandler {
+export class APIHandler extends DirectoryHandler {
     constructor(database: DatabaseInterface) {
         super({
-            all: new AllVideosHandler(database)
+            countries: new CountriesHandler(database),
+            competitions: new CompetitionsHandler(database),
+            teams: new TeamsHandler(database)
         })
     }
 }

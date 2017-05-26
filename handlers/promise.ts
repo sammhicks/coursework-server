@@ -7,8 +7,6 @@ export class PromisedHandler extends Handler {
     }
 
     handleRequest(request: Request): Promise<void> {
-        return this.promise.then(function handlePromise(handler) {
-            handler.handleRequest(request);
-        })
+        return this.promise.then(handler => handler.handleRequest(request));
     }
 }
