@@ -15,7 +15,7 @@ const spacer = new Element("div", { class: "spacer" }, []);
 
 const search = new Element("div", { class: "searchModulesContainer", id: "searchModulesContainer" }, [
     new Element("ul", { class: "searchModule", id: "searchModule" }, [
-        new Element("li", { tabindex: "0" }, [
+        /*new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleContent" }, [
                 new Element("span", { class: "searchModuleContentTitle" }, [
                     new String("Quick Search")
@@ -27,7 +27,7 @@ const search = new Element("div", { class: "searchModulesContainer", id: "search
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Quick Search")
             ])
-        ]),
+        ]),*/
         /*new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleImage" }, [
                 new Element("img", { src: "images/media.svg", alt: "Search By Media Type" })
@@ -36,7 +36,7 @@ const search = new Element("div", { class: "searchModulesContainer", id: "search
                 new String("Search By Media Type")
             ])
         ]),*/
-        new Element("li", { tabindex: "0" }, [
+        /*new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleContent" }, [
                 new Element("span", { class: "searchModuleContentTitle" }, [
                     new String("Search By Date")
@@ -65,7 +65,7 @@ const search = new Element("div", { class: "searchModulesContainer", id: "search
             new Element("div", { class: "searchModuleLabel" }, [
                 new String("Search By Date")
             ])
-        ]),
+        ]),*/
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleContent" }, [
                 new Element("span", { class: "searchModuleContentTitle" }, [

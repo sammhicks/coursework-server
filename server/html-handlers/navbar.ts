@@ -91,7 +91,7 @@ export const navbar = new Element("nav", { class: "navbar", id: "navbar" }, [
             ])
         ])
     ]),*/
-    new Element("form", {}, [
+    /*new Element("form", {}, [
         new Element("input", { type: "text", title: "Search", id: "search" })
-    ])
+    ])*/
 ]);

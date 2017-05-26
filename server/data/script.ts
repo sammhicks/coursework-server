@@ -49,9 +49,9 @@ window.onload = function () {
     var globalSettingsMenu: HTMLElement = null;
     var globalSettings: HTMLElement = null;
 
-    var date = 0;
+    /*var date = 0;
     var dates = document.querySelectorAll("#searchModuleDates>li");
-    setupRadio(dates, date, 0);
+    setupRadio(dates, date, 0);*/
 
     var orderType = 0;
     var orderTypes = document.querySelectorAll("#searchModuleOrders>li");
@@ -503,19 +503,63 @@ window.onload = function () {
         }
     }
 
-    var testyplease = createVideoEnvironment("https://u.nya.is/oobaxw.mp4", ["test title", "12-12-2012", "england", "prem", "chelsea", "hazard", "streamable"]);
-    var home = document.getElementById("homepageContent").appendChild(testyplease);
+    //var testyplease = createVideoEnvironment("https://u.nya.is/oobaxw.mp4", ["test title", "12-12-2012", "england", "prem", "chelsea", "hazard", "streamable"]);
+    //var home = document.getElementById("homepageContent").appendChild(testyplease);
 
-    var vid1 = createVideoEnvironment("https://cdn-e2.streamable.com/video/mp4/m445e_1.mp4?token=1496778426_07e366ba0b3fa0a794e9c2dd6bbb4b49a7178485",
-        ["SECOND VID", "01-12-2016", "Spain", "la liga", "real madrid", "ronaldo", "streamable"]);
+    /*var vid1 = createVideoEnvironment("https://cdn-e2.streamable.com/video/mp4/m445e_1.mp4?token=1496778426_07e366ba0b3fa0a794e9c2dd6bbb4b49a7178485",
+        "SECOND VID", "01-12-2016", ["Spain"], ["la liga", "real madrid", "ronaldo", "streamable");
     var vid2 = createVideoEnvironment("https://cdn-e2.streamable.com/video/mp4/cahge.mp4?token=1496778368_80dfcb565d05f3cee83cbf98d8107497a14085a7",
-        ["third vid", "12-12-1972", "France", "ligue 1", "monaco", "", "streamable"]);
+        "third vid", "12-12-1972", "France", "ligue 1", "monaco", "", "streamable"]);
     var vid3 = createVideoEnvironment("https://cdn-e2.streamable.com/video/mp4/z2bnh.mp4?token=1496778133_f95644a1a6f3dd47dfb804c181a94efe3053950f",
-        ["4th", "12-12-2069", "england", "championship", "", "", "streamable"]);
+        "4th", "12-12-2069", ["england"], ["championship"], [""], [""], "streamable"]);
 
     home.appendChild(vid1);
     home.appendChild(vid2);
-    home.appendChild(vid3);
+    home.appendChild(vid3);*/
+
+    var home = document.getElementById("homepageContent");
+
+    var gobtn = document.getElementById("searchModuleGo");
+    gobtn.addEventListener("click", function () {
+        //clear all videos
+        var videos = document.querySelectorAll(".video-wrapper");
+        for (var i = 0; i < videos.length; i++) {
+            videos[i].parentElement.removeChild(videos[i]);
+        }
+        //add new videos
+        var call = "";
+        if (playersOut.size > 0) {
+            call = "api/players/" + Array.from(playersOut).map(c => c.id).join("+") + "/videos";
+        } else if (teamsOut.size > 0) {
+            call = "api/teams/" + Array.from(teamsOut).map(c => c.id).join("+") + "/videos";
+        } else if (competitionsOut.size > 0) {
+            call = "api/competitions/" + Array.from(competitionsOut).map(c => c.id).join("+") + "/videos";
+        } else if (countriesOut.size > 0) {
+            call = "api/countries/" + Array.from(countriesOut).map(c => c.id).join("+") + "/videos";
+        } else {
+            call = "api/videos";
+        }
+
+        //handle sort orderType
+        if (orderType == 0) {//new to old
+            call + "?sorting=dsc";
+        } else {//old to new
+            call + "?sorting=asc";
+        }
+
+        jQuery.getJSON(call, function onResult(vids) {
+            for (var i = 0; i < vids.length; i++) {
+                var vid = createVideoEnvironment(vids[i].url, vids[i].title, unixToDate(vids[i].date), vids[i].country_tags,
+                    vids[i].competition_tags, vids[i].team_tags, vids[i].player_tags, vids[i].domain);
+                home.appendChild(vid);
+            }
+        });
+    });
+
+    function unixToDate(input: number) {
+        var date = new Date(input);
+        return date.getDay().toString(10) + "-" + date.getMonth().toString(10) + "-" + date.getFullYear().toString(10);
+    }
 
     // CONTROLLER stuff
 
@@ -791,7 +835,7 @@ window.onload = function () {
     //4 = teams - blank if none
     //5 = players - blank if none
     //6 = source
-    function createVideoEnvironment(url: string, meta: string[]) {
+    function createVideoEnvironment(url: string, title: string, date: string, countrytags: string[], comptags: string[], teamtags: string[], playertags: string[], source: string) {
         var vidwrap = div();
         vidwrap.className = "video-wrapper";
 
@@ -801,12 +845,12 @@ window.onload = function () {
 
         var vidtitle = span();
         vidtitle.className = "video-title";
-        vidtitle.innerHTML = meta[0];
+        vidtitle.innerHTML = title;
         vidinfowrap.appendChild(vidtitle);
 
         var viddate = span();
         viddate.className = "video-date";
-        viddate.innerHTML = meta[1];
+        viddate.innerHTML = date;
         vidinfowrap.appendChild(viddate);
 
         var vidtags = span();
@@ -817,29 +861,25 @@ window.onload = function () {
         var vidtagsul = ul();
         vidtags.appendChild(vidtagsul);
 
-        var metatagscountry = meta[2].split("-");
-        for (var i = 0; i < metatagscountry.length; i++) {
-            makeTag(metatagscountry[i], "country", vidtagsul);
+        for (var i = 0; i < countrytags.length; i++) {
+            makeTag(countrytags[i], "country", vidtagsul);
         }
 
-        var metatagscomp = meta[3].split("-");
-        for (var i = 0; i < metatagscomp.length; i++) {
-            makeTag(metatagscomp[i], "competition", vidtagsul);
+        for (var i = 0; i < comptags.length; i++) {
+            makeTag(comptags[i], "competition", vidtagsul);
         }
 
-        var metatagsteam = meta[4].split("-");
-        for (var i = 0; i < metatagsteam.length; i++) {
-            makeTag(metatagsteam[i], "team", vidtagsul);
+        for (var i = 0; i < teamtags.length; i++) {
+            makeTag(teamtags[i], "team", vidtagsul);
         }
 
-        var metatagsplayer = meta[5].split("-");
-        for (var i = 0; i < metatagsplayer.length; i++) {
-            makeTag(metatagsplayer[i], "player", vidtagsul);
+        for (var i = 0; i < playertags.length; i++) {
+            makeTag(playertags[i], "player", vidtagsul);
         }
 
         makeTag("VIDEO", "media", vidtagsul);
 
-        makeTag(meta[6], "source", vidtagsul);
+        makeTag(source, "source", vidtagsul);
 
         var vidplayerwrap = div();
         vidplayerwrap.className = "video-player-wrapper";
