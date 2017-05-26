@@ -3,7 +3,7 @@ import * as url from "url";
 
 export class Request {
   path: string[];
-  query: string;
+  query: { [term: string]: string };
   requestURL: url.Url
 
   constructor(public request: http.IncomingMessage, public response: http.ServerResponse, public isSecure: boolean) {

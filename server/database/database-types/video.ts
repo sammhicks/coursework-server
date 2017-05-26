@@ -4,4 +4,8 @@ export interface Video {
     date: number;
     title: string;
     url: string;
+    country_tags?: string[];
+    competition_tags?: string[];
+    team_tags?: string[];
+    player_tags?: string[];
 }

@@ -16,7 +16,8 @@ const statementStrings = {
     hasFixtures: "SELECT * from fixtures WHERE competition_id == $competition_id LIMIT 1",
     insertFixture: "INSERT INTO fixtures (date, home_team_id, away_team_id, competition_id) VALUES ($date, $home_team_id, $away_team_id, $competition_id)",
     videoExists: "SELECT * FROM videos WHERE id == $id LIMIT 1",
-    insertVideo: "INSERT INTO videos (id, source_id, date, title, url) VALUES ($id, (SELECT id FROM sources WHERE domain == $domain), $date, $title, $url)"
+    insertVideo: "INSERT INTO videos (id, source_id, date, title, url) VALUES ($id, (SELECT id FROM sources WHERE domain == $domain), $date, $title, $url)",
+    getVideos: "SELECT videos.title, videos.url, sources.domain, videos.date FROM videos JOIN player_tags ON videos.id == player_tags.video_id JOIN sources ON videos.source_id == sources.id"
 }
 
 const orderbyNameString = " ORDER BY name ASC";
@@ -35,6 +36,17 @@ export enum Sorting {
     asc,
     desc
 };
+
+function sortingString(column: string, order: Sorting) {
+    switch (order) {
+        case Sorting.asc:
+            return " ORDER BY " + column + " ASC";
+        case Sorting.desc:
+            return " ORDER BY " + column + " DESC";
+        default:
+            return "";
+    }
+}
 
 export class Interface {
     private footballData: FootballData;
@@ -191,5 +203,16 @@ export class Interface {
         })));
     }
 
+    getVideos(players: number[], order: Sorting) {
+        var statement;
+        if (players.length == 0) {
+            statement = statementStrings.getVideos;
+        } else {
+            statement = statementStrings.getVideos + " WHERE player_tags.player_id IN " + prepareParameterNames(players.length);
+        }
 
+        statement += sortingString("videos.date", order);
+
+        return this.runAllStatement<databaseTypes.Video>(statement, players);
+    }
 }
