@@ -9,6 +9,8 @@ import { parseIndices } from "./indices";
 
 import { getSorting } from "./sorting";
 
+import { attachTagsToVideosCurry } from "./videos";
+
 export class TeamsHandler extends Handler {
     constructor(private database: DatabaseInterface) {
         super();
@@ -34,7 +36,9 @@ export class TeamsHandler extends Handler {
                 if (resource == "players") {
                     return playersPromise.then(handleJSON);
                 } else {
-                    const videosPromise = playersPromise.then(players => self.database.getVideos(players.map(player => player.id), getSorting(request)));
+                    const videosPromise = playersPromise
+                        .then(players => self.database.getVideos(players.map(player => player.id), getSorting(request)))
+                        .then(attachTagsToVideosCurry(self.database));
 
                     if (resource == "videos") {
                         return videosPromise.then(handleJSON);

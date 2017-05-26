@@ -9,6 +9,8 @@ import { parseIndices } from "./indices";
 
 import { getSorting } from "./sorting";
 
+import { attachTagsToVideosCurry } from "./videos";
+
 export class PlayersHandler extends Handler {
     constructor(private database: DatabaseInterface) {
         super();
@@ -29,7 +31,7 @@ export class PlayersHandler extends Handler {
                 const self = this;
                 const handleJSON = Handler.handleJSONCurry(request);
 
-                const videosPromise = this.database.getVideos(players, getSorting(request));
+                const videosPromise = this.database.getVideos(players, getSorting(request)).then(attachTagsToVideosCurry(self.database));
 
                 if (resource == "videos") {
                     return videosPromise.then(handleJSON);
