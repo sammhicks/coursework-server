@@ -18,24 +18,63 @@
 .bios{
     position: absolute;
     width: 200px;
-    height: 200px;
-    font-size: 14px;
-    text-align: left;
+    height: auto;
+    font-size: 17px;
+    text-align: center;
     background-color: black;
     z-index: 2;
+    padding: 5px;
+    display: none;
 }
 
 .bios span:first-of-type{
-    text-align: center;
-    font-size: 20px;
+    font-size: 22px;
+    margin-bottom: 12px;
+    display: block;
+    border-bottom: 2px solid darkorange;
 }
 
 #mikesBio{
-    left: 69%;
-    top: 21%;
+    /*left: 69%;
+    top: 21%;*/
+    right: 19.2%;
+    bottom: 43%;
 }
 
 #samsBio{
-    left: 35%;
-    top: 21%;
+    /*left: 35%;
+    top: 25%;*/
+    right: 54.4%;
+    bottom: 46%;
+}
+
+.bio-circle{
+    position: absolute;
+    height: 18%;
+    width: 7%;
+    border: 5px solid #1c2f2f;
+    background-color: rgba(1,1,1,0.2);
+    border-radius: 100%;
+}
+
+#bio-circle-sam{
+    bottom: 45%;
+    right: 46.2%;
+}
+
+.bio-circle:hover{
+    background-color: rgba(1,1,1,0.5);
+}
+
+#bio-circle-sam:hover + #samsBio{
+    display: block;
+}
+
+#bio-circle-mike{
+    bottom: 43.5%;
+    right: 11%;
+}
+
+#bio-circle-mike:hover + #mikesBio{
+    display: block;
 }
