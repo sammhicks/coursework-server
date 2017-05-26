@@ -2,18 +2,18 @@ import { Element, Literal, String } from "../../html";
 import { HTMLHandler, LeafHandler } from "../../handlers";
 import { Page } from "./page";
 
-var header = new Element("div", { class: "header", id: "header" }, [
+const header = new Element("div", { class: "header", id: "header" }, [
     new Element("h1", { class: "title" }, [
-        new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", id: "logopos1" }), ,
+        new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", id: "logopos1" }),
         new String("Ball To Hand")
     ]),
     new Element("img", { src: "images/logo-orange-grey.svg", alt: "Logo Orange and Grey", id: "logopos2" }),
     new Element("p", {}, [new String("Welcome to the hub of football media")])
 ]);
 
-var spacer = new Element("div", { class: "spacer" }, []);
+const spacer = new Element("div", { class: "spacer" }, []);
 
-var search = new Element("div", { class: "searchModulesContainer", id: "searchModulesContainer" }, [
+const search = new Element("div", { class: "searchModulesContainer", id: "searchModulesContainer" }, [
     new Element("ul", { class: "searchModule", id: "searchModule" }, [
         new Element("li", { tabindex: "0" }, [
             new Element("div", { class: "searchModuleContent" }, [
@@ -204,10 +204,9 @@ var search = new Element("div", { class: "searchModulesContainer", id: "searchMo
     ])
 ]);
 
-var latestGoal = new Element("p", {}, [
+const latestGoal = new Element("p", {}, [
     new String("Latest goal from around the world")
 ])
-
 var video = (url: string) => new Element("div", { class: "video-wrapper" }, [
     new Element("div", { class: "video-info-wrapper", id: "videoinfo" }, [
         new Element("span", { class: "video-title", id: "videotitle" }, [
@@ -339,7 +338,7 @@ var video = (url: string) => new Element("div", { class: "video-wrapper" }, [
     ])
 ])
 
-var homePage = new Page("", [], [], new Element("div", { class: "homepageContent", id: "homepageContent" }, [
+const homePage = new Page("", [], [], new Element("div", { class: "homepageContent", id: "homepageContent" }, [
     header,
     spacer,
     search,
@@ -348,4 +347,4 @@ var homePage = new Page("", [], [], new Element("div", { class: "homepageContent
     //video("https://r8---sn-q4f7snsy.googlevideo.com/videoplayback?key=yt6&lmt=1381899635777930&source=youtube&ratebypass=yes&dur=11866.279&clen=407996837&expire=1495586013&mime=video%2Fmp4&pl=24&initcwndbps=2390000&ip=159.253.144.86&sparams=clen%2Cdur%2Cei%2Cgir%2Cid%2Cinitcwndbps%2Cip%2Cipbits%2Citag%2Clmt%2Cmime%2Cmm%2Cmn%2Cms%2Cmv%2Cpl%2Cratebypass%2Crequiressl%2Csource%2Cexpire&ei=fIAkWfy6M9bP1gLSvrqQDA&itag=18&ms=au&mt=1495564346&mv=m&mm=31&mn=sn-q4f7snsy&id=o-AMQG5Oj4S1hwLfOMfwF4eBv_g1cVX30VaFFfSqOtQnj9&gir=yes&signature=08DA99692AC36F6B86185B74D621AC19DC1322F9.CB8269B0977101C9A77C84E59BE61B3C39B311C6&ipbits=0&requiressl=yes&title=long+test+video")
 ]));
 
-export var home = new LeafHandler(new HTMLHandler(homePage));
+export const home = new LeafHandler(new HTMLHandler(homePage));

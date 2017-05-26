@@ -4,6 +4,7 @@
 	},
 	"namedHandlers": {
 		"index.html": "home",
-		"about.html": "about"
+		"about.html": "about",
+		"api": "api"
 	}
 }

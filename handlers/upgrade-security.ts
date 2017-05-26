@@ -12,10 +12,11 @@ export function upgradeSecurity(request: Request, securePort: number): Promise<v
         hash: request.requestURL.hash
     }
 
-    request.response.writeHead(httpStatus.MOVED_TEMPORARILY, {
-        "Content-Length": "0",
-        "Location": url.format(redirectUrl)
-    });
+    request.response.setHeader("Content-Length", "0");
+    request.response.setHeader("Location", url.format(redirectUrl));
+
+    const status = httpStatus.MOVED_TEMPORARILY;
+    request.response.writeHead(status, httpStatus.getStatusText(status));
     request.response.end();
 
     return Promise.resolve();

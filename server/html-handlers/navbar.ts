@@ -1,6 +1,6 @@
 import { Element, Literal, String } from "../../html";
 
-export var navbar = new Element("nav", { class: "navbar", id: "navbar" }, [
+export const navbar = new Element("nav", { class: "navbar", id: "navbar" }, [
     new Element("span", {}, [
         new Element("a", { href: "index.html", title: "Home" }, [
             new String("Home")

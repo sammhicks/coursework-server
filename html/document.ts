@@ -28,7 +28,7 @@ export class Document extends Renderable {
         return new Element(
             "head",
             {},
-            [].concat(
+            (<Element[]>[]).concat(
                 this.GenerateMeta(),
                 this.favicons,
                 new Element("title", {}, [new String(this.title)]),
@@ -39,7 +39,7 @@ export class Document extends Renderable {
     }
 
     private GenerateMeta(): Element[] {
-        return [].concat(
+        return (<Element[]>[]).concat(
             new Element("meta", { charset: "UTF-8" }),
             Object.keys(this.meta).map(
                 (key) => new Element("meta", { name: key, content: this.meta[key] })

@@ -14,15 +14,15 @@ export class ETagHandler {
     }
 
     tryHandle(request: Request): boolean {
+        request.response.setHeader("Cache-Control", "public, max-age=10");
+        request.response.setHeader("ETag", this.eTag);
         if ("if-none-match" in request.request.headers && request.request.headers["if-none-match"] == this.eTag) {
-            request.response.setHeader("ETag", this.eTag);
-            request.response.writeHead(httpStatus.NOT_MODIFIED);
+            const status = httpStatus.NOT_MODIFIED;
+            request.response.writeHead(status, httpStatus.getStatusText(status));
             request.response.end();
 
             return true;
         } else {
-            request.response.setHeader("ETag", this.eTag);
-
             return false;
         }
     }

@@ -1,4 +1,4 @@
-﻿import { Error } from "./error";
+﻿import { HandlerError } from "./error";
 import { Handler } from "./handler";
 import * as httpStatus from "http-status-codes";
 import { Request } from "../request";
@@ -12,7 +12,7 @@ export class LeafHandler extends Handler {
     if (request.path.length === 0 || (request.path.length === 1 && request.path[0] === "")) {
       return this.handler.handleRequest(request);
     } else {
-      return Promise.reject(new Error(request, httpStatus.NOT_FOUND));
+      return Promise.reject(new HandlerError(httpStatus.NOT_FOUND));
     }
   }
 }
