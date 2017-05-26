@@ -12,7 +12,7 @@ export var navbar = new Element("nav", { class: "navbar", id: "navbar" }, [
         ])
     ]),
     new Element("span", {}, [
-        new Element("a", { href: "about_us.html", title: "About Us" }, [
+        new Element("a", { href: "about.html", title: "About Us" }, [
             new String("About Us")
         ]),
         new Element("a", { href: "about_us.html", title: "About Us" }, [

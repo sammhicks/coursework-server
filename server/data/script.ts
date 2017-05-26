@@ -908,7 +908,6 @@ window.onload = function () {
         var time = 0;
         var playstate = false;
         var looptoggle = false;
-        var playPauseTimeout: NodeJS.Timer = null;
 
         function loopToggle() {
             looptoggle = !looptoggle;

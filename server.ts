@@ -13,7 +13,7 @@ import { Request } from "./request";
 const insecurePort: number = process.env.PORT || 8080;
 const securePort: number = process.env.SECUREPORT || 443;
 
-const crawledHandler = new Crawler().crawl("server/data", { namedHandlers: { home: handlers.home } });
+const crawledHandler = new Crawler().crawl("server/data", { namedHandlers: { home: handlers.home, about: handlers.about } });
 
 const upgradeInsecureHandler = new UpgradeInsecure(crawledHandler, securePort);
 
