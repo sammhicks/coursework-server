@@ -92,11 +92,11 @@ window.onload = function () {
     var players = document.querySelectorAll("#searchModulePlayers>li");
     var playersOut: Set<any> = new Set();
 
-    var searchTags = document.getElementById("searchModuleTags");
+    /*var searchTags = document.getElementById("searchModuleTags");
     var searchTagsCountry = searchTags.firstElementChild as HTMLElement;
     var searchTagsComp = searchTagsCountry.nextElementSibling as HTMLElement;
     var searchTagsTeam = searchTagsCountry.nextElementSibling as HTMLElement;
-    var searchTagsPlayer = searchTagsCountry.nextElementSibling as HTMLElement;
+    var searchTagsPlayer = searchTagsCountry.nextElementSibling as HTMLElement;*/
 
     function request(type: string) {
         switch (type) {
@@ -125,13 +125,14 @@ window.onload = function () {
                 break;
             case "competition":
                 var call = "";
-                if (countriesOut.size == 0 && competitionsOut.size == 0) {
-                    call = "api/teams";
-                }
-                else if (competitionsOut.size > 0) {
+                if (competitionsOut.size > 0) {
                     call = "api/competitions/" + Array.from(competitionsOut).map(c => c.id).join("+") + "/teams";
-                } else {
+                }
+                else if (countriesOut.size > 0) {
                     call = "api/countries/" + Array.from(countriesOut).map(c => c.id).join("+") + "/teams";
+                }
+                else {
+                    call = "api/teams";
                 }
                 teamsOut.clear()
                 var parent2 = document.getElementById("searchModuleTeams");
@@ -151,16 +152,17 @@ window.onload = function () {
                 break;
             case "team":
                 var call = "";
-                if (countriesOut.size == 0 && competitionsOut.size == 0 && teamsOut.size == 0) {
-                    call = "api/players";
-                }
-                else if (teamsOut.size > 0) {
-                    call = "api/tams/" + Array.from(teamsOut).map(c => c.id).join("+") + "/players";
+                if (teamsOut.size > 0) {
+                    call = "api/teams/" + Array.from(teamsOut).map(c => c.id).join("+") + "/players";
                 }
                 else if (competitionsOut.size > 0) {
                     call = "api/competitions/" + Array.from(competitionsOut).map(c => c.id).join("+") + "/players";
-                } else {
+                }
+                else if (countriesOut.size > 0) {
                     call = "api/countries/" + Array.from(countriesOut).map(c => c.id).join("+") + "/players";
+                }
+                else {
+                    call = "api/players";
                 }
                 playersOut.clear()
                 var parent2 = document.getElementById("searchModulePlayers");
@@ -190,31 +192,11 @@ window.onload = function () {
                 this.style.color = "#1c2f2f";
                 this.style.backgroundColor = "darkorange";
                 output.add(obj);
-                switch (type) {
-                    case "country":
-                        makeTagButton(type, searchTagsCountry, obj);
-                        request(type);
-                        break;
-                    case "competition":
-                        makeTagButton(type, searchTagsComp, obj);
-                        request(type);
-                        break;
-                    case "team":
-                        makeTagButton(type, searchTagsTeam, obj);
-                        request(type);
-                        break;
-                    case "player":
-                        makeTagButton(type, searchTagsPlayer, obj);
-                        request(type);
-                        break;
-                    default:
-                        break;
-                }
+                request(type);
             } else {
                 this.style.color = "";
                 this.style.backgroundColor = "";
                 output.delete(obj);
-                removeTag("tag: " + type + " " + obj.id);
                 request(type);
             }
         });
@@ -265,7 +247,7 @@ window.onload = function () {
         parent.appendChild(tag)
     }
 
-    function makeTagButton(type: string, parent: HTMLElement, obj: any) {
+    /*function makeTagButton(type: string, parent: HTMLElement, obj: any) {
         if (obj.name.length < 1)
             return;
         var classID = "";
@@ -330,7 +312,7 @@ window.onload = function () {
     function removeTag(contents: string) {
         var tag = document.getElementById(contents);
         tag.parentNode.removeChild(tag);
-    }
+    }*/
 
     var parent1 = document.getElementById("searchModuleCountries");
     jQuery.getJSON("/api/countries", function onResult(countriesJson) {

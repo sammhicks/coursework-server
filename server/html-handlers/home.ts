@@ -165,12 +165,12 @@ const search = new Element("div", { class: "searchModulesContainer", id: "search
         ])
     ]),
     new Element("div", { class: "searchModuleResults" }, [
-        new Element("div", { class: "searchModuleTags", id: "searchModuleTags" }, [
+        /*new Element("div", { class: "searchModuleTags", id: "searchModuleTags" }, [
             new Element("ul", {}, []),
             new Element("ul", {}, []),
             new Element("ul", {}, []),
             new Element("ul", {}, [])
-        ]),
+        ]),*/
         new Element("div", { id: "numberOfResults" }, [
             new Element("span", {}, [
                 new String("Number of Results: ")
