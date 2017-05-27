@@ -37,6 +37,8 @@ window.onload = function () {
     var vidFocused = false;
     var fullscr = false;
     var mouseMoveCheck: NodeJS.Timer = null;
+    var remainingvideos: any[] = [];
+    var nextAmount = 10;
 
     //global video objects
     var globalVideo: HTMLVideoElement = null;
@@ -185,7 +187,7 @@ window.onload = function () {
     }
 
     function setupCheckbox(elem: HTMLElement, output: Set<any>, type: string, obj: any) {
-        elem.innerHTML = obj.name;
+        elem.innerText = obj.name;
         elem.id = "checkbox: " + type + " " + obj.id;
         elem.addEventListener("click", function () {
             if (!output.has(obj)) {
@@ -241,7 +243,7 @@ window.onload = function () {
                 throw TypeError("TYPE DOESN'T EXIST");
         }
         var tag = document.createElement("li") as HTMLElement;
-        tag.innerHTML = contents;
+        tag.innerText = contents;
         tag.className = classID;
         tag.id = "tag: " + type + " " + contents;
         parent.appendChild(tag)
@@ -274,7 +276,7 @@ window.onload = function () {
                 throw TypeError("TYPE DOESN'T EXIST");
         }
         var tag = document.createElement("li") as HTMLElement;
-        tag.innerHTML = obj.name;
+        tag.innerText = obj.name;
         tag.className = classID;
         tag.id = "tag: " + type + " " + obj.id;
         tag = wireTag(tag, parent, type, obj);
@@ -427,13 +429,13 @@ window.onload = function () {
             document.msFullscreenElement
         ) {
             fullscr = true;
-            globalFullscreenIcon.innerHTML = "fullscreen_exit";
+            globalFullscreenIcon.innerText = "fullscreen_exit";
             globalCanvas.width = screen.width;
         }
         else {
             clearTimeout(mouseMoveCheck);
             fullscr = false;
-            globalFullscreenIcon.innerHTML = "fullscreen";
+            globalFullscreenIcon.innerText = "fullscreen";
             globalVideo.style.cursor = "default";
             globalControls.style.opacity = "";
             globalCanvas.width = 1280;
@@ -548,13 +550,60 @@ window.onload = function () {
         }
 
         jQuery.getJSON(call, function onResult(vids) {
-            for (var i = 0; i < vids.length; i++) {
-                var vid = createVideoEnvironment(vids[i].url, vids[i].title, unixToDate(vids[i].date), vids[i].country_tags,
-                    vids[i].competition_tags, vids[i].team_tags, vids[i].player_tags, vids[i].domain);
-                home.appendChild(vid);
-            }
+            remainingvideos = vids;
+            loadNextVideos();
         });
     });
+
+    function loadNextVideos() {
+        var newVideos = remainingvideos.slice(0, nextAmount);
+        remainingvideos = remainingvideos.slice(nextAmount);
+
+        for (var i = 0; i < newVideos.length; i++) {
+            var newVideo = newVideos[i];
+            var vid = createVideoEnvironment(newVideo.url, newVideo.title, unixToDate(newVideo.date), newVideo.country_tags,
+                newVideo.competition_tags, newVideo.team_tags, newVideo.player_tags, newVideo.domain);
+            home.appendChild(vid);
+        }
+    }
+
+    function getDocHeight() {
+        var D = document;
+        return Math.max(
+            D.body.scrollHeight, D.documentElement.scrollHeight,
+            D.body.offsetHeight, D.documentElement.offsetHeight,
+            D.body.clientHeight, D.documentElement.clientHeight
+        )
+    }
+
+    var docheight = getDocHeight()
+
+    function amountscrolled() {
+        var winheight = window.innerHeight || (document.documentElement || document.body).clientHeight;
+        var docheight = getDocHeight();
+        var scrollTop = document.body.scrollTop;
+        var trackLength = docheight - winheight
+        var pctScrolled = Math.floor(scrollTop / trackLength * 100) // gets percentage scrolled (ie: 80 or NaN if tracklength == 0)
+        return pctScrolled;
+    }
+
+    window.addEventListener("scroll", function () {
+        if (amountscrolled() > 90) {
+            loadNextVideos();
+        }
+    }, false);
+
+    /*window.addEventListener("scroll", function () {
+        console.log("Scrolling");
+        console.log("scrollHeight", document.body.scrollHeight);
+        console.log("clientHeight:", document.body.clientHeight);
+        console.log("scrollTop", document.body.scrollTop);
+        console.log("height + top:", document.body.clientHeight + document.body.scrollTop);
+        if ((document.body.scrollHeight - document.body.clientHeight - document.body.scrollTop) < 64) {
+            console.log("Next videos coming up!");
+            loadNextVideos();
+        }
+    });*/
 
     function unixToDate(input: number) {
         var date = new Date(input * 1000);
@@ -845,17 +894,17 @@ window.onload = function () {
 
         var vidtitle = span();
         vidtitle.className = "video-title";
-        vidtitle.innerHTML = title;
+        vidtitle.innerText = title;
         vidinfowrap.appendChild(vidtitle);
 
         var viddate = span();
         viddate.className = "video-date";
-        viddate.innerHTML = date;
+        viddate.innerText = date;
         vidinfowrap.appendChild(viddate);
 
         var vidtags = span();
         vidtags.className = "video-tags";
-        vidtags.innerHTML = "Tags";
+        vidtags.innerText = "Tags";
         vidinfowrap.appendChild(vidtags);
 
         var vidtagsul = ul();
@@ -897,7 +946,7 @@ window.onload = function () {
         video.src = url;
         video.width = 1280;
         video.height = 720;
-        video.innerHTML = "Your browser does not support the video tag.";
+        video.innerText = "Your browser does not support the video tag.";
         vidcontainer.appendChild(video);
 
         var vidmainiconplay = div();
@@ -923,12 +972,12 @@ window.onload = function () {
         var vidseekthumbvideo = document.createElement("video");
         vidseekthumbvideo.className = "video-seek-thumbnail-image";
         vidseekthumbvideo.src = url;
-        vidseekthumbvideo.innerHTML = "Your browser does not support the video tag.";
+        vidseekthumbvideo.innerText = "Your browser does not support the video tag.";
         vidseekthumb.appendChild(vidseekthumbvideo);
 
         var vidseekthumbtime = span();
         vidseekthumbtime.className = "video-seek-thumbnail-time";
-        vidseekthumbtime.innerHTML = "00:00";
+        vidseekthumbtime.innerText = "00:00";
         vidseekthumb.appendChild(vidseekthumbtime);
 
         var vidseekthumbarrow = div();
@@ -963,15 +1012,15 @@ window.onload = function () {
         vidcontrols.appendChild(vidcontrolstime);
 
         var vidcontrolscurrenttime = div();
-        vidcontrolscurrenttime.innerHTML = "00:00";
+        vidcontrolscurrenttime.innerText = "00:00";
         vidcontrolstime.appendChild(vidcontrolscurrenttime);
 
         var vidcontrolsslash = div();
-        vidcontrolsslash.innerHTML = "/";
+        vidcontrolsslash.innerText = "/";
         vidcontrolstime.appendChild(vidcontrolsslash);
 
         var vidcontrolsendtime = div();
-        vidcontrolsendtime.innerHTML = "69:69";
+        vidcontrolsendtime.innerText = "69:69";
         vidcontrolstime.appendChild(vidcontrolsendtime);
 
         var vidcontrolsvolume = div();
@@ -980,7 +1029,7 @@ window.onload = function () {
 
         var vidcontrolsvolumei = ii();
         vidcontrolsvolumei.className = "material-icons md-48";
-        vidcontrolsvolumei.innerHTML = "volume_up";
+        vidcontrolsvolumei.innerText = "volume_up";
         vidcontrolsvolume.appendChild(vidcontrolsvolumei);
 
         var vidcontrolsvolumecontent = div();
@@ -999,7 +1048,7 @@ window.onload = function () {
 
         var vidcontrolsfullscreeni = ii();
         vidcontrolsfullscreeni.className = "material-icons md-48";
-        vidcontrolsfullscreeni.innerHTML = "fullscreen";
+        vidcontrolsfullscreeni.innerText = "fullscreen";
         vidcontrolsfullscreen.appendChild(vidcontrolsfullscreeni);
 
         var vidcontrolssettings = div();
@@ -1019,42 +1068,42 @@ window.onload = function () {
 
         var vidcontrolssettingsmenuli = li();
         vidcontrolssettingsmenuli.className = "video-controls-playback-speed"
-        vidcontrolssettingsmenuli.innerHTML = "Speed";
+        vidcontrolssettingsmenuli.innerText = "Speed";
         vidcontrolssettingsmenuul.appendChild(vidcontrolssettingsmenuli);
 
         var vidcontrolssettingsmenuliul = ul();
         vidcontrolssettingsmenuli.appendChild(vidcontrolssettingsmenuliul);
 
         var vidcontrolssettingsmenuliulli025 = li();
-        vidcontrolssettingsmenuliulli025.innerHTML = "0.25x";
+        vidcontrolssettingsmenuliulli025.innerText = "0.25x";
         vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli025);
 
         var vidcontrolssettingsmenuliulli05 = li();
-        vidcontrolssettingsmenuliulli05.innerHTML = "0.5x";
+        vidcontrolssettingsmenuliulli05.innerText = "0.5x";
         vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli05);
 
         var vidcontrolssettingsmenuliulli075 = li();
-        vidcontrolssettingsmenuliulli075.innerHTML = "0.75x";
+        vidcontrolssettingsmenuliulli075.innerText = "0.75x";
         vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli075);
 
         var vidcontrolssettingsmenuliulli1 = li();
-        vidcontrolssettingsmenuliulli1.innerHTML = "Default";
+        vidcontrolssettingsmenuliulli1.innerText = "Default";
         vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli1);
 
         var vidcontrolssettingsmenuliulli125 = li();
-        vidcontrolssettingsmenuliulli125.innerHTML = "1.25x";
+        vidcontrolssettingsmenuliulli125.innerText = "1.25x";
         vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli125);
 
         var vidcontrolssettingsmenuliulli15 = li();
-        vidcontrolssettingsmenuliulli15.innerHTML = "1.5x";
+        vidcontrolssettingsmenuliulli15.innerText = "1.5x";
         vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli15);
 
         var vidcontrolssettingsmenuliulli2 = li();
-        vidcontrolssettingsmenuliulli2.innerHTML = "2x";
+        vidcontrolssettingsmenuliulli2.innerText = "2x";
         vidcontrolssettingsmenuliul.appendChild(vidcontrolssettingsmenuliulli2);
 
         var vidcontrolssettingsmenuloop = li();
-        vidcontrolssettingsmenuloop.innerHTML = "Loop";
+        vidcontrolssettingsmenuloop.innerText = "Loop";
         vidcontrolssettingsmenuul.appendChild(vidcontrolssettingsmenuloop);
 
         //wiring
@@ -1222,7 +1271,7 @@ window.onload = function () {
             var arrowoffset = 0;
             if (fullscr) {
                 amt = (e.clientX / screen.width) * 100;
-                vidseekthumbtime.innerHTML = formatTime(amt / 100 * video.duration) + "";
+                vidseekthumbtime.innerText = formatTime(amt / 100 * video.duration) + "";
                 vidseekthumbvideo.currentTime = amt / 100 * video.duration;
                 var test = (128 / screen.width) * 100;
                 if (amt < test) {
@@ -1239,7 +1288,7 @@ window.onload = function () {
             else {
                 amt = ((e.clientX - vidcontrolsseekwrapper.getBoundingClientRect().left) / 1280) * 100;
                 if (amt < 0) amt = 0;
-                vidseekthumbtime.innerHTML = formatTime(amt / 100 * video.duration) + "";
+                vidseekthumbtime.innerText = formatTime(amt / 100 * video.duration) + "";
                 vidseekthumbvideo.currentTime = amt / 100 * video.duration;
                 var test = 128 / 1280 * 100;
                 if (amt < test) {
@@ -1268,16 +1317,16 @@ window.onload = function () {
             playstate = togglePlayPause();
         });
 
-        vidcontrolscurrenttime.innerHTML = formatTime(video.currentTime) + "";
+        vidcontrolscurrenttime.innerText = formatTime(video.currentTime) + "";
         video.addEventListener('timeupdate', function () {
-            vidcontrolscurrenttime.innerHTML = formatTime(video.currentTime) + "";
+            vidcontrolscurrenttime.innerText = formatTime(video.currentTime) + "";
             vidcontrolsseek.style.width = ((video.currentTime / video.duration) * 100) + "%";
         });
 
         video.addEventListener('durationchange', function () {
-            vidcontrolsendtime.innerHTML = formatTime(video.duration) + "";
+            vidcontrolsendtime.innerText = formatTime(video.duration) + "";
         });
-        vidcontrolsendtime.innerHTML = formatTime(video.duration) + "";
+        vidcontrolsendtime.innerText = formatTime(video.duration) + "";
 
         vidcontrolsvolume.addEventListener("mousedown", function () {
             video.muted = !video.muted;
@@ -1298,14 +1347,14 @@ window.onload = function () {
         video.addEventListener('volumechange', function () {
             vidcontrolsvolumecontentbar.style.width = 100 * video.volume + "%";
             if (video.muted) {
-                vidcontrolsvolumei.innerHTML = "volume_off";
+                vidcontrolsvolumei.innerText = "volume_off";
             } else {
                 if (this.volume > 0.5) {
-                    vidcontrolsvolumei.innerHTML = "volume_up";
+                    vidcontrolsvolumei.innerText = "volume_up";
                 } else if (this.volume > 0) {
-                    vidcontrolsvolumei.innerHTML = "volume_down";
+                    vidcontrolsvolumei.innerText = "volume_down";
                 } else {
-                    vidcontrolsvolumei.innerHTML = "volume_mute";
+                    vidcontrolsvolumei.innerText = "volume_mute";
                 }
             }
         });
