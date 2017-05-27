@@ -6,6 +6,10 @@ import { FootballData } from "./football-data";
 import * as footballDataTypes from "./football-data-types";
 import { Video as RedditVideo } from "./domains";
 
+function createGetVideosStatement(column: string) {
+    return "SELECT videos.id, videos.title, videos.url, sources.domain, videos.date FROM videos JOIN " + column + "_tags ON videos.id == " + column + "_tags.video_id JOIN sources ON videos.source_id == sources.id WHERE " + column + "_tags." + column + "_id IN "
+}
+
 function createGetTagsStatement(singular: string, plural: string) {
     return "SELECT " + plural + ".name AS tag_name FROM " + plural + " JOIN " + singular + "_tags ON " + plural + ".id == " + singular + "_tags." + singular + "_id WHERE " + singular + "_tags.video_id == $video ORDER BY " + plural + ".name ASC";
 }
@@ -21,8 +25,11 @@ const statementStrings = {
     insertFixture: "INSERT INTO fixtures (date, home_team_id, away_team_id, competition_id) VALUES ($date, $home_team_id, $away_team_id, $competition_id)",
     videoExists: "SELECT * FROM videos WHERE id == $id LIMIT 1",
     insertVideo: "INSERT INTO videos (id, source_id, date, title, url) VALUES ($id, (SELECT id FROM sources WHERE domain == $domain), $date, $title, $url)",
-    getAllVideos: "SELECT videos.id, videos.title, videos.url, sources.domain, videos.date FROM videos JOIN sources ON videos.source_id == sources.id ORDER BY videos.date ",
-    getVideos: "SELECT videos.id, videos.title, videos.url, sources.domain, videos.date FROM videos JOIN player_tags ON videos.id == player_tags.video_id JOIN sources ON videos.source_id == sources.id",
+    getAllVideos: "SELECT videos.id, videos.title, videos.url, sources.domain, videos.date FROM videos JOIN sources ON videos.source_id == sources.id",
+    getVideosFromCountries: createGetVideosStatement("country"),
+    getVideosFromCompetitions: createGetVideosStatement("competition"),
+    getVideosFromTeams: createGetVideosStatement("team"),
+    getVideosFromPlayers: createGetVideosStatement("player"),
     getCountryTags: createGetTagsStatement("country", "countries"),
     getCompetitionTags: createGetTagsStatement("competition", "competitions"),
     getTeamTags: createGetTagsStatement("team", "teams"),
@@ -220,42 +227,66 @@ export class Interface {
         })));
     }
 
-    getAllVideos(order: Sorting) {
-        return this.database.access<databaseTypes.Video[]>(database => database.all(statementStrings.getAllVideos + (order == Sorting.asc ? "ASC" : "DESC"), {}));
-    }
-
-    getVideos(players: number[], order: Sorting) {
-        var statement;
-        if (players.length == 0) {
-            statement = statementStrings.getVideos;
-        } else {
-            statement = statementStrings.getVideos + " WHERE player_tags.player_id IN " + prepareParameterNames(players.length);
-        }
-
-        statement += sortingString("videos.date", order);
-
-        return this.runAllStatement<databaseTypes.Video>(statement, players);
-    }
-
-    getTags(statement: Promise<Statement>, video: string) {
-        return this.database.access<{ tag_name: string }[]>(() => statement
-            .then(statement => statement.all({ $video: video })))
+    private getTags(statement: Promise<Statement>, video: string) {
+        return statement
+            .then(statement => statement.all({ $video: video }))
             .then(tags => tags.map(tag => tag.tag_name));
     }
 
-    getCountryTags(video: string) {
-        return this.getTags(this.getCountryTagsStatement, video);
+    private attachTagsToVideos(videos: databaseTypes.Video[]) {
+        const self = this;
+        return Promise.all(videos.map(video => self.attachTagsToVideo(video)));
     }
 
-    getCompetitionTags(video: string) {
-        return this.getTags(this.getCompetitionTagsStatement, video);
+    private attachTagsToVideo(video: databaseTypes.Video) {
+        const self = this;
+        return Promise.all([
+            self.getTags(self.getCountryTagsStatement, video.id),
+            self.getTags(self.getCompetitionTagsStatement, video.id),
+            self.getTags(self.getTeamTagsStatement, video.id),
+            self.getTags(self.getPlayerTagsStatement, video.id)
+        ]).then(function handleResults(results) {
+            video.country_tags = results[0];
+            video.competition_tags = results[1];
+            video.team_tags = results[2];
+            video.player_tags = results[3];
+
+            return video;
+        })
     }
 
-    getTeamTags(video: string) {
-        return this.getTags(this.getTeamTagsStatement, video);
+    getAllVideos(order: Sorting) {
+        const self = this;
+        return self.database.access<databaseTypes.Video[]>(function insideLock(database) {
+            return database.all(statementStrings.getAllVideos + sortingString("videos.date", order), {}).then(videos => self.attachTagsToVideos(videos));
+        });
     }
 
-    getPlayerTags(video: string) {
-        return this.getTags(this.getPlayerTagsStatement, video);
+    getVideosFromCountries(countries: number[], order: Sorting) {
+        const self = this;
+        const statement = statementStrings.getVideosFromCountries + prepareParameterNames(countries.length) + sortingString("videos.date", order);
+
+        return this.runAllStatement<databaseTypes.Video>(statement, countries).then(videos => self.attachTagsToVideos(videos));
+    }
+
+    getVideosFromCompetitions(competitions: number[], order: Sorting) {
+        const self = this;
+        const statement = statementStrings.getVideosFromCompetitions + prepareParameterNames(competitions.length) + sortingString("videos.date", order);
+
+        return this.runAllStatement<databaseTypes.Video>(statement, competitions).then(videos => self.attachTagsToVideos(videos));
+    }
+
+    getVideosFromTeams(teams: number[], order: Sorting) {
+        const self = this;
+        const statement = statementStrings.getVideosFromTeams + prepareParameterNames(teams.length) + sortingString("videos.date", order);
+
+        return this.runAllStatement<databaseTypes.Video>(statement, teams).then(videos => self.attachTagsToVideos(videos));
+    }
+
+    getVideosFromPlayers(players: number[], order: Sorting) {
+        const self = this;
+        const statement = statementStrings.getVideosFromPlayers + prepareParameterNames(players.length) + sortingString("videos.date", order);
+
+        return this.runAllStatement<databaseTypes.Video>(statement, players).then(videos => self.attachTagsToVideos(videos));
     }
 }

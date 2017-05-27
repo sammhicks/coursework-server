@@ -9,8 +9,6 @@ import { parseIndices } from "./indices";
 
 import { getSorting } from "./sorting";
 
-import { attachTagsToVideosCurry } from "./videos";
-
 export class CountriesHandler extends Handler {
     constructor(private database: DatabaseInterface) {
         super();
@@ -31,30 +29,24 @@ export class CountriesHandler extends Handler {
                 const self = this;
                 const handleJSON = Handler.handleJSONCurry(request);
 
-                const competitionsPromise = this.database.getCompetitions(countries);
-
-                if (resource == "competitions") {
-                    return competitionsPromise.then(handleJSON);
+                if (resource == "videos") {
+                    return self.database.getVideosFromCountries(countries, getSorting(request)).then(handleJSON);
                 } else {
-                    const teamsPromise = competitionsPromise.then(competitions => self.database.getTeams(competitions.map(competition => competition.id)));
+                    const competitionsPromise = this.database.getCompetitions(countries);
 
-                    if (resource == "teams") {
-                        return teamsPromise.then(handleJSON);
+                    if (resource == "competitions") {
+                        return competitionsPromise.then(handleJSON);
                     } else {
-                        const playersPromise = teamsPromise.then(teams => self.database.getPlayers(teams.map(team => team.id)));
+                        const teamsPromise = competitionsPromise.then(competitions => self.database.getTeams(competitions.map(competition => competition.id)));
 
-                        if (resource == "players") {
-                            return playersPromise.then(handleJSON);
+                        if (resource == "teams") {
+                            return teamsPromise.then(handleJSON);
+                        } else if (resource == "players") {
+                            return teamsPromise
+                                .then(teams => self.database.getPlayers(teams.map(team => team.id)))
+                                .then(handleJSON);
                         } else {
-                            const videosPromise = playersPromise
-                                .then(players => self.database.getVideos(players.map(player => player.id), getSorting(request)))
-                                .then(attachTagsToVideosCurry(self.database));
-
-                            if (resource == "videos") {
-                                return videosPromise.then(handleJSON);
-                            } else {
-                                return Promise.reject(new HandlerError(httpStatus.NOT_FOUND));
-                            }
+                            return Promise.reject(new HandlerError(httpStatus.NOT_FOUND));
                         }
                     }
                 }
