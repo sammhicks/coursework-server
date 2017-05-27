@@ -70,4 +70,4 @@ secureServer.on("listening", function serverListen() {
 
 secureServer.listen(securePort);
 
-//databaseInterfacePromise.then(database => crawlFootballData(database).then(() => database)).then(crawlReddit);
+databaseInterfacePromise.then(database => crawlFootballData(database).then(() => database)).then(crawlReddit);
