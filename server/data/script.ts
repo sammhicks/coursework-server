@@ -607,7 +607,7 @@ window.onload = function () {
 
     function unixToDate(input: number) {
         var date = new Date(input * 1000);
-        return date.toLocaleDateString();
+        return date.toLocaleDateString("en-gb");
     }
 
     // CONTROLLER stuff
